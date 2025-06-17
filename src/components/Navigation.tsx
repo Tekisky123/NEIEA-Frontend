@@ -269,18 +269,7 @@ const Navigation = () => {
         )}
       </div>
 
-      {/* Mobile Sticky Donate Button */}
-      <div className="fixed bottom-6 right-4 z-50 lg:hidden">
-        <Link to="/donate">
-          <Button className="bg-gradient-to-r from-ngo-true-joy to-ngo-true-joy/90 hover:from-ngo-true-joy/90 hover:to-ngo-true-joy text-white font-semibold px-6 py-4 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 group animate-pulse-slow">
-            <span className="flex items-center">
-              <Heart className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
-              <span className="hidden xs:inline">Donate</span>
-              <span className="xs:hidden">💝</span>
-            </span>
-          </Button>
-        </Link>
-      </div>
+      
     </header>
   );
 };
