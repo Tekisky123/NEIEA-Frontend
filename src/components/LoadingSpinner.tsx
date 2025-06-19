@@ -33,7 +33,7 @@ export const LoadingSpinner = ({
 
 export const PageLoader = () => {
   return (
-    <div className="fixed inset-0 bg-white/90 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-white/60 backdrop-blur-sm z-50 flex items-center justify-center">
       <div className="text-center">
         <LoadingSpinner size="lg" className="mb-4" />
         <p className="text-ngo-encore font-medium">Loading...</p>

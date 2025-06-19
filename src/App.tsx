@@ -15,6 +15,10 @@ import MonthlyGiving from "./pages/MonthlyGiving";
 import Courses from "./pages/Courses";
 import Volunteer from "./pages/Volunteer";
 import NotFound from "./pages/NotFound";
+import DonationForm from "./pages/DonationForm";
+import ScrollToTop from "./components/ui/ScrollToTop";
+import Login from "./pages/Login";
+import DonorDashboard from "./pages/dashboards/donorDashboard/DonorDashboard";
 
 const queryClient = new QueryClient();
 
@@ -22,7 +26,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
+      <Sonner richColors position="top-center" />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
@@ -46,8 +50,14 @@ const App = () => (
           <Route path="/monthly-giving" element={<MonthlyGiving />} />
           {/* Take Action Dropdown */}
           <Route path="/donate" element={<Donate />} />
+          <Route path="/donation/form" element={<DonationForm />} />
+
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/courses" element={<Courses />} />
+
+          <Route path="/login" element={<Login />} />
+
+          <Route path="/donor/dashboard" element={<DonorDashboard />} />
           {/* Additional Pages */}
           <Route
             path="/events"
@@ -76,6 +86,7 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <ScrollToTop />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

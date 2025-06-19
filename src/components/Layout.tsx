@@ -15,6 +15,7 @@ import {
   ArrowRight,
   MessageCircle,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface LayoutProps {
   children: ReactNode;
@@ -91,6 +92,12 @@ const Layout = ({ children }: LayoutProps) => {
                   >
                     Courses
                   </a>
+                  <Link
+                    to="/login"
+                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                  >
+                    Login
+                  </Link>
                 </div>
               </div>
             </div>
