@@ -3,28 +3,36 @@ import axiosInstance from "@/lib/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-type DonorUser = {
+type User = {
   _id: string;
   firstName: string;
   lastName: string;
   email: string;
-  phone: string;
-  donorType: string;
-  donations: string[];
+  phone?: string;
+  donorType?: string;
+  donations?: string[];
+  role?: string; // For admin users
 };
 
 export const useAuth = () => {
-  const [user, setUser] = useState<DonorUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axiosInstance.get("/donor/auth/me");
+        const userType = localStorage.getItem("userType");
+        let endpoint = "/donor/auth/me"; // Default to donor endpoint
+
+        if (userType === "admin") {
+          endpoint = "/admin/get-admin"; // Endpoint for admin
+        }
+
+        const response = await axiosInstance.get(endpoint);
         setUser(response.data.data);
       } catch (error) {
-      
+        console.error("Failed to fetch user:", error);
         navigate("/login");
       } finally {
         setLoading(false);
@@ -32,7 +40,9 @@ export const useAuth = () => {
     };
 
     const token = localStorage.getItem("token");
-    if (token) {
+    const userType = localStorage.getItem("userType");
+
+    if (token && userType) {
       fetchUser();
     } else {
       setLoading(false);

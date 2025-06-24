@@ -261,7 +261,7 @@ const Index = () => {
                 : "opacity-0 scale-105"
             }`}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-ngo-mocha-mousse/85 via-ngo-mocha-mousse/80 to-ngo-cinnamon-slate/75 z-10"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-br from-ngo-mocha-mousse/85 via-ngo-mocha-mousse/80 to-ngo-cinnamon-slate/75 z-10"></div> */}
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-out"
               style={{
@@ -270,9 +270,9 @@ const Index = () => {
               }}
             ></div>
 
-            <div className="relative z-20 h-full flex items-center justify-center text-white">
+            <div className="relative z-20 h-full flex items-center justify-center text-white ">
               <div
-                className={`text-start w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 ${
+                className={`text-start w-full mx-auto px-4 sm:px-6 lg:px-8 py-16  ${
                   index === currentSlide ? "animate-fadeInUp" : ""
                 }`}
               >

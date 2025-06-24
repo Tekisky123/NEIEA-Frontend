@@ -19,13 +19,15 @@ import DonationForm from "./pages/DonationForm";
 import ScrollToTop from "./components/ui/ScrollToTop";
 import Login from "./pages/Login";
 import DonorDashboard from "./pages/dashboards/donorDashboard/DonorDashboard";
+import AdminDashboard from "./pages/dashboards/adminDashboard/AdminDashboard";
+import ApplyCourse from "./pages/ApplyCourse";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
+      <Toaster  />
       <Sonner richColors position="top-center" />
       <BrowserRouter>
         <Routes>
@@ -54,10 +56,12 @@ const App = () => (
 
           <Route path="/volunteer" element={<Volunteer />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/apply-course/:id" element={<ApplyCourse />} />
 
           <Route path="/login" element={<Login />} />
 
           <Route path="/donor/dashboard" element={<DonorDashboard />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
           {/* Additional Pages */}
           <Route
             path="/events"

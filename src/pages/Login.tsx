@@ -54,7 +54,11 @@ const Login = () => {
       // Store token and user data
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("userType", userType);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      if (userType == "admin") {
+        localStorage.setItem("user", JSON.stringify(response.data.admin));
+      } else {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+      }
 
       toast.success("Login successful!");
       navigate(dashboardRoute);

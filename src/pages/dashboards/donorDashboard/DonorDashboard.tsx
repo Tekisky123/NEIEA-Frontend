@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useNavigate } from "react-router-dom";
-import { HeartPulse, User, Shield, LogOut, Home, PlusCircle } from "lucide-react";
+import { HeartPulse, User, Shield, LogOut, Home, PlusCircle, BookOpen } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import ProfileSection from "./ProfileSection";
 import DonationHistory from "./DonationHistory";
@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { Toaster } from "sonner";
 import NewDonation from "./NewDonation";
+import StudentsSection from "./StudentsSection";
 
 const DonorDashboard = () => {
   const { user, logout } = useAuth();
@@ -27,7 +28,7 @@ const DonorDashboard = () => {
     <Layout>
       <div className="container mx-auto px-4 py-8">
         <Toaster richColors position="top-right" />
-        
+
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 gap-4">
           <div>
@@ -37,7 +38,6 @@ const DonorDashboard = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-
             <Button
               variant="destructive"
               size="sm"
@@ -69,7 +69,7 @@ const DonorDashboard = () => {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-4 h-auto mb-6">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-5 h-auto mb-6">
             <TabsTrigger value="profile" className="py-3">
               <User className="w-4 h-4 mr-2" />
               Profile
@@ -77,6 +77,10 @@ const DonorDashboard = () => {
             <TabsTrigger value="donations" className="py-3">
               <HeartPulse className="w-4 h-4 mr-2" />
               My Donations
+            </TabsTrigger>
+            <TabsTrigger value="students" className="py-3">
+              <BookOpen className="w-4 h-4 mr-2" />
+              Students
             </TabsTrigger>
             <TabsTrigger value="new" className="py-3">
               <PlusCircle className="w-4 h-4 mr-2" />
@@ -93,6 +97,9 @@ const DonorDashboard = () => {
           </TabsContent>
           <TabsContent value="donations">
             <DonationHistory />
+          </TabsContent>
+          <TabsContent value="students">
+            <StudentsSection />
           </TabsContent>
           <TabsContent value="new">
             <NewDonation />

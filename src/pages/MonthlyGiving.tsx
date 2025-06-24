@@ -28,6 +28,97 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const MonthlyGiving = () => {
+  const [selectedAmount, setSelectedAmount] = useState(50);
+  const [customAmount, setCustomAmount] = useState("");
+
+  const monthlyAmounts = [25, 50, 100, 250];
+
+  const monthlyPlans = [
+    {
+      tier: "Supporter",
+      amount: 25,
+      period: "month",
+      description: "Make a meaningful impact every month",
+      benefits: [
+        "Support 1 student's education monthly",
+        "Monthly impact updates via email",
+        "Digital newsletter with success stories",
+        "Annual impact report",
+        "Thank you certificate",
+      ],
+      impact: {
+        primary: "Funds school supplies for one child",
+        secondary: "Provides textbooks and materials for a month",
+        annual: "Supports a child's full academic year",
+      },
+      popular: false,
+      color: "border-ngo-rumors bg-ngo-rumors/5",
+    },
+    {
+      tier: "Advocate",
+      amount: 50,
+      period: "month",
+      description: "Amplify your impact with consistent giving",
+      benefits: [
+        "Support 2 students' education monthly",
+        "Bi-weekly impact stories and updates",
+        "Priority customer support",
+        "Quarterly video calls with beneficiaries",
+        "Annual printed impact report",
+        "Volunteer opportunity invitations",
+      ],
+      impact: {
+        primary: "Provides meals for 10 children for a month",
+        secondary: "Funds teacher training sessions",
+        annual: "Creates lasting educational infrastructure",
+      },
+      popular: true,
+      color: "border-ngo-encore bg-ngo-encore/5",
+    },
+    {
+      tier: "Champion",
+      amount: 100,
+      period: "month",
+      description: "Create transformative change at scale",
+      benefits: [
+        "Support 4 students' education monthly",
+        "Personal impact dashboard access",
+        "Direct communication with program managers",
+        "Annual site visit opportunity",
+        "Recognition in annual report",
+        "Exclusive donor events invitation",
+      ],
+      impact: {
+        primary: "Sponsors complete classroom resources",
+        secondary: "Funds technology equipment for learning centers",
+        annual: "Establishes new learning center capabilities",
+      },
+      popular: false,
+      color: "border-ngo-true-joy bg-ngo-true-joy/5",
+    },
+    {
+      tier: "Guardian",
+      amount: 250,
+      period: "month",
+      description: "Be a guardian of educational opportunity",
+      benefits: [
+        "Support 10 students' education monthly",
+        "Dedicated donor relations manager",
+        "Annual program visit with travel support",
+        "Board meeting attendance opportunity",
+        "Legacy naming rights consideration",
+        "Strategic input on program development",
+      ],
+      impact: {
+        primary: "Funds entire teacher salary and training",
+        secondary: "Provides scholarships for multiple students",
+        annual: "Sponsors complete program expansion",
+      },
+      popular: false,
+      color: "border-ngo-purple-basil bg-ngo-purple-basil/5",
+    },
+  ];
+
   const monthlyGivingBenefits = [
     {
       icon: <TrendingUp className="w-8 h-8" />,
@@ -163,6 +254,187 @@ const MonthlyGiving = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Monthly Giving Plans */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+              Choose Your Monthly Impact Level
+            </h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              Every level of monthly giving creates meaningful impact. Choose
+              the amount that fits your budget and watch your impact grow over
+              time.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+            {monthlyPlans.map((plan, index) => (
+              <Card
+                key={index}
+                className={`relative border-2 ${plan.color} hover:shadow-2xl transition-all duration-300 ${
+                  plan.popular ? "scale-105 ring-4 ring-ngo-true-joy/20" : ""
+                } overflow-hidden`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                    <Badge className="bg-ngo-true-joy text-white px-4 py-1">
+                      Most Popular
+                    </Badge>
+                  </div>
+                )}
+
+                <CardHeader className="text-center">
+                  <CardTitle className="text-2xl text-ngo-encore">
+                    {plan.tier}
+                  </CardTitle>
+                  <div className="text-4xl font-bold text-ngo-rumors">
+                    ${plan.amount}
+                    <span className="text-lg text-gray-600">
+                      /{plan.period}
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-600 italic">
+                    {plan.description}
+                  </p>
+                </CardHeader>
+
+                <CardContent className="space-y-6">
+                  <div>
+                    <h4 className="font-semibold text-ngo-encore mb-3">
+                      Monthly Impact:
+                    </h4>
+                    <div className="bg-ngo-true-joy/10 p-3 rounded-lg">
+                      <p className="text-sm text-gray-700 font-medium">
+                        {plan.impact.primary}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="font-semibold text-ngo-encore mb-3">
+                      Benefits:
+                    </h4>
+                    <div className="space-y-2">
+                      {plan.benefits
+                        .slice(0, 4)
+                        .map((benefit, benefitIndex) => (
+                          <div key={benefitIndex} className="flex items-start">
+                            <CheckCircle className="w-4 h-4 text-ngo-true-joy mr-3 mt-0.5 flex-shrink-0" />
+                            <span className="text-gray-700 text-sm">
+                              {benefit}
+                            </span>
+                          </div>
+                        ))}
+                      {plan.benefits.length > 4 && (
+                        <p className="text-xs text-gray-500 ml-7">
+                          +{plan.benefits.length - 4} more benefits
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <Button
+                    className={`w-full ${
+                      plan.popular
+                        ? "bg-ngo-true-joy hover:bg-ngo-true-joy/90"
+                        : "bg-ngo-encore hover:bg-ngo-encore/90"
+                    } text-white font-semibold rounded-lg`}
+                  >
+                    Start ${plan.amount}/Month
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Monthly Setup */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+                Start Your Monthly Giving
+              </h2>
+              <p className="text-lg text-gray-600">
+                Set up your monthly donation in just a few simple steps. You can
+                modify or cancel anytime through your donor portal.
+              </p>
+            </div>
+
+            <Card className="border-0 shadow-2xl">
+              <CardContent className="p-8">
+                <div className="mb-8">
+                  <h3 className="text-xl font-semibold text-ngo-encore mb-6 text-center">
+                    Choose Your Monthly Amount
+                  </h3>
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    {monthlyAmounts.map((amount) => (
+                      <button
+                        key={amount}
+                        onClick={() => {
+                          setSelectedAmount(amount);
+                          setCustomAmount("");
+                        }}
+                        className={`p-4 rounded-lg font-semibold transition-all border-2 ${
+                          selectedAmount === amount
+                            ? "border-ngo-true-joy bg-ngo-true-joy text-white shadow-lg"
+                            : "border-gray-200 text-gray-700 hover:border-ngo-true-joy hover:text-ngo-true-joy"
+                        }`}
+                      >
+                        {formatAmount(amount)}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="relative">
+                    <Input
+                      type="number"
+                      placeholder="Custom monthly amount"
+                      value={customAmount}
+                      onChange={(e) => {
+                        setCustomAmount(e.target.value);
+                        setSelectedAmount(parseFloat(e.target.value) || 0);
+                      }}
+                      className="text-center text-lg py-4 border-2 border-gray-200 focus:border-ngo-true-joy rounded-lg"
+                    />
+                    <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
+                      $
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-8 p-6 bg-ngo-quietude/20 rounded-lg border border-ngo-quietude/30">
+                  <h4 className="font-semibold text-ngo-encore mb-3 text-center">
+                    Your Monthly Impact
+                  </h4>
+                  <p className="text-gray-700 text-center">
+                    Your ${selectedAmount} monthly donation will provide
+                    consistent support for our educational programs, helping us
+                    plan long-term initiatives and create sustainable change in
+                    communities worldwide.
+                  </p>
+                </div>
+
+                <Button
+                  size="lg"
+                  className="w-full bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white font-bold py-4 text-xl rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+                >
+                  <CreditCard className="mr-3 w-6 h-6" />
+                  Set Up Monthly Giving - {formatAmount(selectedAmount)}
+                </Button>
+
+                <p className="text-sm text-gray-500 text-center mt-4">
+                  Secure processing. You can modify or cancel anytime.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
