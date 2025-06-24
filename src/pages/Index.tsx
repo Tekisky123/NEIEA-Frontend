@@ -692,7 +692,7 @@ const Index = () => {
             <Link to="/donate" className="w-full sm:w-auto">
               <Button
                 size={isMobile ? "default" : "lg"}
-                className="w-full sm:w-auto bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full shadow-xl font-semibold"
+                className="w-full sm:w-auto bg-ngo-true-joy hover:bg-ngo-true-joy/90  px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full shadow-xl font-semibold"
               >
                 Support Education
                 <Heart className="ml-2 sm:ml-3 w-5 h-5" />
@@ -702,7 +702,7 @@ const Index = () => {
               <Button
                 size={isMobile ? "default" : "lg"}
                 variant="outline"
-                className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
+                className="w-full sm:w-auto border-2 border-white text-ngo-encore hover:bg-white hover:text-ngo-encore px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
               >
                 Become a Volunteer
                 <Users className="ml-2 sm:ml-3 w-5 h-5" />
@@ -712,7 +712,7 @@ const Index = () => {
               <Button
                 size={isMobile ? "default" : "lg"}
                 variant="outline"
-                className="w-full sm:w-auto border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
+                className="w-full sm:w-auto border-2 border-white text-ngo-encore hover:bg-white hover:text-ngo-encore px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
               >
                 Join Our Courses
                 <BookOpen className="ml-2 sm:ml-3 w-5 h-5" />
