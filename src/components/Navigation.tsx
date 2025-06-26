@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,36 +20,81 @@ const Navigation = () => {
     setActiveMobileMenu(null);
   }, [location.pathname]);
 
-  const navigation: NavigationItem[] = [
-    {
-      label: "Our Work",
-      items: [
-        { label: "Overview", href: "/our-work" },
-        { label: "Success Stories", href: "/stories" },
-        { label: "Gallery", href: "/gallery" },
-        { label: "Impact Reports", href: "/reports" },
-      ],
-    },
-    {
-      label: "About Us",
-      items: [
-        { label: "Mission & Vision", href: "/mission" },
-        { label: "Our Team", href: "/team" },
-        { label: "Values", href: "/values" },
-      ],
-    },
-    {
-      label: "Take Action",
-      items: [
-        { label: "Donate", href: "/donate" },
-        { label: "Give Monthly", href: "/monthly-giving" },
-        { label: "Volunteer", href: "/volunteer" },
-        { label: "Partner with Us", href: "/partnerships" },
-        { label: "More Ways to Give", href: "/ways-to-give" },
-      ],
-    },
-    { label: "Courses", href: "/courses" },
-  ];
+  const navigation = useMemo<NavigationItem[]>(
+    () => [
+      { label: "Home", href: "/" },
+      {
+        label: "About Us",
+        items: [
+          { label: "Introduction of NEIEA", href: "/about/introduction" },
+          { label: "Vision and Mission", href: "/about/vision-mission" },
+          { label: "Leadership and Team", href: "/about/leadership" },
+          { label: "Management Advisory Board", href: "/about/advisory-board" },
+          {
+            label: "Blended Learning Model",
+            href: "/about/blended-learning",
+          },
+          { label: "Our Working Process", href: "/about/workshops" },
+          {
+            label: "Application of Technologies",
+            href: "/about/technologies",
+          },
+          { label: "Discourse Oriented Pedagogy (DOP)", href: "/about/eop" },
+          { label: "Impact", href: "/about/impact" },
+          { label: "Testimonials", href: "/about/testimonials" },
+        ],
+      },
+      {
+        label: "Our Projects",
+        items: [
+          { label: "IT Skills Training", href: "/projects/it-skills" },
+          { label: "Cluster Education", href: "/projects/cluster-education" },
+          { label: "Teachers Training", href: "/projects/teachers-training" },
+          { label: "Slum Children Education", href: "/projects/slum-children" },
+          {
+            label: "Out of School Children Education",
+            href: "/projects/out-of-school",
+          },
+          { label: "Girls Education", href: "/projects/girls-education" },
+          { label: "Pedagogy Training", href: "/projects/pedagogy-training" },
+          { label: "Madarsa Education", href: "/projects/madarsa-education" },
+          {
+            label: "Social and Financial Education",
+            href: "/projects/social-financial",
+          },
+          { label: "Adult Education", href: "/projects/adult-education" },
+          {
+            label: "Public(Government) Schools Education",
+            href: "/projects/public-schools",
+          },
+        ],
+      },
+      { label: "Courses", items: [{ label: "All Courses", href: "/courses" }] },
+      {
+        label: "Partners",
+        items: [
+          { label: "Domestic Partners", href: "/partners/domestic" },
+          { label: "Global Partners", href: "/partners/global" },
+        ],
+      },
+      { label: "NEI USA", href: "/nei-usa" },
+      { label: "Donate", href: "/donate" },
+      { label: "Featured Stories", href: "/stories" },
+      {
+        label: "Media and Events",
+        items: [{ label: "Gallery", href: "/about/introduction" }],
+      },
+      {
+        label: "Contact Us",
+        items: [
+          { label: "Partner With Us", href: "/contact/partner" },
+          { label: "FAQ", href: "/contact/faq" },
+        ],
+      },
+      { label: "Volunteers", href: "/volunteer" },
+    ],
+    []
+  );
 
   const handleNavigation = (href: string) => {
     navigate(href);
@@ -63,60 +108,18 @@ const Navigation = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
-      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-2 flex items-center lg:justify-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
           <img
             src="https://neiea-ngo-frontend.vercel.app/assets/logo2-C7Wc3xHv.png"
             alt="NEIEA Logo"
-            className="w-12 h-12"
+            className="w-14 h-14"
           />
-          <span className="text-xl font-bold text-[#1A4E8C]">NEIEA</span>
+          <div className=" lg:text-xl  font-bold text-gray-700 text-center">
+            The New Equitable and Innovative Educational Association
+          </div>
         </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex space-x-4 items-center">
-          {navigation.map((section) =>
-            section.href ? (
-              <Link
-                key={section.label}
-                to={section.href}
-                className="px-4 py-3 text-gray-700 hover:text-[#7F4145] font-semibold text-base"
-              >
-                {section.label}
-              </Link>
-            ) : (
-              <div key={section.label} className="relative group">
-                <button
-                  className="px-4 py-3 text-gray-700 hover:text-[#7F4145] font-semibold text-base flex items-center gap-1"
-                  aria-haspopup="true"
-                >
-                  {section.label}
-                  <ChevronDown size={16} />
-                </button>
-                <div className="absolute left-0 top-10 mt-2 w-56 bg-white shadow-lg border rounded-md p-2 z-50 hidden group-hover:block group-focus-within:block">
-                  {section.items?.map((item) => (
-                    <Link
-                      key={item.href}
-                      to={item.href}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:text-[#1A4E8C] hover:bg-blue-50 rounded"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )
-          )}
-          <Button
-            onClick={() => handleNavigation("/donate")}
-            className="bg-gradient-to-r from-[#1A4E8C] to-[#D6A61A] hover:from-[#7F4145] hover:to-[#A9746E] text-white font-semibold px-5 py-2 rounded-lg shadow"
-          >
-            Donate
-          </Button>
-        </nav>
-
-        {/* Mobile Menu Toggle */}
-        <div className="lg:hidden flex items-center">
+        <div className="lg:hidden">
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 rounded hover:bg-gray-100"
@@ -127,9 +130,44 @@ const Navigation = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu */}
+      <nav className="hidden lg:block bg-white border-t">
+        <div className="container mx-auto px-4">
+          <div className="flex">
+            {navigation.map((section) =>
+              section.href ? (
+                <Link
+                  key={section.label}
+                  to={section.href}
+                  className="p-3 text-gray-700 text-sm hover:text-[#7F4145] font-semibold whitespace-nowrap"
+                >
+                  {section.label}
+                </Link>
+              ) : (
+                <div key={section.label} className="relative group">
+                  <button className="p-3 text-gray-700 text-sm hover:text-[#7F4145] font-semibold flex items-center gap-1 whitespace-nowrap">
+                    {section.label}
+                    <ChevronDown size={16} />
+                  </button>
+                  <div className="absolute left-0 top-8 mt-2  w-64 bg-white shadow-lg border rounded-md p-2 z-[999999] hidden group-hover:block">
+                    {section.items?.map((item) => (
+                      <Link
+                        key={item.href}
+                        to={item.href}
+                        className="block p-2 text-sm text-gray-700 hover:text-[#1A4E8C] hover:bg-blue-50 rounded "
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      </nav>
+
       {isMobileMenuOpen && (
-        <nav className="lg:hidden px-4 pb-4 border-t space-y-2 bg-white shadow animate-in slide-in-from-top duration-200">
+        <nav className="lg:hidden px-4 pb-4 border-t space-y-2 bg-white shadow-lg">
           {navigation.map((section) => (
             <div key={section.label}>
               {section.href ? (

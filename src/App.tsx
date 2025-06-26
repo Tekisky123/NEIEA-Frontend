@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import DonorDashboard from "./pages/dashboards/donorDashboard/DonorDashboard";
 import AdminDashboard from "./pages/dashboards/adminDashboard/AdminDashboard";
 import ApplyCourse from "./pages/ApplyCourse";
+import FloatingSocialIcons from "./components/FloatingSocialIcons";
 
 const queryClient = new QueryClient();
 
@@ -35,7 +36,7 @@ const App = () => (
           {/* Our Work Dropdown */}
           <Route path="/our-work" element={<OurWork />} />
           <Route path="/stories" element={<Stories />} />
-          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/about/introduction" element={<Gallery />} />
           <Route
             path="/reports"
             element={
@@ -45,8 +46,8 @@ const App = () => (
             }
           />
           {/* About Us Dropdown */}
-          <Route path="/mission" element={<Mission />} />
-          <Route path="/team" element={<Team />} />
+          <Route path="/about/vision-mission" element={<Mission />} />
+          <Route path="/about/leadership" element={<Team />} />
           <Route path="/values" element={<Values />} />
           {/* Take Action Dropdown */}
           <Route path="/monthly-giving" element={<MonthlyGiving />} />
@@ -91,6 +92,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ScrollToTop />
+        <FloatingSocialIcons/>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
