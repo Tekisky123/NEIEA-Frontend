@@ -26,7 +26,7 @@ const GoogleTranslate: React.FC = () => {
         new window.google.translate.TranslateElement(
           {
             pageLanguage: "en",
-            includedLanguages: "en,ur,hi,mr",
+            includedLanguages: "en,ur,hi",
             layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
             autoDisplay: false,
           },
