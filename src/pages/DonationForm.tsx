@@ -196,17 +196,17 @@ const DonationForm = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-heading font-bold text-ngo-encore mb-4 md:text-4xl lg:text-5xl">
+              <h2 className="text-3xl font-heading font-bold text-ngo-color6 mb-4 md:text-4xl lg:text-5xl">
                 Donation Form
               </h2>
-              <p className="text-lg text-ngo-mocha-mousse max-w-2xl mx-auto md:text-xl">
+              <p className="text-lg text-ngo-color1 max-w-2xl mx-auto md:text-xl">
                 Fill in your details to complete the donation process.
               </p>
               
               {/* Display selected donation details */}
               {donationData && (
-                <div className="mt-6 p-4 bg-ngo-quietude/20 rounded-lg">
-                  <h3 className="font-semibold text-lg text-ngo-encore">Your Donation Details</h3>
+                <div className="mt-6 p-4 bg-ngo-color8/20 rounded-lg">
+                  <h3 className="font-semibold text-lg text-ngo-color6">Your Donation Details</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
                     {donationData.donorType && (
                       <p><span className="font-medium">Donor Type:</span> {donationData.donorType}</p>
@@ -220,7 +220,7 @@ const DonationForm = () => {
               )}
             </div>
 
-            <Card className="border-2 border-ngo-true-joy shadow-lg bg-white">
+            <Card className="border-2 border-ngo-color4 shadow-lg bg-white">
               <CardContent className="p-6 lg:p-12">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -394,7 +394,7 @@ const DonationForm = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white font-bold py-3 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="w-full bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold py-3 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
                     disabled={isSubmitting || paymentLoading}
                   >
                     {isSubmitting || paymentLoading ? (
@@ -415,11 +415,11 @@ const DonationForm = () => {
 
       <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
         <DialogContent className="sm:max-w-[425px] bg-white">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-ngo-true-joy">
+          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-ngo-color4">
             <CheckCircle2 className="h-6 w-6 text-white" aria-hidden="true" />
           </div>
           <DialogHeader className="text-center">
-            <DialogTitle className="text-2xl font-bold text-ngo-encore">
+            <DialogTitle className="text-2xl font-bold text-ngo-color6">
               Thank You for Your Donation!
             </DialogTitle>
             <DialogDescription className="text-gray-600">
@@ -439,7 +439,7 @@ const DonationForm = () => {
                   // Redirect to donor dashboard if applicable
                 }
               }}
-              className="bg-ngo-true-joy hover:bg-ngo-true-joy/90"
+              className="bg-ngo-color4 hover:bg-ngo-color4/90"
             >
               Close
             </Button>

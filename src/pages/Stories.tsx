@@ -201,10 +201,10 @@ const Stories = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-purple-basil to-ngo-mocha-mousse text-white">
+      <section className="py-16 bg-gradient-to-r from-ngo-color5 to-ngo-color1 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="bg-ngo-true-joy text-white mb-6 text-lg px-6 py-2 rounded-lg">
+            <Badge className="bg-ngo-color4 text-white mb-6 text-lg px-6 py-2 rounded-lg">
               Real Stories, Real Impact
             </Badge>
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -223,7 +223,7 @@ const Stories = () => {
                   key={index}
                   className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20"
                 >
-                  <div className="text-ngo-true-joy mb-2 flex justify-center">
+                  <div className="text-ngo-color4 mb-2 flex justify-center">
                     {stat.icon}
                   </div>
                   <div className="text-2xl lg:text-3xl font-bold mb-1">
@@ -241,7 +241,7 @@ const Stories = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Featured Success Stories
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -268,7 +268,7 @@ const Stories = () => {
 
                     {story.video && (
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/20">
-                        <Button className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white rounded-full w-16 h-16">
+                        <Button className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white rounded-full w-16 h-16">
                           <Play className="w-6 h-6 ml-1" />
                         </Button>
                         <div className="absolute bottom-4 right-4 bg-black/60 text-white px-3 py-1 rounded-lg text-sm">
@@ -278,7 +278,7 @@ const Stories = () => {
                     )}
 
                     <div className="absolute top-4 left-4">
-                      <Badge className="bg-ngo-true-joy text-white">
+                      <Badge className="bg-ngo-color4 text-white">
                         Featured
                       </Badge>
                     </div>
@@ -298,7 +298,7 @@ const Stories = () => {
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-4">
                       <div>
-                        <h3 className="text-2xl font-bold text-ngo-encore">
+                        <h3 className="text-2xl font-bold text-ngo-color6">
                           {story.name}
                         </h3>
                         <p className="text-gray-600">
@@ -306,15 +306,15 @@ const Stories = () => {
                         </p>
                         <Badge
                           variant="outline"
-                          className="mt-2 border-ngo-purple-basil text-ngo-purple-basil"
+                          className="mt-2 border-ngo-color5 text-ngo-color5"
                         >
                           {story.program}
                         </Badge>
                       </div>
                     </div>
 
-                    <div className="bg-ngo-true-joy/10 p-4 rounded-lg border-l-4 border-ngo-true-joy mb-6">
-                      <Quote className="w-6 h-6 text-ngo-true-joy mb-2" />
+                    <div className="bg-ngo-color4/10 p-4 rounded-lg border-l-4 border-ngo-color4 mb-6">
+                      <Quote className="w-6 h-6 text-ngo-color4 mb-2" />
                       <p className="text-gray-700 italic leading-relaxed">
                         "{story.story}"
                       </p>
@@ -329,7 +329,7 @@ const Stories = () => {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-gray-600">After:</span>
-                        <span className="text-sm font-medium text-ngo-encore">
+                        <span className="text-sm font-medium text-ngo-color6">
                           {story.beforeAfter.after}
                         </span>
                       </div>
@@ -337,7 +337,7 @@ const Stories = () => {
                         <span className="text-sm text-gray-600">
                           Achievement:
                         </span>
-                        <span className="text-sm font-medium text-ngo-true-joy">
+                        <span className="text-sm font-medium text-ngo-color4">
                           {story.achievement}
                         </span>
                       </div>
@@ -355,7 +355,7 @@ const Stories = () => {
                       ))}
                     </div>
 
-                    <Button className="w-full bg-ngo-purple-basil hover:bg-ngo-purple-basil/90 text-white">
+                    <Button className="w-full bg-ngo-color5 hover:bg-ngo-color5/90 text-white">
                       Read Full Story
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
@@ -370,7 +370,7 @@ const Stories = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               More Success Stories
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -397,7 +397,7 @@ const Stories = () => {
 
                     {story.video && (
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/20">
-                        <Button className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white rounded-full w-12 h-12">
+                        <Button className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white rounded-full w-12 h-12">
                           <Play className="w-4 h-4 ml-0.5" />
                         </Button>
                       </div>
@@ -415,7 +415,7 @@ const Stories = () => {
                   <CardContent className="p-6">
                     <Badge
                       variant="outline"
-                      className="mb-3 border-ngo-purple-basil text-ngo-purple-basil"
+                      className="mb-3 border-ngo-color5 text-ngo-color5"
                     >
                       {story.program}
                     </Badge>
@@ -427,7 +427,7 @@ const Stories = () => {
                     <div className="space-y-2 mb-4 text-xs">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Achievement:</span>
-                        <span className="font-medium text-ngo-true-joy">
+                        <span className="font-medium text-ngo-color4">
                           {story.achievement}
                         </span>
                       </div>
@@ -439,7 +439,7 @@ const Stories = () => {
                       </div>
                     </div>
 
-                    <Button className="w-full bg-ngo-encore hover:bg-ngo-encore/90 text-white text-sm">
+                    <Button className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white text-sm">
                       Read More
                     </Button>
                   </CardContent>
@@ -453,7 +453,7 @@ const Stories = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Impact by Category
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -466,10 +466,10 @@ const Stories = () => {
             {impactMetrics.map((metric, index) => (
               <Card key={index} className="text-center border-0 shadow-lg">
                 <CardHeader>
-                  <CardTitle className="text-2xl text-ngo-encore">
+                  <CardTitle className="text-2xl text-ngo-color6">
                     {metric.category}
                   </CardTitle>
-                  <div className="text-3xl font-bold text-ngo-true-joy">
+                  <div className="text-3xl font-bold text-ngo-color4">
                     {metric.stories}
                   </div>
                   <p className="text-sm text-gray-600">Success Stories</p>
@@ -482,9 +482,9 @@ const Stories = () => {
                       </div>
                       <div className="font-medium">{metric.avgImprovement}</div>
                     </div>
-                    <div className="p-3 bg-ngo-true-joy/10 rounded-lg">
+                    <div className="p-3 bg-ngo-color4/10 rounded-lg">
                       <div className="text-sm text-gray-600">Top Success</div>
-                      <div className="font-medium text-ngo-true-joy">
+                      <div className="font-medium text-ngo-color4">
                         {metric.topSuccess}
                       </div>
                     </div>
@@ -497,7 +497,7 @@ const Stories = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-ngo-encore text-white">
+      <section className="py-16 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Create Your Own Success Story
@@ -510,7 +510,7 @@ const Stories = () => {
             <Link to="/courses">
               <Button
                 size="lg"
-                className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-8 py-3 text-lg font-medium"
+                className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-8 py-3 text-lg font-medium"
               >
                 Explore Courses
                 <GraduationCap className="ml-2 w-5 h-5" />
@@ -520,7 +520,7 @@ const Stories = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-8 py-3 text-lg font-medium"
+                className="border-2 border-white text-white hover:bg-white hover:text-ngo-color6 px-8 py-3 text-lg font-medium"
               >
                 Support Others
                 <Heart className="ml-2 w-5 h-5" />

@@ -85,17 +85,16 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Colors of the Year 2025 NGO Palette
         ngo: {
-          "mocha-mousse": "#A9746E", // Hero backgrounds, major banners
-          rumors: "#7F4145", // Accent for headings, button borders
-          "cinnamon-slate": "#7F6760", // Background sections (About, Mission)
-          "true-joy": "#D6A61A", // Donate buttons, highlights, CTAs
-          "purple-basil": "#4B2F3F", // Testimonials, partner banners
-          encore: "#1A4E8C", // Headings, info boxes, key numbers
-          raku: "#3A1F1C", // Footer background, deep overlays
-          quietude: "#AFC2BA", // Calm sections (contact forms, success stories)
-        },
+          color1: "#005B99", // Calm blue – trust, responsibility
+          color2: "#007F5F", // Teal green – community, environment
+          color3: "#F4A261", // Soft orange – approachability
+          color4: "#E76F51", // Muted red-orange – action and energy
+          color5: "#264653", // Deep navy – foundation and depth
+          color6: "#2A9D8F", // Turquoise – health, environment
+          color7: "#F7F7F7", // Clean white-gray – neutral background
+          color8: "#C9D6DF", // Soft blue-gray – secondary content
+        }
       },
       borderRadius: {
         lg: "var(--radius)",

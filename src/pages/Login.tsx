@@ -74,12 +74,12 @@ const Login = () => {
 
   return (
     <Layout>
-      <section className="py-24 bg-gradient-to-br from-ngo-true-joy/5 to-ngo-mocha-mousse/5">
+      <section className="py-24 bg-gradient-to-br from-ngo-color4/5 to-ngo-color1/5">
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto">
             <Card className="border-0 shadow-lg">
               <CardHeader className="text-center space-y-4">
-                <CardTitle className="text-3xl font-bold text-ngo-encore">
+                <CardTitle className="text-3xl font-bold text-ngo-color6">
                   Welcome Back
                 </CardTitle>
 
@@ -126,7 +126,7 @@ const Login = () => {
                       </Label>
                       <Link
                         to={`/forgot-password?userType=${userType}`}
-                        className="text-sm text-ngo-true-joy hover:underline"
+                        className="text-sm text-ngo-color4 hover:underline"
                       >
                         Forgot password?
                       </Link>
@@ -160,7 +160,7 @@ const Login = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-ngo-true-joy hover:bg-ngo-true-joy/90 py-6 text-lg"
+                    className="w-full bg-ngo-color4 hover:bg-ngo-color4/90 py-6 text-lg"
                     disabled={isLoading}
                   >
                     {isLoading ? "Signing in..." : "Sign In"}

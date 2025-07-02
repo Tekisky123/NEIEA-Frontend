@@ -190,7 +190,7 @@ const Team = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-encore to-ngo-rumors text-white">
+      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -209,7 +209,7 @@ const Team = () => {
                   key={index}
                   className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20"
                 >
-                  <div className="text-ngo-true-joy mb-2 flex justify-center">
+                  <div className="text-ngo-color4 mb-2 flex justify-center">
                     {stat.icon}
                   </div>
                   <div className="text-2xl lg:text-3xl font-bold mb-1">
@@ -227,7 +227,7 @@ const Team = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Leadership Team
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -262,7 +262,7 @@ const Team = () => {
 
                 <CardContent className="p-6">
                   <div className="mb-4">
-                    <Badge className="bg-ngo-true-joy text-white mb-2">
+                    <Badge className="bg-ngo-color4 text-white mb-2">
                       Since {leader.joinedYear}
                     </Badge>
                   </div>
@@ -272,7 +272,7 @@ const Team = () => {
                   </p>
 
                   <div className="mb-4">
-                    <h4 className="font-semibold text-ngo-encore mb-2 text-sm">
+                    <h4 className="font-semibold text-ngo-color6 mb-2 text-sm">
                       Expertise:
                     </h4>
                     <div className="flex flex-wrap gap-1">
@@ -289,7 +289,7 @@ const Team = () => {
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-ngo-encore mb-2 text-sm">
+                    <h4 className="font-semibold text-ngo-color6 mb-2 text-sm">
                       Key Achievements:
                     </h4>
                     <ul className="space-y-1">
@@ -300,7 +300,7 @@ const Team = () => {
                             key={idx}
                             className="flex items-start text-xs text-gray-600"
                           >
-                            <Award className="w-3 h-3 mr-2 text-ngo-true-joy mt-0.5 flex-shrink-0" />
+                            <Award className="w-3 h-3 mr-2 text-ngo-color4 mt-0.5 flex-shrink-0" />
                             {achievement}
                           </li>
                         ))}
@@ -310,7 +310,7 @@ const Team = () => {
                   <div className="flex gap-2">
                     <Button
                       size="sm"
-                      className="flex-1 bg-ngo-encore hover:bg-ngo-encore/90 text-white text-xs"
+                      className="flex-1 bg-ngo-color6 hover:bg-ngo-color6/90 text-white text-xs"
                     >
                       <Mail className="w-3 h-3 mr-1" />
                       Contact
@@ -318,7 +318,7 @@ const Team = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      className="border-ngo-encore text-ngo-encore hover:bg-ngo-encore hover:text-white text-xs px-2"
+                      className="border-ngo-color6 text-ngo-color6 hover:bg-ngo-color6 hover:text-white text-xs px-2"
                     >
                       <Linkedin className="w-3 h-3" />
                     </Button>
@@ -334,7 +334,7 @@ const Team = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Our Departments
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -351,10 +351,10 @@ const Team = () => {
               >
                 <CardHeader>
                   <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-xl text-ngo-encore">
+                    <CardTitle className="text-xl text-ngo-color6">
                       {dept.name}
                     </CardTitle>
-                    <Badge className="bg-ngo-true-joy text-white">
+                    <Badge className="bg-ngo-color4 text-white">
                       {dept.members} members
                     </Badge>
                   </div>
@@ -366,7 +366,7 @@ const Team = () => {
                   </CardDescription>
 
                   <div className="mb-4">
-                    <h4 className="font-semibold text-ngo-encore mb-3 text-sm">
+                    <h4 className="font-semibold text-ngo-color6 mb-3 text-sm">
                       Current Projects:
                     </h4>
                     <div className="space-y-2">
@@ -375,14 +375,14 @@ const Team = () => {
                           key={idx}
                           className="flex items-center text-sm text-gray-600"
                         >
-                          <ArrowRight className="w-3 h-3 mr-2 text-ngo-true-joy" />
+                          <ArrowRight className="w-3 h-3 mr-2 text-ngo-color4" />
                           {project}
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <Button className="w-full bg-ngo-encore hover:bg-ngo-encore/90 text-white text-sm">
+                  <Button className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white text-sm">
                     Learn More About This Team
                   </Button>
                 </CardContent>
@@ -396,7 +396,7 @@ const Team = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Advisory Board
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -419,11 +419,11 @@ const Team = () => {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <h3 className="font-bold text-ngo-encore mb-1 text-sm">
+                  <h3 className="font-bold text-ngo-color6 mb-1 text-sm">
                     {advisor.name}
                   </h3>
                   <p className="text-xs text-gray-600 mb-2">{advisor.title}</p>
-                  <p className="text-xs text-ngo-rumors font-medium mb-3">
+                  <p className="text-xs text-ngo-color2 font-medium mb-3">
                     {advisor.organization}
                   </p>
                   <p className="text-xs text-gray-600 leading-relaxed">
@@ -437,7 +437,7 @@ const Team = () => {
       </section>
 
       {/* Join Our Team */}
-      <section className="py-16 bg-ngo-encore text-white">
+      <section className="py-16 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Join Our Team
@@ -449,7 +449,7 @@ const Team = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
-              className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-8 py-3 text-lg font-medium"
+              className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-8 py-3 text-lg font-medium"
             >
               View Open Positions
               <ExternalLink className="ml-2 w-5 h-5" />
@@ -458,7 +458,7 @@ const Team = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-8 py-3 text-lg font-medium"
+                className="border-2 border-white text-white hover:bg-white hover:text-ngo-color6 px-8 py-3 text-lg font-medium"
               >
                 Volunteer With Us
                 <Heart className="ml-2 w-5 h-5" />

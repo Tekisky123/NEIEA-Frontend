@@ -56,7 +56,7 @@ const Projects = () => {
       timeline: "3 months remaining",
       beneficiaries: 5000,
       icon: <GraduationCap className="w-6 h-6" />,
-      color: "bg-ngo-encore",
+      color: "bg-ngo-color6",
     },
     {
       id: 2,
@@ -71,7 +71,7 @@ const Projects = () => {
       timeline: "6 months remaining",
       beneficiaries: 800,
       icon: <Users className="w-6 h-6" />,
-      color: "bg-ngo-rumors",
+      color: "bg-ngo-color2",
     },
     {
       id: 3,
@@ -86,7 +86,7 @@ const Projects = () => {
       timeline: "10 months remaining",
       beneficiaries: 3000,
       icon: <Target className="w-6 h-6" />,
-      color: "bg-ngo-purple-basil",
+      color: "bg-ngo-color5",
     },
     {
       id: 4,
@@ -101,7 +101,7 @@ const Projects = () => {
       timeline: "2 months remaining",
       beneficiaries: 1500,
       icon: <GraduationCap className="w-6 h-6" />,
-      color: "bg-ngo-true-joy",
+      color: "bg-ngo-color4",
     },
   ];
 
@@ -116,15 +116,15 @@ const Projects = () => {
   return (
     <Layout>
       {/* Header Section */}
-      <section className="py-24 bg-gradient-to-br from-ngo-mocha-mousse to-ngo-cinnamon-slate text-white">
+      <section className="py-24 bg-gradient-to-br from-ngo-color1 to-ngo-color3 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="bg-ngo-true-joy text-white mb-6 text-lg px-6 py-2 rounded-full">
+            <Badge className="bg-ngo-color4 text-white mb-6 text-lg px-6 py-2 rounded-full">
               Our Global Impact
             </Badge>
             <h1 className="text-5xl lg:text-7xl font-heading font-bold mb-8 leading-tight">
               Educational Innovation
-              <span className="text-ngo-true-joy block">Projects</span>
+              <span className="text-ngo-color4 block">Projects</span>
             </h1>
             <p className="text-xl lg:text-2xl leading-relaxed mb-12">
               Discover NEIEA's educational initiatives focused on access,
@@ -139,7 +139,7 @@ const Projects = () => {
                   key={index}
                   className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
                 >
-                  <div className="text-ngo-true-joy mb-2 flex justify-center">
+                  <div className="text-ngo-color4 mb-2 flex justify-center">
                     {stat.icon}
                   </div>
                   <div className="text-3xl lg:text-4xl font-bold mb-1">
@@ -160,24 +160,24 @@ const Projects = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
             <div className="flex flex-wrap gap-3">
-              <Badge className="bg-ngo-encore text-white cursor-pointer hover:bg-ngo-encore/90 px-4 py-2">
+              <Badge className="bg-ngo-color6 text-white cursor-pointer hover:bg-ngo-color6/90 px-4 py-2">
                 All Projects
               </Badge>
               <Badge
                 variant="outline"
-                className="border-ngo-encore text-ngo-encore cursor-pointer hover:bg-ngo-encore hover:text-white px-4 py-2"
+                className="border-ngo-color6 text-ngo-color6 cursor-pointer hover:bg-ngo-color6 hover:text-white px-4 py-2"
               >
                 Education
               </Badge>
               <Badge
                 variant="outline"
-                className="border-ngo-encore text-ngo-encore cursor-pointer hover:bg-ngo-encore hover:text-white px-4 py-2"
+                className="border-ngo-color6 text-ngo-color6 cursor-pointer hover:bg-ngo-color6 hover:text-white px-4 py-2"
               >
                 Healthcare
               </Badge>
               <Badge
                 variant="outline"
-                className="border-ngo-encore text-ngo-encore cursor-pointer hover:bg-ngo-encore hover:text-white px-4 py-2"
+                className="border-ngo-color6 text-ngo-color6 cursor-pointer hover:bg-ngo-color6 hover:text-white px-4 py-2"
               >
                 Infrastructure
               </Badge>
@@ -222,7 +222,7 @@ const Projects = () => {
                 </div>
 
                 <CardContent className="p-8">
-                  <CardTitle className="text-xl text-ngo-encore mb-3 font-heading group-hover:text-ngo-rumors transition-colors">
+                  <CardTitle className="text-xl text-ngo-color6 mb-3 font-heading group-hover:text-ngo-color2 transition-colors">
                     {project.title}
                   </CardTitle>
 
@@ -236,7 +236,7 @@ const Projects = () => {
                       <span className="text-sm font-medium text-gray-700">
                         Funding Progress
                       </span>
-                      <span className="text-sm font-bold text-ngo-encore">
+                      <span className="text-sm font-bold text-ngo-color6">
                         {project.progress}%
                       </span>
                     </div>
@@ -252,11 +252,11 @@ const Projects = () => {
                   {/* Project Details */}
                   <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
                     <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <Clock className="w-4 h-4 mr-2 text-ngo-color4" />
                       <span className="text-gray-600">{project.timeline}</span>
                     </div>
                     <div className="flex items-center">
-                      <Users className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <Users className="w-4 h-4 mr-2 text-ngo-color4" />
                       <span className="text-gray-600">
                         {project.beneficiaries.toLocaleString()} people
                       </span>
@@ -264,12 +264,12 @@ const Projects = () => {
                   </div>
 
                   <div className="flex gap-3">
-                    <Button className="flex-1 bg-ngo-encore hover:bg-ngo-encore/90 text-white font-semibold rounded-full">
+                    <Button className="flex-1 bg-ngo-color6 hover:bg-ngo-color6/90 text-white font-semibold rounded-full">
                       Support Project
                     </Button>
                     <Button
                       variant="outline"
-                      className="border-ngo-encore text-ngo-encore hover:bg-ngo-encore hover:text-white rounded-full px-4"
+                      className="border-ngo-color6 text-ngo-color6 hover:bg-ngo-color6 hover:text-white rounded-full px-4"
                     >
                       <ArrowRight className="w-4 h-4" />
                     </Button>
@@ -282,7 +282,7 @@ const Projects = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-24 bg-ngo-true-joy text-white">
+      <section className="py-24 bg-ngo-color4 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl lg:text-5xl font-heading font-bold mb-8">
             Have a Project Idea?
@@ -295,14 +295,14 @@ const Projects = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button
               size="lg"
-              className="bg-white text-ngo-true-joy hover:bg-gray-100 px-12 py-4 text-lg rounded-full font-semibold"
+              className="bg-white text-ngo-color4 hover:bg-gray-100 px-12 py-4 text-lg rounded-full font-semibold"
             >
               Submit Project Idea
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-ngo-true-joy px-12 py-4 text-lg rounded-full font-semibold"
+              className="border-2 border-white text-white hover:bg-white hover:text-ngo-color4 px-12 py-4 text-lg rounded-full font-semibold"
             >
               Partner With Us
             </Button>

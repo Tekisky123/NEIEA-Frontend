@@ -92,8 +92,8 @@ export const Section = ({
   const backgroundClasses = {
     white: "bg-white",
     gray: "bg-gray-50",
-    brand: "bg-ngo-encore",
-    gradient: "bg-gradient-to-br from-ngo-mocha-mousse to-ngo-cinnamon-slate",
+    brand: "bg-ngo-color6",
+    gradient: "bg-gradient-to-br from-ngo-color1 to-ngo-color3",
   };
 
   const paddingClasses = {

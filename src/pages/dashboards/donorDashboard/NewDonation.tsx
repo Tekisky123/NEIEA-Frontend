@@ -191,7 +191,7 @@ const NewDonation = () => {
           </div>
           <Button
             type="submit"
-            className="w-full bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white font-bold py-3 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+            className="w-full bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold py-3 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
             disabled={isSubmitting || paymentLoading}
           >
             {isSubmitting || paymentLoading ? (

@@ -153,7 +153,7 @@ const Mission = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-encore to-ngo-rumors text-white">
+      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -175,10 +175,10 @@ const Mission = () => {
             {/* Mission */}
             <Card className="border-0 shadow-lg">
               <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-ngo-true-joy/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Target className="w-8 h-8 text-ngo-true-joy" />
+                <div className="w-16 h-16 bg-ngo-color4/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Target className="w-8 h-8 text-ngo-color4" />
                 </div>
-                <CardTitle className="text-3xl font-heading font-bold text-ngo-encore">
+                <CardTitle className="text-3xl font-heading font-bold text-ngo-color6">
                   Our Mission
                 </CardTitle>
               </CardHeader>
@@ -191,17 +191,17 @@ const Mission = () => {
                 </CardDescription>
                 <div className="space-y-3">
                   <div className="flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-ngo-true-joy mr-3" />
+                    <CheckCircle className="w-5 h-5 text-ngo-color4 mr-3" />
                     <span className="text-gray-700">
                       Equitable Access to Education
                     </span>
                   </div>
                   <div className="flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-ngo-true-joy mr-3" />
+                    <CheckCircle className="w-5 h-5 text-ngo-color4 mr-3" />
                     <span className="text-gray-700">Community Empowerment</span>
                   </div>
                   <div className="flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-ngo-true-joy mr-3" />
+                    <CheckCircle className="w-5 h-5 text-ngo-color4 mr-3" />
                     <span className="text-gray-700">
                       Sustainable Development
                     </span>
@@ -213,10 +213,10 @@ const Mission = () => {
             {/* Vision */}
             <Card className="border-0 shadow-lg">
               <CardHeader className="text-center pb-8">
-                <div className="w-16 h-16 bg-ngo-encore/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Eye className="w-8 h-8 text-ngo-encore" />
+                <div className="w-16 h-16 bg-ngo-color6/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Eye className="w-8 h-8 text-ngo-color6" />
                 </div>
-                <CardTitle className="text-3xl font-heading font-bold text-ngo-encore">
+                <CardTitle className="text-3xl font-heading font-bold text-ngo-color6">
                   Our Vision
                 </CardTitle>
               </CardHeader>
@@ -229,19 +229,19 @@ const Mission = () => {
                 </CardDescription>
                 <div className="space-y-3">
                   <div className="flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-ngo-encore mr-3" />
+                    <CheckCircle className="w-5 h-5 text-ngo-color6 mr-3" />
                     <span className="text-gray-700">
                       Global Educational Equity
                     </span>
                   </div>
                   <div className="flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-ngo-encore mr-3" />
+                    <CheckCircle className="w-5 h-5 text-ngo-color6 mr-3" />
                     <span className="text-gray-700">
                       Individual Potential Realization
                     </span>
                   </div>
                   <div className="flex items-center justify-center">
-                    <CheckCircle className="w-5 h-5 text-ngo-encore mr-3" />
+                    <CheckCircle className="w-5 h-5 text-ngo-color6 mr-3" />
                     <span className="text-gray-700">Thriving Communities</span>
                   </div>
                 </div>
@@ -255,7 +255,7 @@ const Mission = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Our Core Values
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -272,10 +272,10 @@ const Mission = () => {
                 className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <CardHeader>
-                  <div className="w-12 h-12 bg-ngo-true-joy/10 rounded-lg flex items-center justify-center mb-4">
-                    <div className="text-ngo-true-joy">{value.icon}</div>
+                  <div className="w-12 h-12 bg-ngo-color4/10 rounded-lg flex items-center justify-center mb-4">
+                    <div className="text-ngo-color4">{value.icon}</div>
                   </div>
-                  <CardTitle className="text-xl text-ngo-encore">
+                  <CardTitle className="text-xl text-ngo-color6">
                     {value.title}
                   </CardTitle>
                 </CardHeader>
@@ -286,7 +286,7 @@ const Mission = () => {
                   <div className="space-y-2">
                     {value.principles.map((principle, idx) => (
                       <div key={idx} className="flex items-start">
-                        <CheckCircle className="w-4 h-4 text-ngo-true-joy mr-3 mt-0.5 flex-shrink-0" />
+                        <CheckCircle className="w-4 h-4 text-ngo-color4 mr-3 mt-0.5 flex-shrink-0" />
                         <span className="text-sm text-gray-700">
                           {principle}
                         </span>
@@ -304,10 +304,10 @@ const Mission = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <Badge className="bg-ngo-rumors text-white mb-4 text-lg px-6 py-2">
+            <Badge className="bg-ngo-color2 text-white mb-4 text-lg px-6 py-2">
               Strategic Goals 2030
             </Badge>
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Our Roadmap to Impact
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -323,7 +323,7 @@ const Mission = () => {
                 className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <CardHeader>
-                  <CardTitle className="text-xl text-ngo-encore mb-3">
+                  <CardTitle className="text-xl text-ngo-color6 mb-3">
                     {item.goal}
                   </CardTitle>
                   <CardDescription className="text-gray-600 leading-relaxed">
@@ -338,18 +338,18 @@ const Mission = () => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
                       <div
-                        className="bg-ngo-true-joy h-3 rounded-full transition-all duration-1000"
+                        className="bg-ngo-color4 h-3 rounded-full transition-all duration-1000"
                         style={{ width: `${item.progress}%` }}
                       ></div>
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-ngo-encore text-sm">
+                    <h4 className="font-semibold text-ngo-color6 text-sm">
                       Current Metrics:
                     </h4>
                     {item.metrics.map((metric, idx) => (
                       <div key={idx} className="flex items-start">
-                        <TrendingUp className="w-4 h-4 text-ngo-true-joy mr-3 mt-0.5 flex-shrink-0" />
+                        <TrendingUp className="w-4 h-4 text-ngo-color4 mr-3 mt-0.5 flex-shrink-0" />
                         <span className="text-sm text-gray-700">{metric}</span>
                       </div>
                     ))}
@@ -362,10 +362,10 @@ const Mission = () => {
       </section>
 
       {/* Impact Areas */}
-      <section className="py-16 bg-ngo-quietude/20">
+      <section className="py-16 bg-ngo-color8/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Our Impact Areas
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -381,22 +381,22 @@ const Mission = () => {
                 className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <CardContent className="p-6">
-                  <h3 className="text-lg font-bold text-ngo-encore mb-3">
+                  <h3 className="text-lg font-bold text-ngo-color6 mb-3">
                     {area.area}
                   </h3>
                   <p className="text-gray-600 text-sm leading-relaxed mb-4">
                     {area.description}
                   </p>
                   <div className="space-y-2">
-                    <div className="bg-ngo-true-joy/10 p-3 rounded-lg">
+                    <div className="bg-ngo-color4/10 p-3 rounded-lg">
                       <div className="text-sm text-gray-600">Beneficiaries</div>
-                      <div className="font-bold text-ngo-true-joy">
+                      <div className="font-bold text-ngo-color4">
                         {area.beneficiaries}
                       </div>
                     </div>
-                    <div className="bg-ngo-encore/10 p-3 rounded-lg">
+                    <div className="bg-ngo-color6/10 p-3 rounded-lg">
                       <div className="text-sm text-gray-600">Key Outcome</div>
-                      <div className="font-bold text-ngo-encore">
+                      <div className="font-bold text-ngo-color6">
                         {area.outcomes}
                       </div>
                     </div>
@@ -409,7 +409,7 @@ const Mission = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-ngo-encore text-white">
+      <section className="py-16 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Join Our Mission
@@ -422,7 +422,7 @@ const Mission = () => {
             <Link to="/donate">
               <Button
                 size="lg"
-                className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-8 py-3 text-lg font-medium"
+                className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-8 py-3 text-lg font-medium"
               >
                 Support Our Mission
                 <Heart className="ml-2 w-5 h-5" />
@@ -432,7 +432,7 @@ const Mission = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-8 py-3 text-lg font-medium"
+                className="border-2 border-white text-white hover:bg-white hover:text-ngo-color6 px-8 py-3 text-lg font-medium"
               >
                 Volunteer With Us
                 <Users className="ml-2 w-5 h-5" />

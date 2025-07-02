@@ -67,7 +67,7 @@ const Courses = () => {
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-8">
+            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
               Available Courses
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -114,26 +114,26 @@ const Courses = () => {
                       <div className="space-y-2">
                         {course.duration && (
                           <div className="flex items-center text-sm text-gray-500">
-                            <Clock className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                            <Clock className="w-4 h-4 mr-2 text-ngo-color4" />
                             <span>Duration: {course.duration}</span>
                           </div>
                         )}
                         {course.instructor && (
                           <div className="flex items-center text-sm text-gray-500">
-                            <User className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                            <User className="w-4 h-4 mr-2 text-ngo-color4" />
                             <span>Instructor: {course.instructor}</span>
                           </div>
                         )}
                         {course.level && (
                           <div className="flex items-center text-sm text-gray-500">
-                            <BookOpen className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                            <BookOpen className="w-4 h-4 mr-2 text-ngo-color4" />
                             <span>Level: {course.level}</span>
                           </div>
                         )}
                       </div>
                       <Button
                         onClick={() => navigate(`/apply-course/${course._id}`)}
-                        className="w-full bg-ngo-encore hover:bg-ngo-encore/90 text-white mt-4"
+                        className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white mt-4"
                       >
                         Apply Now
                       </Button>

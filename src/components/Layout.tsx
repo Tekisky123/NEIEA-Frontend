@@ -28,7 +28,7 @@ const Layout = ({ children }: LayoutProps) => {
       <main>{children}</main>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-br from-ngo-raku via-ngo-raku to-ngo-purple-basil text-white py-20 relative overflow-hidden">
+      <footer className="bg-gradient-to-br from-ngo-color1 via-ngo-color1 to-ngo-color2 text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -58,43 +58,43 @@ const Layout = ({ children }: LayoutProps) => {
                 <div className="grid grid-cols-2 gap-2">
                   <a
                     href="/projects"
-                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                    className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Our Projects
                   </a>
                   <a
                     href="/stories"
-                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                    className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Success Stories
                   </a>
                   <a
                     href="/mission"
-                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                    className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Our Mission
                   </a>
                   <a
                     href="/team"
-                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                    className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Meet Our Team
                   </a>
                   <a
                     href="/volunteer"
-                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                    className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Volunteer
                   </a>
                   <a
                     href="/courses"
-                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                    className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Courses
                   </a>
                   <Link
                     to="/login"
-                    className="text-gray-300 hover:text-ngo-true-joy transition-colors"
+                    className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Login
                   </Link>
@@ -109,7 +109,7 @@ const Layout = ({ children }: LayoutProps) => {
               </h4>
               <div className="space-y-4">
                 <div className="flex items-start">
-                  <MapPin className="w-5 h-5 mr-3 text-ngo-true-joy mt-1 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 mr-3 text-ngo-color4 mt-1 flex-shrink-0" />
                   <div>
                     <p className="text-gray-300">
                       Educational Innovation Center
@@ -119,11 +119,11 @@ const Layout = ({ children }: LayoutProps) => {
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Phone className="w-5 h-5 mr-3 text-ngo-true-joy" />
+                  <Phone className="w-5 h-5 mr-3 text-ngo-color4" />
                   <span className="text-gray-300">+1 (555) 123-NEIEA</span>
                 </div>
                 <div className="flex items-center">
-                  <Mail className="w-5 h-5 mr-3 text-ngo-true-joy" />
+                  <Mail className="w-5 h-5 mr-3 text-ngo-color4" />
                   <span className="text-gray-300">info@neiea.org</span>
                 </div>
               </div>
@@ -131,16 +131,16 @@ const Layout = ({ children }: LayoutProps) => {
               <div className="mt-8">
                 <h5 className="font-semibold mb-4">Follow Our Impact</h5>
                 <div className="flex space-x-4">
-                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-true-joy hover:scale-110 cursor-pointer transition-all duration-300 group">
+                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
                     <Facebook className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
                   </div>
-                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-true-joy hover:scale-110 cursor-pointer transition-all duration-300 group">
+                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
                     <Twitter className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
                   </div>
-                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-true-joy hover:scale-110 cursor-pointer transition-all duration-300 group">
+                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
                     <Instagram className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
                   </div>
-                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-true-joy hover:scale-110 cursor-pointer transition-all duration-300 group">
+                  <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
                     <Youtube className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
                   </div>
                 </div>
@@ -157,9 +157,9 @@ const Layout = ({ children }: LayoutProps) => {
               <div className="space-y-4">
                 <Input
                   placeholder="Enter your email address"
-                  className="bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus:border-ngo-true-joy focus:bg-white/20 transition-all duration-300 backdrop-blur-sm rounded-lg"
+                  className="bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus:border-ngo-color4 focus:bg-white/20 transition-all duration-300 backdrop-blur-sm rounded-lg"
                 />
-                <Button className="w-full bg-gradient-to-r from-ngo-true-joy to-ngo-true-joy/90 hover:from-ngo-true-joy/90 hover:to-ngo-true-joy text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
+                <Button className="w-full bg-gradient-to-r from-ngo-color4 to-ngo-color4/90 hover:from-ngo-color4/90 hover:to-ngo-color4 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
                   <span className="flex items-center justify-center">
                     Subscribe to Updates
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
@@ -167,15 +167,15 @@ const Layout = ({ children }: LayoutProps) => {
                 </Button>
               </div>
 
-              <div className="mt-8 p-4 bg-ngo-true-joy/10 rounded-lg border border-ngo-true-joy/20">
-                <h5 className="font-semibold mb-2 text-ngo-true-joy">
+              <div className="mt-8 p-4 bg-ngo-color4/10 rounded-lg border border-ngo-color4/20">
+                <h5 className="font-semibold mb-2 text-ngo-color4">
                   Transparency Promise
                 </h5>
                 <p className="text-sm text-gray-300">
                   98% of donations go directly to programs. View our{" "}
                   <a
                     href="/transparency"
-                    className="text-ngo-true-joy underline"
+                    className="text-ngo-color4 underline"
                   >
                     financial reports
                   </a>
@@ -220,7 +220,7 @@ const Layout = ({ children }: LayoutProps) => {
       {/* Enhanced Chat Widget */}
       <div className="fixed bottom-6 right-6 z-40 hidden lg:block">
         <div className="relative group">
-          <div className="bg-gradient-to-r from-ngo-mocha-mousse to-ngo-true-joy text-white p-4 rounded-full shadow-2xl cursor-pointer hover:shadow-3xl transition-all duration-300 hover:scale-110 ">
+          <div className="bg-gradient-to-r from-ngo-color1 to-ngo-color4 text-white p-4 rounded-full shadow-2xl cursor-pointer hover:shadow-3xl transition-all duration-300 hover:scale-110 ">
             <div className="w-6 h-6 flex items-center justify-center">
               <span className="text-sm font-bold">
                 <MessageCircle />

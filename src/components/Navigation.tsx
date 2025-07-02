@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoRemovedBg from '../images/logoRemovedBg.png'
 
 interface NavigationItem {
   label: string;
@@ -46,7 +47,7 @@ const DesktopNavigationItem: React.FC<{ section: NavigationItem }> = ({
   section,
 }) => (
   <div key={section.label} className="relative group">
-    <button className="p-3 text-gray-700 text-sm hover:text-[#7F4145] font-semibold flex items-center gap-1 whitespace-nowrap">
+    <button className="p-3 text-ngo-color5 text-sm hover:text-ngo-color2 font-semibold flex items-center gap-1 whitespace-nowrap">
       {section.label}
       {section.items && <ChevronDown size={16} />}
     </button>
@@ -56,7 +57,7 @@ const DesktopNavigationItem: React.FC<{ section: NavigationItem }> = ({
           <Link
             key={item.href}
             to={item.href}
-            className="block p-2 text-sm text-gray-700 hover:text-[#1A4E8C] hover:bg-blue-50 rounded"
+            className="block p-2 text-sm text-ngo-color5 hover:text-ngo-color6 hover:bg-ngo-color8 rounded"
           >
             {item.label}
           </Link>
@@ -76,7 +77,7 @@ const MobileNavigationItem: React.FC<{
     {section.href ? (
       <button
         onClick={() => handleNavigation(section.href)}
-        className="w-full text-left py-3 px-2 text-gray-800 hover:bg-blue-50 rounded-md font-medium"
+        className="w-full text-left py-3 px-2 text-ngo-color5 hover:bg-ngo-color8 rounded-md font-medium"
       >
         {section.label}
       </button>
@@ -84,7 +85,7 @@ const MobileNavigationItem: React.FC<{
       <>
         <button
           onClick={() => toggleSubMenu(section.label)}
-          className="w-full flex justify-between items-center py-3 px-2 text-gray-800 hover:text-[#7F4145] font-medium"
+          className="w-full flex justify-between items-center py-3 px-2 text-ngo-color5 hover:text-ngo-color1 font-medium"
         >
           {section.label}
           <ChevronDown
@@ -100,7 +101,7 @@ const MobileNavigationItem: React.FC<{
               <button
                 key={item.href}
                 onClick={() => handleNavigation(item.href)}
-                className="block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 rounded-md"
+                className="block w-full text-left px-3 py-2 text-sm text-ngo-color5 hover:bg-ngo-color8 rounded-md"
               >
                 {item.label}
               </button>
@@ -133,99 +134,85 @@ const Navigation = () => {
     setActiveMobileMenu((prev) => (prev === label ? null : label));
   };
 
-  const navigation = useMemo<NavigationItem[]>(
-    () => [
-      { label: "Home", href: "/" },
-      {
-        label: "About Us",
-        items: [
-          { label: "Introduction of NEIEA", href: "/about/introduction" },
-          { label: "Vision and Mission", href: "/about/vision-mission" },
-          { label: "Leadership and Team", href: "/about/leadership" },
-          { label: "Management Advisory Board", href: "/about/advisory-board" },
-          { label: "Blended Learning Model", href: "/about/blended-learning" },
-          { label: "Our Working Process", href: "/about/workshops" },
-          { label: "Application of Technologies", href: "/about/technologies" },
-          { label: "Discourse Oriented Pedagogy (DOP)", href: "/about/eop" },
-          { label: "Impact", href: "/about/impact" },
-          { label: "Testimonials", href: "/about/testimonials" },
-        ],
-      },
-      {
-        label: "Our Projects",
-        items: [
-          { label: "IT Skills Training", href: "/projects/it-skills" },
-          { label: "Cluster Education", href: "/projects/cluster-education" },
-          { label: "Teachers Training", href: "/projects/teachers-training" },
-          { label: "Slum Children Education", href: "/projects/slum-children" },
-          {
-            label: "Out of School Children Education",
-            href: "/projects/out-of-school",
-          },
-          { label: "Girls Education", href: "/projects/girls-education" },
-          { label: "Pedagogy Training", href: "/projects/pedagogy-training" },
-          { label: "Madarsa Education", href: "/projects/madarsa-education" },
-          {
-            label: "Social and Financial Education",
-            href: "/projects/social-financial",
-          },
-          { label: "Adult Education", href: "/projects/adult-education" },
-          {
-            label: "Public(Government) Schools Education",
-            href: "/projects/public-schools",
-          },
-        ],
-      },
-      { label: "Courses", items: [{ label: "All Courses", href: "/courses" }] },
-      {
-        label: "Partners",
-        items: [
-          { label: "Domestic Partners", href: "/partners/domestic" },
-          { label: "Global Partners", href: "/partners/global" },
-        ],
-      },
-      { label: "NEI USA", href: "/nei-usa" },
-      { label: "Donate", href: "/donate" },
-      { label: "Featured Stories", href: "/stories" },
-      {
-        label: "Media and Events",
-        items: [{ label: "Gallery", href: "/about/introduction" }],
-      },
-      {
-        label: "Contact Us",
-        items: [
-          { label: "Partner With Us", href: "/contact/partner" },
-          { label: "FAQ", href: "/contact/faq" },
-        ],
-      },
-      { label: "Volunteers", href: "/volunteer" },
-    ],
-    []
-  );
+  const navigation = useMemo<NavigationItem[]>(/* same as before */ () => [
+    { label: "Home", href: "/" },
+    {
+      label: "About Us",
+      items: [
+        { label: "Introduction of NEIEA", href: "/about/introduction" },
+        { label: "Vision and Mission", href: "/about/vision-mission" },
+        { label: "Leadership and Team", href: "/about/leadership" },
+        { label: "Management Advisory Board", href: "/about/advisory-board" },
+        { label: "Blended Learning Model", href: "/about/blended-learning" },
+        { label: "Our Working Process", href: "/about/workshops" },
+        { label: "Application of Technologies", href: "/about/technologies" },
+        { label: "Discourse Oriented Pedagogy (DOP)", href: "/about/eop" },
+        { label: "Impact", href: "/about/impact" },
+        { label: "Testimonials", href: "/about/testimonials" },
+      ],
+    },
+    {
+      label: "Our Projects",
+      items: [
+        { label: "IT Skills Training", href: "/projects/it-skills" },
+        { label: "Cluster Education", href: "/projects/cluster-education" },
+        { label: "Teachers Training", href: "/projects/teachers-training" },
+        { label: "Slum Children Education", href: "/projects/slum-children" },
+        { label: "Out of School Children Education", href: "/projects/out-of-school" },
+        { label: "Girls Education", href: "/projects/girls-education" },
+        { label: "Pedagogy Training", href: "/projects/pedagogy-training" },
+        { label: "Madarsa Education", href: "/projects/madarsa-education" },
+        { label: "Social and Financial Education", href: "/projects/social-financial" },
+        { label: "Adult Education", href: "/projects/adult-education" },
+        { label: "Public(Government) Schools Education", href: "/projects/public-schools" },
+      ],
+    },
+    { label: "Courses", items: [{ label: "All Courses", href: "/courses" }] },
+    {
+      label: "Partners",
+      items: [
+        { label: "Domestic Partners", href: "/partners/domestic" },
+        { label: "Global Partners", href: "/partners/global" },
+      ],
+    },
+    { label: "NEI USA", href: "/nei-usa" },
+    { label: "Donate", href: "/donate" },
+    { label: "Featured Stories", href: "/stories" },
+    {
+      label: "Media and Events",
+      items: [{ label: "Gallery", href: "/about/introduction" }],
+    },
+    {
+      label: "Contact Us",
+      items: [
+        { label: "Partner With Us", href: "/contact/partner" },
+        { label: "FAQ", href: "/contact/faq" },
+      ],
+    },
+    { label: "Volunteers", href: "/volunteer" },
+  ], []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b shadow-sm">
+    <header className="sticky top-0 z-50 bg-ngo-color6 border-b shadow-sm">
       <div className="container mx-auto px-4 py-2 flex items-center justify-center">
         <Link to="/" className="flex items-center space-x-2">
           <img
-            src="https://neiea-ngo-frontend.vercel.app/assets/logo2-C7Wc3xHv.png"
+            src={logoRemovedBg}
             alt="NEIEA Logo"
-            className="w-14 h-14"
+            className="w-20"
           />
-          <div className="lg:text-xl font-bold text-gray-700 text-center">
+          <div className="lg:text-xl font-bold text-ngo-color5 text-center">
             The New Equitable and Innovative Educational Association
           </div>
         </Link>
-        <div className=" py-1 px-4">
-          
-            <GoogleTranslate />
-          
+        <div className="py-1 px-4">
+          <GoogleTranslate />
         </div>
         <div className="flex items-center space-x-4">
           <div className="lg:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded hover:bg-gray-100"
+              className="p-2 rounded hover:bg-ngo-color8"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -242,7 +229,7 @@ const Navigation = () => {
                 <Link
                   key={section.label}
                   to={section.href}
-                  className="p-3 text-gray-700 text-sm hover:text-[#7F4145] font-semibold whitespace-nowrap"
+                  className="p-3 text-ngo-color5 text-sm hover:text-ngo-color2 font-semibold whitespace-nowrap"
                 >
                   {section.label}
                 </Link>
@@ -267,7 +254,7 @@ const Navigation = () => {
           ))}
           <Button
             onClick={() => handleNavigation("/donate")}
-            className="w-full mt-4 bg-gradient-to-r from-[#1A4E8C] to-[#D6A61A] hover:from-[#7F4145] hover:to-[#A9746E] text-white font-semibold py-3 rounded-md"
+            className="w-full mt-4 bg-gradient-to-r from-ngo-color6 to-ngo-color3 hover:from-ngo-color2 hover:to-ngo-color1 text-white font-semibold py-3 rounded-md"
           >
             Make a Donation
           </Button>

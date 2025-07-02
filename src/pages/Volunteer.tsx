@@ -254,15 +254,15 @@ const Volunteer = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-24 bg-gradient-to-br from-ngo-rumors to-ngo-purple-basil text-white">
+      <section className="py-24 bg-gradient-to-br from-ngo-color2 to-ngo-color5 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="bg-ngo-true-joy text-white mb-6 text-lg px-6 py-2 rounded-full">
+            <Badge className="bg-ngo-color4 text-white mb-6 text-lg px-6 py-2 rounded-full">
               Make a Difference
             </Badge>
             <h1 className="text-5xl lg:text-7xl font-heading font-bold mb-8 leading-tight">
               Volunteer for
-              <span className="text-ngo-true-joy block">
+              <span className="text-ngo-color4 block">
                 Educational Change
               </span>
             </h1>
@@ -280,7 +280,7 @@ const Volunteer = () => {
                   key={index}
                   className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
                 >
-                  <div className="text-ngo-true-joy mb-2 flex justify-center">
+                  <div className="text-ngo-color4 mb-2 flex justify-center">
                     {stat.icon}
                   </div>
                   <div className="text-3xl lg:text-4xl font-bold mb-1">
@@ -300,7 +300,7 @@ const Volunteer = () => {
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-8">
+            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
               Why Volunteer With NEIEA?
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -316,10 +316,10 @@ const Volunteer = () => {
                 className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow"
               >
                 <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-ngo-true-joy/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-ngo-true-joy">{benefit.icon}</div>
+                  <div className="w-16 h-16 bg-ngo-color4/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="text-ngo-color4">{benefit.icon}</div>
                   </div>
-                  <h3 className="text-xl font-heading font-bold text-ngo-encore mb-4">
+                  <h3 className="text-xl font-heading font-bold text-ngo-color6 mb-4">
                     {benefit.title}
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
@@ -336,10 +336,10 @@ const Volunteer = () => {
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <Badge className="bg-ngo-encore text-white mb-6 text-lg px-6 py-2">
+            <Badge className="bg-ngo-color6 text-white mb-6 text-lg px-6 py-2">
               Current Openings
             </Badge>
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-8">
+            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
               Volunteer Opportunities
             </h2>
             <p className="text-xl text-gray-600 max-w-4xl mx-auto">
@@ -354,12 +354,12 @@ const Volunteer = () => {
               <Card
                 key={opportunity.id}
                 className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                  opportunity.featured ? "ring-2 ring-ngo-true-joy" : ""
+                  opportunity.featured ? "ring-2 ring-ngo-color4" : ""
                 }`}
               >
                 {opportunity.featured && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <Badge className="bg-ngo-true-joy text-white px-4 py-1">
+                    <Badge className="bg-ngo-color4 text-white px-4 py-1">
                       High Priority
                     </Badge>
                   </div>
@@ -368,10 +368,10 @@ const Volunteer = () => {
                 <CardContent className="p-8">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-2xl font-heading font-bold text-ngo-encore mb-2">
+                      <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-2">
                         {opportunity.title}
                       </h3>
-                      <Badge className="bg-ngo-rumors text-white mb-2">
+                      <Badge className="bg-ngo-color2 text-white mb-2">
                         {opportunity.category}
                       </Badge>
                     </div>
@@ -388,25 +388,25 @@ const Volunteer = () => {
 
                   <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
                     <div className="flex items-center">
-                      <MapPin className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <MapPin className="w-4 h-4 mr-2 text-ngo-color4" />
                       <span className="text-gray-600">
                         {opportunity.location}
                       </span>
                     </div>
                     <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <Clock className="w-4 h-4 mr-2 text-ngo-color4" />
                       <span className="text-gray-600">
                         {opportunity.commitment}
                       </span>
                     </div>
                     <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <Calendar className="w-4 h-4 mr-2 text-ngo-color4" />
                       <span className="text-gray-600">
                         {opportunity.duration}
                       </span>
                     </div>
                     <div className="flex items-center">
-                      <Target className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <Target className="w-4 h-4 mr-2 text-ngo-color4" />
                       <span className="text-gray-600">
                         {opportunity.impact}
                       </span>
@@ -414,7 +414,7 @@ const Volunteer = () => {
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-ngo-encore mb-3">
+                    <h4 className="font-semibold text-ngo-color6 mb-3">
                       Required Skills:
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -422,7 +422,7 @@ const Volunteer = () => {
                         <Badge
                           key={index}
                           variant="outline"
-                          className="border-ngo-true-joy text-ngo-true-joy"
+                          className="border-ngo-color4 text-ngo-color4"
                         >
                           {skill}
                         </Badge>
@@ -431,7 +431,7 @@ const Volunteer = () => {
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-ngo-encore mb-3">
+                    <h4 className="font-semibold text-ngo-color6 mb-3">
                       Requirements:
                     </h4>
                     <ul className="space-y-2">
@@ -442,14 +442,14 @@ const Volunteer = () => {
                             key={index}
                             className="flex items-start text-sm text-gray-600"
                           >
-                            <CheckCircle className="w-4 h-4 mr-2 text-ngo-true-joy mt-0.5 flex-shrink-0" />
+                            <CheckCircle className="w-4 h-4 mr-2 text-ngo-color4 mt-0.5 flex-shrink-0" />
                             {req}
                           </li>
                         ))}
                     </ul>
                   </div>
 
-                  <Button className="w-full bg-ngo-encore hover:bg-ngo-encore/90 text-white font-semibold rounded-full">
+                  <Button className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white font-semibold rounded-full">
                     Apply for This Role
                     <ArrowRight className="ml-2 w-4 h-4" />
                   </Button>
@@ -465,7 +465,7 @@ const Volunteer = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-8">
+              <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
                 Apply to Volunteer
               </h2>
               <p className="text-xl text-gray-600">
@@ -480,7 +480,7 @@ const Volunteer = () => {
                 <form onSubmit={handleSubmit} className="space-y-8">
                   {/* Personal Information */}
                   <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-encore mb-6">
+                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
                       Personal Information
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -494,7 +494,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("firstName", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                         />
                       </div>
                       <div>
@@ -507,7 +507,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("lastName", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                         />
                       </div>
                       <div>
@@ -521,7 +521,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("email", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                         />
                       </div>
                       <div>
@@ -533,7 +533,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("phone", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                         />
                       </div>
                     </div>
@@ -541,7 +541,7 @@ const Volunteer = () => {
 
                   {/* Location & Availability */}
                   <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-encore mb-6">
+                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
                       Location & Availability
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -555,7 +555,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("location", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                         />
                       </div>
                       <div>
@@ -569,7 +569,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("availability", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                         />
                       </div>
                     </div>
@@ -577,7 +577,7 @@ const Volunteer = () => {
 
                   {/* Skills & Experience */}
                   <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-encore mb-6">
+                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
                       Skills & Experience
                     </h3>
                     <div className="space-y-6">
@@ -592,7 +592,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("skills", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                           rows={4}
                         />
                       </div>
@@ -606,7 +606,7 @@ const Volunteer = () => {
                           onChange={(e) =>
                             handleInputChange("experience", e.target.value)
                           }
-                          className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                          className="border-ngo-color4/30 focus:border-ngo-color4"
                           rows={4}
                         />
                       </div>
@@ -615,7 +615,7 @@ const Volunteer = () => {
 
                   {/* Motivation */}
                   <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-encore mb-6">
+                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
                       Motivation
                     </h3>
                     <div>
@@ -629,7 +629,7 @@ const Volunteer = () => {
                         onChange={(e) =>
                           handleInputChange("motivation", e.target.value)
                         }
-                        className="border-ngo-true-joy/30 focus:border-ngo-true-joy"
+                        className="border-ngo-color4/30 focus:border-ngo-color4"
                         rows={4}
                       />
                     </div>
@@ -638,7 +638,7 @@ const Volunteer = () => {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-ngo-encore hover:bg-ngo-encore/90 text-white font-bold py-4 text-xl rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
+                    className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white font-bold py-4 text-xl rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
                   >
                     Submit Volunteer Application
                     <Heart className="ml-3 w-6 h-6" />
@@ -651,10 +651,10 @@ const Volunteer = () => {
       </section>
 
       {/* Volunteer Testimonials */}
-      <section className="py-24 bg-ngo-quietude/20">
+      <section className="py-24 bg-ngo-color8/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-8">
+            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
               Volunteer Stories
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -674,14 +674,14 @@ const Volunteer = () => {
                       className="w-16 h-16 rounded-full object-cover mr-4"
                     />
                     <div>
-                      <h4 className="font-bold text-ngo-encore text-lg">
+                      <h4 className="font-bold text-ngo-color6 text-lg">
                         {testimonial.name}
                       </h4>
                       <p className="text-sm text-gray-600">
                         {testimonial.role}
                       </p>
                       <div className="flex items-center mt-1">
-                        <Clock className="w-3 h-3 mr-1 text-ngo-true-joy" />
+                        <Clock className="w-3 h-3 mr-1 text-ngo-color4" />
                         <span className="text-xs text-gray-500">
                           {testimonial.duration}
                         </span>
@@ -689,7 +689,7 @@ const Volunteer = () => {
                     </div>
                   </div>
 
-                  <div className="flex text-ngo-true-joy mb-4">
+                  <div className="flex text-ngo-color4 mb-4">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
@@ -704,7 +704,7 @@ const Volunteer = () => {
                       <MapPin className="w-3 h-3 inline mr-1" />
                       {testimonial.location}
                     </div>
-                    <Badge className="bg-ngo-true-joy/10 text-ngo-true-joy text-xs">
+                    <Badge className="bg-ngo-color4/10 text-ngo-color4 text-xs">
                       {testimonial.impact}
                     </Badge>
                   </div>
@@ -716,7 +716,7 @@ const Volunteer = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-24 bg-ngo-encore text-white">
+      <section className="py-24 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl lg:text-5xl font-heading font-bold mb-8">
             Have Questions?
@@ -728,7 +728,7 @@ const Volunteer = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button
               size="lg"
-              className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-12 py-4 text-lg rounded-full font-semibold"
+              className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-12 py-4 text-lg rounded-full font-semibold"
             >
               <Mail className="mr-3 w-5 h-5" />
               Email Us
@@ -736,7 +736,7 @@ const Volunteer = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-12 py-4 text-lg rounded-full font-semibold"
+              className="border-2 border-white text-white hover:bg-white hover:text-ngo-color6 px-12 py-4 text-lg rounded-full font-semibold"
             >
               <Phone className="mr-3 w-5 h-5" />
               Schedule a Call

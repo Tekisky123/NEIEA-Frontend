@@ -52,7 +52,7 @@ const MonthlyGiving = () => {
         annual: "Supports a child's full academic year",
       },
       popular: false,
-      color: "border-ngo-rumors bg-ngo-rumors/5",
+      color: "border-ngo-color2 bg-ngo-color2/5",
     },
     {
       tier: "Advocate",
@@ -73,7 +73,7 @@ const MonthlyGiving = () => {
         annual: "Creates lasting educational infrastructure",
       },
       popular: true,
-      color: "border-ngo-encore bg-ngo-encore/5",
+      color: "border-ngo-color6 bg-ngo-color6/5",
     },
     {
       tier: "Champion",
@@ -94,7 +94,7 @@ const MonthlyGiving = () => {
         annual: "Establishes new learning center capabilities",
       },
       popular: false,
-      color: "border-ngo-true-joy bg-ngo-true-joy/5",
+      color: "border-ngo-color4 bg-ngo-color4/5",
     },
     {
       tier: "Guardian",
@@ -115,7 +115,7 @@ const MonthlyGiving = () => {
         annual: "Sponsors complete program expansion",
       },
       popular: false,
-      color: "border-ngo-purple-basil bg-ngo-purple-basil/5",
+      color: "border-ngo-color5 bg-ngo-color5/5",
     },
   ];
 
@@ -179,7 +179,7 @@ const MonthlyGiving = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-true-joy to-ngo-mocha-mousse text-white">
+      <section className="py-16 bg-gradient-to-r from-ngo-color4 to-ngo-color1 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="bg-white/20 text-white mb-6 text-lg px-6 py-2 rounded-lg">
@@ -225,7 +225,7 @@ const MonthlyGiving = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Why Choose Monthly Giving?
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -242,10 +242,10 @@ const MonthlyGiving = () => {
                 className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <CardContent className="p-6">
-                  <div className="w-16 h-16 bg-ngo-true-joy/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-ngo-true-joy">{benefit.icon}</div>
+                  <div className="w-16 h-16 bg-ngo-color4/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div className="text-ngo-color4">{benefit.icon}</div>
                   </div>
-                  <h3 className="text-xl font-bold text-ngo-encore mb-4">
+                  <h3 className="text-xl font-bold text-ngo-color6 mb-4">
                     {benefit.title}
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
@@ -262,7 +262,7 @@ const MonthlyGiving = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Choose Your Monthly Impact Level
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -277,22 +277,22 @@ const MonthlyGiving = () => {
               <Card
                 key={index}
                 className={`relative border-2 ${plan.color} hover:shadow-2xl transition-all duration-300 ${
-                  plan.popular ? "scale-105 ring-4 ring-ngo-true-joy/20" : ""
+                  plan.popular ? "scale-105 ring-4 ring-ngo-color4/20" : ""
                 } overflow-hidden`}
               >
                 {plan.popular && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <Badge className="bg-ngo-true-joy text-white px-4 py-1">
+                    <Badge className="bg-ngo-color4 text-white px-4 py-1">
                       Most Popular
                     </Badge>
                   </div>
                 )}
 
                 <CardHeader className="text-center">
-                  <CardTitle className="text-2xl text-ngo-encore">
+                  <CardTitle className="text-2xl text-ngo-color6">
                     {plan.tier}
                   </CardTitle>
-                  <div className="text-4xl font-bold text-ngo-rumors">
+                  <div className="text-4xl font-bold text-ngo-color2">
                     ${plan.amount}
                     <span className="text-lg text-gray-600">
                       /{plan.period}
@@ -305,10 +305,10 @@ const MonthlyGiving = () => {
 
                 <CardContent className="space-y-6">
                   <div>
-                    <h4 className="font-semibold text-ngo-encore mb-3">
+                    <h4 className="font-semibold text-ngo-color6 mb-3">
                       Monthly Impact:
                     </h4>
-                    <div className="bg-ngo-true-joy/10 p-3 rounded-lg">
+                    <div className="bg-ngo-color4/10 p-3 rounded-lg">
                       <p className="text-sm text-gray-700 font-medium">
                         {plan.impact.primary}
                       </p>
@@ -316,7 +316,7 @@ const MonthlyGiving = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-ngo-encore mb-3">
+                    <h4 className="font-semibold text-ngo-color6 mb-3">
                       Benefits:
                     </h4>
                     <div className="space-y-2">
@@ -324,7 +324,7 @@ const MonthlyGiving = () => {
                         .slice(0, 4)
                         .map((benefit, benefitIndex) => (
                           <div key={benefitIndex} className="flex items-start">
-                            <CheckCircle className="w-4 h-4 text-ngo-true-joy mr-3 mt-0.5 flex-shrink-0" />
+                            <CheckCircle className="w-4 h-4 text-ngo-color4 mr-3 mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700 text-sm">
                               {benefit}
                             </span>
@@ -341,8 +341,8 @@ const MonthlyGiving = () => {
                   <Button
                     className={`w-full ${
                       plan.popular
-                        ? "bg-ngo-true-joy hover:bg-ngo-true-joy/90"
-                        : "bg-ngo-encore hover:bg-ngo-encore/90"
+                        ? "bg-ngo-color4 hover:bg-ngo-color4/90"
+                        : "bg-ngo-color6 hover:bg-ngo-color6/90"
                     } text-white font-semibold rounded-lg`}
                   >
                     Start ${plan.amount}/Month
@@ -359,7 +359,7 @@ const MonthlyGiving = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+              <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
                 Start Your Monthly Giving
               </h2>
               <p className="text-lg text-gray-600">
@@ -371,7 +371,7 @@ const MonthlyGiving = () => {
             <Card className="border-0 shadow-2xl">
               <CardContent className="p-8">
                 <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-ngo-encore mb-6 text-center">
+                  <h3 className="text-xl font-semibold text-ngo-color6 mb-6 text-center">
                     Choose Your Monthly Amount
                   </h3>
                   <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -384,8 +384,8 @@ const MonthlyGiving = () => {
                         }}
                         className={`p-4 rounded-lg font-semibold transition-all border-2 ${
                           selectedAmount === amount
-                            ? "border-ngo-true-joy bg-ngo-true-joy text-white shadow-lg"
-                            : "border-gray-200 text-gray-700 hover:border-ngo-true-joy hover:text-ngo-true-joy"
+                            ? "border-ngo-color4 bg-ngo-color4 text-white shadow-lg"
+                            : "border-gray-200 text-gray-700 hover:border-ngo-color4 hover:text-ngo-color4"
                         }`}
                       >
                         {formatAmount(amount)}
@@ -402,7 +402,7 @@ const MonthlyGiving = () => {
                         setCustomAmount(e.target.value);
                         setSelectedAmount(parseFloat(e.target.value) || 0);
                       }}
-                      className="text-center text-lg py-4 border-2 border-gray-200 focus:border-ngo-true-joy rounded-lg"
+                      className="text-center text-lg py-4 border-2 border-gray-200 focus:border-ngo-color4 rounded-lg"
                     />
                     <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-lg">
                       $
@@ -410,8 +410,8 @@ const MonthlyGiving = () => {
                   </div>
                 </div>
 
-                <div className="mb-8 p-6 bg-ngo-quietude/20 rounded-lg border border-ngo-quietude/30">
-                  <h4 className="font-semibold text-ngo-encore mb-3 text-center">
+                <div className="mb-8 p-6 bg-ngo-color8/20 rounded-lg border border-ngo-color8/30">
+                  <h4 className="font-semibold text-ngo-color6 mb-3 text-center">
                     Your Monthly Impact
                   </h4>
                   <p className="text-gray-700 text-center">
@@ -424,7 +424,7 @@ const MonthlyGiving = () => {
 
                 <Button
                   size="lg"
-                  className="w-full bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white font-bold py-4 text-xl rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+                  className="w-full bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold py-4 text-xl rounded-lg shadow-xl hover:shadow-2xl transition-all duration-300"
                 >
                   <CreditCard className="mr-3 w-6 h-6" />
                   Set Up Monthly Giving - {formatAmount(selectedAmount)}
@@ -440,10 +440,10 @@ const MonthlyGiving = () => {
       </section>
 
       {/* Donor Testimonials */}
-      <section className="py-16 bg-ngo-quietude/20">
+      <section className="py-16 bg-ngo-color8/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               What Monthly Donors Say
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -463,19 +463,19 @@ const MonthlyGiving = () => {
                       className="w-16 h-16 rounded-full object-cover mr-4"
                     />
                     <div>
-                      <h4 className="font-bold text-ngo-encore text-lg">
+                      <h4 className="font-bold text-ngo-color6 text-lg">
                         {testimonial.name}
                       </h4>
                       <p className="text-sm text-gray-600">
                         {testimonial.role}
                       </p>
-                      <Badge className="bg-ngo-true-joy text-white mt-1">
+                      <Badge className="bg-ngo-color4 text-white mt-1">
                         {testimonial.amount}
                       </Badge>
                     </div>
                   </div>
 
-                  <div className="flex text-ngo-true-joy mb-4">
+                  <div className="flex text-ngo-color4 mb-4">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
@@ -485,8 +485,8 @@ const MonthlyGiving = () => {
                     "{testimonial.story}"
                   </p>
 
-                  <div className="bg-ngo-true-joy/10 p-3 rounded-lg">
-                    <p className="text-sm font-medium text-ngo-encore">
+                  <div className="bg-ngo-color4/10 p-3 rounded-lg">
+                    <p className="text-sm font-medium text-ngo-color6">
                       Total Impact: {testimonial.impact}
                     </p>
                   </div>
@@ -498,7 +498,7 @@ const MonthlyGiving = () => {
       </section>
 
       {/* FAQ / Support */}
-      <section className="py-16 bg-ngo-encore text-white">
+      <section className="py-16 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Questions About Monthly Giving?
@@ -510,7 +510,7 @@ const MonthlyGiving = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
-              className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-8 py-3 text-lg font-medium"
+              className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-8 py-3 text-lg font-medium"
             >
               <Mail className="mr-3 w-5 h-5" />
               Contact Donor Support
@@ -519,7 +519,7 @@ const MonthlyGiving = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-8 py-3 text-lg font-medium"
+                className="border-2 border-white text-white hover:bg-white hover:text-ngo-color6 px-8 py-3 text-lg font-medium"
               >
                 One-Time Donation
                 <ArrowRight className="ml-3 w-5 h-5" />

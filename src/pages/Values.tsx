@@ -41,7 +41,7 @@ const Values = () => {
       ],
       realWorldApplication:
         "Our scholarship programs specifically target girls from low-income families, and we ensure all learning materials are available in local languages and adapted for different learning styles.",
-      color: "ngo-true-joy",
+      color: "ngo-color4",
     },
     {
       icon: <Lightbulb className="w-12 h-12" />,
@@ -58,7 +58,7 @@ const Values = () => {
       ],
       realWorldApplication:
         "We develop custom learning management systems for rural areas with limited internet, using AI to personalize learning paths and mobile technology to reach remote communities.",
-      color: "ngo-encore",
+      color: "ngo-color6",
     },
     {
       icon: <Handshake className="w-12 h-12" />,
@@ -75,7 +75,7 @@ const Values = () => {
       ],
       realWorldApplication:
         "Every learning center is established in partnership with local leaders, teachers are hired from the community, and curriculum is adapted to reflect local culture and needs.",
-      color: "ngo-rumors",
+      color: "ngo-color2",
     },
     {
       icon: <Award className="w-12 h-12" />,
@@ -92,7 +92,7 @@ const Values = () => {
       ],
       realWorldApplication:
         "We publish quarterly impact reports, conduct annual third-party evaluations, and maintain an open feedback system where beneficiaries can report concerns anonymously.",
-      color: "ngo-purple-basil",
+      color: "ngo-color5",
     },
   ];
 
@@ -158,7 +158,7 @@ const Values = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-encore to-ngo-rumors text-white">
+      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -194,10 +194,10 @@ const Values = () => {
                           {value.icon}
                         </div>
                       </div>
-                      <h2 className="text-3xl font-heading font-bold text-ngo-encore mb-2">
+                      <h2 className="text-3xl font-heading font-bold text-ngo-color6 mb-2">
                         {value.title}
                       </h2>
-                      <p className="text-lg text-ngo-rumors font-medium mb-4">
+                      <p className="text-lg text-ngo-color2 font-medium mb-4">
                         {value.subtitle}
                       </p>
                       <p className="text-gray-600 leading-relaxed mb-6">
@@ -205,7 +205,7 @@ const Values = () => {
                       </p>
 
                       <div className="bg-gray-50 p-6 rounded-lg">
-                        <h4 className="font-semibold text-ngo-encore mb-3">
+                        <h4 className="font-semibold text-ngo-color6 mb-3">
                           In Practice:
                         </h4>
                         <p className="text-gray-600 leading-relaxed italic">
@@ -219,13 +219,13 @@ const Values = () => {
                 <div className="lg:w-1/2">
                   <Card className="border-0 shadow-lg h-full">
                     <CardContent className="p-8">
-                      <h3 className="text-xl font-bold text-ngo-encore mb-6">
+                      <h3 className="text-xl font-bold text-ngo-color6 mb-6">
                         Key Principles:
                       </h3>
                       <div className="space-y-4">
                         {value.principles.map((principle, idx) => (
                           <div key={idx} className="flex items-start">
-                            <CheckCircle className="w-5 h-5 text-ngo-true-joy mr-3 mt-0.5 flex-shrink-0" />
+                            <CheckCircle className="w-5 h-5 text-ngo-color4 mr-3 mt-0.5 flex-shrink-0" />
                             <span className="text-gray-700">{principle}</span>
                           </div>
                         ))}
@@ -240,10 +240,10 @@ const Values = () => {
       </section>
 
       {/* Values in Action */}
-      <section className="py-16 bg-ngo-quietude/20">
+      <section className="py-16 bg-ngo-color8/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Values in Action
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -259,7 +259,7 @@ const Values = () => {
                 className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <CardHeader>
-                  <CardTitle className="text-xl text-ngo-encore">
+                  <CardTitle className="text-xl text-ngo-color6">
                     {example.situation}
                   </CardTitle>
                   <CardDescription className="text-gray-600">
@@ -268,21 +268,21 @@ const Values = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="mb-6">
-                    <h4 className="font-semibold text-ngo-encore mb-3">
+                    <h4 className="font-semibold text-ngo-color6 mb-3">
                       How Our Values Guided Us:
                     </h4>
                     <div className="space-y-2">
                       {example.approach.map((step, idx) => (
                         <div key={idx} className="flex items-start">
-                          <Star className="w-4 h-4 text-ngo-true-joy mr-3 mt-0.5 flex-shrink-0" />
+                          <Star className="w-4 h-4 text-ngo-color4 mr-3 mt-0.5 flex-shrink-0" />
                           <span className="text-gray-700 text-sm">{step}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="bg-ngo-true-joy/10 p-4 rounded-lg">
-                    <h4 className="font-semibold text-ngo-encore mb-2">
+                  <div className="bg-ngo-color4/10 p-4 rounded-lg">
+                    <h4 className="font-semibold text-ngo-color6 mb-2">
                       Outcome:
                     </h4>
                     <p className="text-gray-700 font-medium">
@@ -300,7 +300,7 @@ const Values = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Our Commitments
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -316,10 +316,10 @@ const Values = () => {
                 className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <CardHeader>
-                  <div className="w-16 h-16 bg-ngo-true-joy/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <div className="text-ngo-true-joy">{area.icon}</div>
+                  <div className="w-16 h-16 bg-ngo-color4/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div className="text-ngo-color4">{area.icon}</div>
                   </div>
-                  <CardTitle className="text-xl text-ngo-encore">
+                  <CardTitle className="text-xl text-ngo-color6">
                     {area.area}
                   </CardTitle>
                 </CardHeader>
@@ -331,7 +331,7 @@ const Values = () => {
                         className="p-3 bg-gray-50 rounded-lg text-left"
                       >
                         <div className="flex items-start">
-                          <Target className="w-4 h-4 text-ngo-true-joy mr-3 mt-0.5 flex-shrink-0" />
+                          <Target className="w-4 h-4 text-ngo-color4 mr-3 mt-0.5 flex-shrink-0" />
                           <span className="text-gray-700 text-sm">
                             {commitment}
                           </span>
@@ -347,7 +347,7 @@ const Values = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-ngo-encore text-white">
+      <section className="py-16 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Share Our Values?
@@ -360,7 +360,7 @@ const Values = () => {
             <Link to="/volunteer">
               <Button
                 size="lg"
-                className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-8 py-3 text-lg font-medium"
+                className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-8 py-3 text-lg font-medium"
               >
                 Volunteer With Us
                 <Heart className="ml-2 w-5 h-5" />
@@ -370,7 +370,7 @@ const Values = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-ngo-encore px-8 py-3 text-lg font-medium"
+                className="border-2 border-white text-white hover:bg-white hover:text-ngo-color6 px-8 py-3 text-lg font-medium"
               >
                 Support Our Mission
                 <ArrowRight className="ml-2 w-5 h-5" />

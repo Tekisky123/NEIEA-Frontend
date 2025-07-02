@@ -152,7 +152,7 @@ const Index = () => {
       impact: "8,000+ children enrolled",
       image: "/placeholder.svg",
       link: "/our-work",
-      color: "bg-ngo-encore",
+      color: "bg-ngo-color6",
       features: [
         "Remote Area Schools",
         "Quality Teachers",
@@ -167,7 +167,7 @@ const Index = () => {
       impact: "3,500+ students certified",
       image: "/placeholder.svg",
       link: "/courses",
-      color: "bg-ngo-rumors",
+      color: "bg-ngo-color2",
       features: ["Computer Literacy", "Job Placement", "Online Learning"],
     },
     {
@@ -178,7 +178,7 @@ const Index = () => {
       impact: "800+ teachers trained",
       image: "/placeholder.svg",
       link: "/our-work",
-      color: "bg-ngo-true-joy",
+      color: "bg-ngo-color4",
       features: ["Modern Pedagogy", "Ongoing Support", "Best Practices"],
     },
     {
@@ -189,7 +189,7 @@ const Index = () => {
       impact: "25+ labs established",
       image: "/placeholder.svg",
       link: "/our-work",
-      color: "bg-ngo-purple-basil",
+      color: "bg-ngo-color5",
       features: ["STEM Equipment", "Creative Spaces", "Problem Solving"],
     },
   ];
@@ -261,7 +261,7 @@ const Index = () => {
                 : "opacity-0 scale-105"
             }`}
           >
-            {/* <div className="absolute inset-0 bg-gradient-to-br from-ngo-mocha-mousse/85 via-ngo-mocha-mousse/80 to-ngo-cinnamon-slate/75 z-10"></div> */}
+            {/* <div className="absolute inset-0 bg-gradient-to-br from-ngo-color1/85 via-ngo-color1/80 to-ngo-color3/75 z-10"></div> */}
             <div
               className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-out"
               style={{
@@ -276,7 +276,7 @@ const Index = () => {
                   index === currentSlide ? "animate-fadeInUp" : ""
                 }`}
               >
-                <Badge className="bg-ngo-true-joy text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1 rounded-full animate-fade-in">
+                <Badge className="bg-ngo-color4 text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1 rounded-full animate-fade-in">
                   {slide.subtitle}
                 </Badge>
 
@@ -286,7 +286,7 @@ const Index = () => {
                       key={i}
                       className={
                         i === slide.title.split(" ").length - 1
-                          ? "text-ngo-true-joy block"
+                          ? "text-ngo-color4 block"
                           : ""
                       }
                     >
@@ -302,7 +302,7 @@ const Index = () => {
                   <Link to="/courses" className="w-full sm:w-auto">
                     <Button
                       size={isMobile ? "default" : "lg"}
-                      className="relative w-full sm:w-auto bg-gradient-to-r from-ngo-true-joy to-ngo-true-joy/90 hover:from-ngo-true-joy/90 hover:to-ngo-true-joy text-white px-6 lg:px-8 py-4 text-base sm:text-lg rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-500 font-semibold btn-enhanced group overflow-hidden"
+                      className="relative w-full sm:w-auto bg-gradient-to-r from-ngo-color4 to-ngo-color4/90 hover:from-ngo-color4/90 hover:to-ngo-color4 text-white px-6 lg:px-8 py-4 text-base sm:text-lg rounded-xl shadow-2xl hover:shadow-3xl transition-all duration-500 font-semibold btn-enhanced group overflow-hidden"
                     >
                       <span className="relative z-10 flex items-center justify-center">
                         <GraduationCap className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
@@ -315,7 +315,7 @@ const Index = () => {
                     <Button
                       size={isMobile ? "default" : "lg"}
                       variant="outline"
-                      className="relative w-full sm:w-auto border-2 border-white text-white  hover:text-ngo-mocha-mousse px-6 lg:px-8 py-4 text-base sm:text-lg rounded-xl transition-all duration-500 font-semibold group backdrop-blur-sm bg-white/10 hover:bg-white hover:scale-105"
+                      className="relative w-full sm:w-auto border-2 border-white text-white  hover:text-ngo-color1 px-6 lg:px-8 py-4 text-base sm:text-lg rounded-xl transition-all duration-500 font-semibold group backdrop-blur-sm bg-white/10 hover:bg-white hover:scale-105"
                     >
                       <span className="flex items-center justify-center">
                         <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
@@ -337,7 +337,7 @@ const Index = () => {
                         (i + 3) * 100
                       }`}
                     >
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300 bg-gradient-to-r from-ngo-true-joy to-white bg-clip-text text-transparent">
+                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 sm:mb-2 group-hover:scale-110 transition-transform duration-300 bg-gradient-to-r from-ngo-color4 to-white bg-clip-text text-transparent">
                         {value}
                       </div>
                       <div className="text-xs sm:text-sm text-gray-200 capitalize group-hover:text-white transition-colors duration-300">
@@ -373,12 +373,12 @@ const Index = () => {
               onClick={() => setCurrentSlide(index)}
               className={`relative w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-500 ${
                 index === currentSlide
-                  ? "bg-ngo-true-joy scale-125 shadow-lg"
+                  ? "bg-ngo-color4 scale-125 shadow-lg"
                   : "bg-white/50 hover:bg-white/75 hover:scale-110"
               }`}
             >
               {index === currentSlide && (
-                <div className="absolute inset-0 bg-ngo-true-joy rounded-full animate-pulse"></div>
+                <div className="absolute inset-0 bg-ngo-color4 rounded-full animate-pulse"></div>
               )}
             </button>
           ))}
@@ -386,7 +386,7 @@ const Index = () => {
       </section>
 
       {/* Quick Impact Stats */}
-      <section className="py-12 sm:py-16 bg-ngo-true-joy">
+      <section className="py-12 sm:py-16 bg-ngo-color4">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-bold text-white mb-3 sm:mb-4">
@@ -404,8 +404,8 @@ const Index = () => {
                 className="text-center bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-4 lg:p-6 border border-white/20 hover:bg-white/20 transition-all duration-300 group"
               >
                 <div className="flex justify-center mb-2 sm:mb-3">
-                  <div className="p-2 sm:p-3 bg-ngo-true-joy/20 rounded-full group-hover:bg-ngo-true-joy/30 transition-colors duration-300">
-                    <div className="text-ngo-true-joy group-hover:scale-110 transition-transform duration-300">
+                  <div className="p-2 sm:p-3 bg-ngo-color4/20 rounded-full group-hover:bg-ngo-color4/30 transition-colors duration-300">
+                    <div className="text-ngo-color4 group-hover:scale-110 transition-transform duration-300">
                       {stat.icon}
                     </div>
                   </div>
@@ -429,12 +429,12 @@ const Index = () => {
       <section className="py-12 sm:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-            <Badge className="bg-ngo-encore text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1">
+            <Badge className="bg-ngo-color6 text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1">
               Our Impact Areas
             </Badge>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-4 sm:mb-6">
               Educational Programs That
-              <span className="text-ngo-rumors block">
+              <span className="text-ngo-color2 block">
                 Create Lasting Change
               </span>
             </h2>
@@ -453,24 +453,24 @@ const Index = () => {
                   index * 100
                 }`}
               >
-                <div className="h-40 sm:h-48 lg:h-56 bg-gradient-to-br from-ngo-mocha-mousse to-ngo-cinnamon-slate relative overflow-hidden">
+                <div className="h-40 sm:h-48 lg:h-56 bg-gradient-to-br from-ngo-color1 to-ngo-color3 relative overflow-hidden">
                   <img
                     src={program.image}
                     alt={program.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-ngo-encore/60 group-hover:bg-ngo-encore/40 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 bg-ngo-color6/60 group-hover:bg-ngo-color6/40 transition-colors duration-300"></div>
                   <div className="absolute top-3 left-3 w-10 h-10 sm:w-12 sm:h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
                     {program.icon}
                   </div>
                   <div className="absolute bottom-3 left-3 right-3">
-                    <Badge className="bg-ngo-true-joy text-white text-xs px-2 py-1">
+                    <Badge className="bg-ngo-color4 text-white text-xs px-2 py-1">
                       {program.impact}
                     </Badge>
                   </div>
                 </div>
                 <CardContent className="p-4 sm:p-6">
-                  <CardTitle className="text-lg sm:text-xl text-ngo-encore mb-2 sm:mb-3 font-heading">
+                  <CardTitle className="text-lg sm:text-xl text-ngo-color6 mb-2 sm:mb-3 font-heading">
                     {program.title}
                   </CardTitle>
                   <CardDescription className="text-gray-600 mb-3 sm:mb-4 leading-relaxed text-sm sm:text-base line-clamp-3">
@@ -478,7 +478,7 @@ const Index = () => {
                   </CardDescription>
 
                   <div className="mb-4 sm:mb-6">
-                    <h4 className="text-xs sm:text-sm font-semibold text-ngo-encore mb-1 sm:mb-2">
+                    <h4 className="text-xs sm:text-sm font-semibold text-ngo-color6 mb-1 sm:mb-2">
                       Key Features:
                     </h4>
                     <div className="space-y-1">
@@ -487,7 +487,7 @@ const Index = () => {
                           key={idx}
                           className="flex items-center text-xs text-gray-600"
                         >
-                          <CheckCircle className="w-3 h-3 mr-2 text-ngo-true-joy flex-shrink-0" />
+                          <CheckCircle className="w-3 h-3 mr-2 text-ngo-color4 flex-shrink-0" />
                           {feature}
                         </div>
                       ))}
@@ -495,7 +495,7 @@ const Index = () => {
                   </div>
 
                   <Link to={program.link}>
-                    <Button className="w-full bg-ngo-encore hover:bg-ngo-encore/90 text-white font-semibold rounded-lg group text-xs sm:text-sm">
+                    <Button className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white font-semibold rounded-lg group text-xs sm:text-sm">
                       Learn More
                       <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
@@ -509,7 +509,7 @@ const Index = () => {
             <Link to="/projects">
               <Button
                 size={isMobile ? "default" : "lg"}
-                className="bg-ngo-rumors hover:bg-ngo-rumors/90 text-white px-8 sm:px-12 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold"
+                className="bg-ngo-color2 hover:bg-ngo-color2/90 text-white px-8 sm:px-12 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold"
               >
                 Explore All Programs
                 <ArrowRight className="ml-2 sm:ml-3 w-4 h-4" />
@@ -520,15 +520,15 @@ const Index = () => {
       </section>
 
       {/* Success Stories Carousel */}
-      <section className="py-12 sm:py-16 lg:py-24 bg-ngo-quietude/20">
+      <section className="py-12 sm:py-16 lg:py-24 bg-ngo-color8/20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-            <Badge className="bg-ngo-purple-basil text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1">
+            <Badge className="bg-ngo-color5 text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1">
               Student Success Stories
             </Badge>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-4 sm:mb-6">
               Lives Transformed Through
-              <span className="text-ngo-rumors block">
+              <span className="text-ngo-color2 block">
                 Education & Innovation
               </span>
             </h2>
@@ -553,7 +553,7 @@ const Index = () => {
                   />
                   {story.video && (
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Button className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white rounded-full w-12 h-12 sm:w-16 sm:h-16">
+                      <Button className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white rounded-full w-12 h-12 sm:w-16 sm:h-16">
                         <Play className="w-5 h-5 sm:w-6 sm:h-6 ml-1" />
                       </Button>
                     </div>
@@ -566,7 +566,7 @@ const Index = () => {
                   </div>
                 </div>
                 <CardContent className="p-4 sm:p-6">
-                  <div className="flex text-ngo-true-joy mb-2 sm:mb-3">
+                  <div className="flex text-ngo-color4 mb-2 sm:mb-3">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
                     ))}
@@ -575,13 +575,13 @@ const Index = () => {
                     "{story.story}"
                   </p>
                   <div className="border-t pt-3 sm:pt-4">
-                    <h4 className="font-semibold text-ngo-encore text-base sm:text-lg">
+                    <h4 className="font-semibold text-ngo-color6 text-base sm:text-lg">
                       {story.name}
                     </h4>
                     <p className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">
                       {story.role}
                     </p>
-                    <Badge className="bg-ngo-true-joy/10 text-ngo-true-joy text-xs">
+                    <Badge className="bg-ngo-color4/10 text-ngo-color4 text-xs">
                       {story.achievement}
                     </Badge>
                   </div>
@@ -594,7 +594,7 @@ const Index = () => {
             <Link to="/stories">
               <Button
                 size={isMobile ? "default" : "lg"}
-                className="bg-ngo-purple-basil hover:bg-ngo-purple-basil/90 text-white px-8 sm:px-12 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold"
+                className="bg-ngo-color5 hover:bg-ngo-color5/90 text-white px-8 sm:px-12 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold"
               >
                 Read More Success Stories
                 <ArrowRight className="ml-2 sm:ml-3 w-4 h-4" />
@@ -608,10 +608,10 @@ const Index = () => {
       <section className="py-12 sm:py-16 lg:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-12 lg:mb-16">
-            <Badge className="bg-ngo-rumors text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1">
+            <Badge className="bg-ngo-color2 text-white mb-4 sm:mb-6 text-sm sm:text-base px-4 py-1">
               Join Our Community
             </Badge>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-4 sm:mb-6">
               Upcoming Events & Programs
             </h2>
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
@@ -626,9 +626,9 @@ const Index = () => {
                 key={index}
                 className="group hover:shadow-lg transition-all duration-300 border-0 shadow-md overflow-hidden"
               >
-                <div className="h-40 sm:h-48 bg-gradient-to-br from-ngo-mocha-mousse to-ngo-rumors relative">
+                <div className="h-40 sm:h-48 bg-gradient-to-br from-ngo-color1 to-ngo-color2 relative">
                   <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="absolute bottom-3 left-3 bg-ngo-true-joy text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
+                  <div className="absolute bottom-3 left-3 bg-ngo-color4 text-white px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
                     {event.attendees.toLocaleString()} attending
                   </div>
                   <div className="absolute top-3 right-3">
@@ -638,23 +638,23 @@ const Index = () => {
                   </div>
                 </div>
                 <CardContent className="p-4 sm:p-6">
-                  <CardTitle className="text-xl sm:text-2xl text-ngo-encore mb-3 sm:mb-4 font-heading">
+                  <CardTitle className="text-xl sm:text-2xl text-ngo-color6 mb-3 sm:mb-4 font-heading">
                     {event.title}
                   </CardTitle>
                   <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
                     <div className="flex items-center text-sm sm:text-base text-gray-600">
-                      <Clock className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <Clock className="w-4 h-4 mr-2 text-ngo-color4" />
                       {event.date}
                     </div>
                     <div className="flex items-center text-sm sm:text-base text-gray-600">
-                      <MapPin className="w-4 h-4 mr-2 text-ngo-true-joy" />
+                      <MapPin className="w-4 h-4 mr-2 text-ngo-color4" />
                       {event.location}
                     </div>
                   </div>
                   <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4 sm:mb-6">
                     {event.description}
                   </p>
-                  <Button className="w-full bg-ngo-rumors hover:bg-ngo-rumors/90 text-white font-semibold rounded-lg text-sm sm:text-base">
+                  <Button className="w-full bg-ngo-color2 hover:bg-ngo-color2/90 text-white font-semibold rounded-lg text-sm sm:text-base">
                     Register Now
                   </Button>
                 </CardContent>
@@ -667,7 +667,7 @@ const Index = () => {
               <Button
                 size={isMobile ? "default" : "lg"}
                 variant="outline"
-                className="border-2 border-ngo-encore text-ngo-encore hover:bg-ngo-encore hover:text-white px-8 sm:px-12 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold"
+                className="border-2 border-ngo-color6 text-ngo-color6 hover:bg-ngo-color6 hover:text-white px-8 sm:px-12 py-3 sm:py-4 text-sm sm:text-base rounded-full font-semibold"
               >
                 View All Events
               </Button>
@@ -677,7 +677,7 @@ const Index = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-12 sm:py-16 lg:py-24 bg-ngo-encore text-white">
+      <section className="py-12 sm:py-16 lg:py-24 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 sm:px-6 text-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold mb-6 sm:mb-8">
             Ready to Join Our Mission?
@@ -692,7 +692,7 @@ const Index = () => {
             <Link to="/donate" className="w-full sm:w-auto">
               <Button
                 size={isMobile ? "default" : "lg"}
-                className="w-full sm:w-auto bg-ngo-true-joy hover:bg-ngo-true-joy/90  px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full shadow-xl font-semibold"
+                className="w-full sm:w-auto bg-ngo-color4 hover:bg-ngo-color4/90  px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full shadow-xl font-semibold"
               >
                 Support Education
                 <Heart className="ml-2 sm:ml-3 w-5 h-5" />
@@ -702,7 +702,7 @@ const Index = () => {
               <Button
                 size={isMobile ? "default" : "lg"}
                 variant="outline"
-                className="w-full sm:w-auto border-2 border-white text-ngo-encore hover:bg-white hover:text-ngo-encore px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
+                className="w-full sm:w-auto border-2 border-white text-ngo-color6 hover:bg-white hover:text-ngo-color6 px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
               >
                 Become a Volunteer
                 <Users className="ml-2 sm:ml-3 w-5 h-5" />
@@ -712,7 +712,7 @@ const Index = () => {
               <Button
                 size={isMobile ? "default" : "lg"}
                 variant="outline"
-                className="w-full sm:w-auto border-2 border-white text-ngo-encore hover:bg-white hover:text-ngo-encore px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
+                className="w-full sm:w-auto border-2 border-white text-ngo-color6 hover:bg-white hover:text-ngo-color6 px-6 sm:px-8 py-4 text-base sm:text-lg rounded-full font-semibold"
               >
                 Join Our Courses
                 <BookOpen className="ml-2 sm:ml-3 w-5 h-5" />

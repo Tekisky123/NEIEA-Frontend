@@ -114,7 +114,7 @@ const OurWork = () => {
   return (
     <Layout>
       {/* Header Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-encore to-ngo-rumors text-white">
+      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -133,7 +133,7 @@ const OurWork = () => {
                   key={index}
                   className="text-center bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20"
                 >
-                  <div className="text-ngo-true-joy mb-2 flex justify-center">
+                  <div className="text-ngo-color4 mb-2 flex justify-center">
                     {stat.icon}
                   </div>
                   <div className="text-2xl lg:text-3xl font-bold mb-1">
@@ -151,7 +151,7 @@ const OurWork = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Our Focus Areas
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -168,10 +168,10 @@ const OurWork = () => {
                 className="border-0 shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 <CardHeader>
-                  <div className="w-12 h-12 bg-ngo-true-joy/10 rounded-lg flex items-center justify-center mb-4">
-                    <div className="text-ngo-true-joy">{area.icon}</div>
+                  <div className="w-12 h-12 bg-ngo-color4/10 rounded-lg flex items-center justify-center mb-4">
+                    <div className="text-ngo-color4">{area.icon}</div>
                   </div>
-                  <CardTitle className="text-xl text-ngo-encore">
+                  <CardTitle className="text-xl text-ngo-color6">
                     {area.title}
                   </CardTitle>
                 </CardHeader>
@@ -179,11 +179,11 @@ const OurWork = () => {
                   <CardDescription className="text-gray-600 mb-4 leading-relaxed">
                     {area.description}
                   </CardDescription>
-                  <Badge className="bg-ngo-true-joy/10 text-ngo-true-joy mb-4">
+                  <Badge className="bg-ngo-color4/10 text-ngo-color4 mb-4">
                     {area.impact}
                   </Badge>
                   <Link to={area.link}>
-                    <Button className="w-full bg-ngo-encore hover:bg-ngo-encore/90 text-white">
+                    <Button className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white">
                       Learn More
                       <ArrowRight className="ml-2 w-4 h-4" />
                     </Button>
@@ -199,7 +199,7 @@ const OurWork = () => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Current Projects
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -223,7 +223,7 @@ const OurWork = () => {
                       {project.beneficiaries.toLocaleString()} beneficiaries
                     </span>
                   </div>
-                  <CardTitle className="text-lg text-ngo-encore">
+                  <CardTitle className="text-lg text-ngo-color6">
                     {project.title}
                   </CardTitle>
                   <p className="text-sm text-gray-500">{project.location}</p>
@@ -239,12 +239,12 @@ const OurWork = () => {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-ngo-true-joy h-2 rounded-full"
+                        className="bg-ngo-color4 h-2 rounded-full"
                         style={{ width: `${project.progress}%` }}
                       ></div>
                     </div>
                   </div>
-                  <Button className="w-full bg-ngo-rumors hover:bg-ngo-rumors/90 text-white">
+                  <Button className="w-full bg-ngo-color2 hover:bg-ngo-color2/90 text-white">
                     View Project Details
                   </Button>
                 </CardContent>
@@ -255,7 +255,7 @@ const OurWork = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-ngo-true-joy text-white">
+      <section className="py-16 bg-ngo-color4 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Join Our Mission
@@ -269,7 +269,7 @@ const OurWork = () => {
             <Link to="/donate">
               <Button
                 size="lg"
-                className="bg-white text-ngo-true-joy hover:bg-gray-100 px-8 py-3 text-lg font-medium"
+                className="bg-white text-ngo-color4 hover:bg-gray-100 px-8 py-3 text-lg font-medium"
               >
                 Support Our Work
                 <Heart className="ml-2 w-5 h-5" />
@@ -279,7 +279,7 @@ const OurWork = () => {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white hover:text-ngo-true-joy px-8 py-3 text-lg font-medium"
+                className="border-2 border-white text-white hover:bg-white hover:text-ngo-color4 px-8 py-3 text-lg font-medium"
               >
                 Volunteer With Us
                 <Users className="ml-2 w-5 h-5" />

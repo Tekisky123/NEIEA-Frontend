@@ -19,13 +19,13 @@ export const LoadingSpinner = ({
     <div className={cn("flex items-center justify-center", className)}>
       <div className={cn("relative", sizeClasses[size])}>
         {/* Outer ring */}
-        <div className="absolute inset-0 border-2 border-ngo-true-joy/20 rounded-full"></div>
+        <div className="absolute inset-0 border-2 border-ngo-color4/20 rounded-full"></div>
 
         {/* Spinning ring */}
-        <div className="absolute inset-0 border-2 border-transparent border-t-ngo-true-joy rounded-full animate-spin"></div>
+        <div className="absolute inset-0 border-2 border-transparent border-t-ngo-color4 rounded-full animate-spin"></div>
 
         {/* Inner dot */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-ngo-true-joy rounded-full animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-ngo-color4 rounded-full animate-pulse"></div>
       </div>
     </div>
   );
@@ -36,7 +36,7 @@ export const PageLoader = () => {
     <div className="fixed inset-0 bg-white/60 backdrop-blur-sm z-50 flex items-center justify-center">
       <div className="text-center">
         <LoadingSpinner size="lg" className="mb-4" />
-        <p className="text-ngo-encore font-medium">Loading...</p>
+        <p className="text-ngo-color6 font-medium">Loading...</p>
       </div>
     </div>
   );

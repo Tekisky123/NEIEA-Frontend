@@ -209,7 +209,7 @@ const Donate = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-24 bg-gradient-to-br from-ngo-true-joy to-ngo-mocha-mousse text-white">
+      <section className="py-24 bg-gradient-to-br from-ngo-color4 to-ngo-color1 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <Badge className="bg-white/20 text-white mb-6 text-lg px-6 py-2 rounded-full">
@@ -260,7 +260,7 @@ const Donate = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-encore mb-8">
+              <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
                 Quick Donation
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
@@ -283,7 +283,7 @@ const Donate = () => {
                         }}
                         className={`px-4 py-2 sm:px-6 sm:py-3 rounded-full font-semibold transition-all ${
                           donationType === type
-                            ? "bg-ngo-true-joy text-white shadow-lg"
+                            ? "bg-ngo-color4 text-white shadow-lg"
                             : "text-gray-600 hover:text-gray-800"
                         }`}
                       >
@@ -299,7 +299,7 @@ const Donate = () => {
                 {/* Tier Selection */}
                 {(donationType === "monthly" || donationType === "quarterly" || donationType === "annually") && (
                   <div className="mb-8">
-                    <h3 className="text-xl font-semibold text-ngo-encore mb-6 text-center">
+                    <h3 className="text-xl font-semibold text-ngo-color6 mb-6 text-center">
                       Select Donor Tier
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -308,8 +308,8 @@ const Donate = () => {
                           key={tier.name}
                           className={`border-2 rounded-xl overflow-hidden transition-all ${
                             selectedTier === tier.name
-                              ? "border-ngo-true-joy shadow-lg"
-                              : "border-gray-200 hover:border-ngo-true-joy/50"
+                              ? "border-ngo-color4 shadow-lg"
+                              : "border-gray-200 hover:border-ngo-color4/50"
                           }`}
                         >
                           <div
@@ -318,7 +318,7 @@ const Donate = () => {
                           >
                             <div>
                               <h4 className="font-bold text-lg">{tier.name}</h4>
-                              <p className="text-ngo-true-joy font-semibold">
+                              <p className="text-ngo-color4 font-semibold">
                                 {formatINR(tier.amount)} ({formatAmount(tier.amount * 0.012)})
                               </p>
                             </div>
@@ -327,7 +327,7 @@ const Donate = () => {
                                 e.stopPropagation();
                                 setExpandedTier(expandedTier === tier.name ? null : tier.name);
                               }}
-                              className="text-ngo-true-joy p-2"
+                              className="text-ngo-color4 p-2"
                             >
                               {expandedTier === tier.name ? (
                                 <ChevronUp className="w-5 h-5" />
@@ -347,8 +347,8 @@ const Donate = () => {
                                 onClick={() => handleTierSelect(tier.name, tier.amount)}
                                 className={`mt-4 w-full py-2 rounded-lg font-medium ${
                                   selectedTier === tier.name
-                                    ? "bg-ngo-true-joy text-white"
-                                    : "bg-gray-100 text-ngo-true-joy hover:bg-gray-200"
+                                    ? "bg-ngo-color4 text-white"
+                                    : "bg-gray-100 text-ngo-color4 hover:bg-gray-200"
                                 }`}
                               >
                                 {selectedTier === tier.name ? "Selected" : "Select This Tier"}
@@ -363,7 +363,7 @@ const Donate = () => {
 
                 {/* Amount Selection */}
                 <div className="mb-8">
-                  <h3 className="text-xl font-semibold text-ngo-encore mb-6 text-center">
+                  <h3 className="text-xl font-semibold text-ngo-color6 mb-6 text-center">
                     {selectedTier ? "Confirm Amount" : "Select Amount"}
                   </h3>
                   
@@ -380,8 +380,8 @@ const Donate = () => {
                             }}
                             className={`p-4 rounded-xl font-semibold transition-all border-2 ${
                               selectedAmount === amount
-                                ? "border-ngo-true-joy bg-ngo-true-joy text-white shadow-lg"
-                                : "border-gray-200 text-gray-700 hover:border-ngo-true-joy hover:text-ngo-true-joy"
+                                ? "border-ngo-color4 bg-ngo-color4 text-white shadow-lg"
+                                : "border-gray-200 text-gray-700 hover:border-ngo-color4 hover:text-ngo-color4"
                             }`}
                           >
                             {formatINR(amount)}
@@ -399,7 +399,7 @@ const Donate = () => {
                             setSelectedAmount(parseFloat(e.target.value) || null);
                             setSelectedTier(null);
                           }}
-                          className="text-center text-xl py-6 border-2 border-gray-200 focus:border-ngo-true-joy rounded-xl"
+                          className="text-center text-xl py-6 border-2 border-gray-200 focus:border-ngo-color4 rounded-xl"
                         />
                         <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-xl">
                           ₹
@@ -409,7 +409,7 @@ const Donate = () => {
                   )}
 
                   {selectedTier && (
-                    <div className="text-center p-6 bg-ngo-quietude/10 rounded-xl">
+                    <div className="text-center p-6 bg-ngo-color8/10 rounded-xl">
                       <div className="flex justify-center mb-2">
                         <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
                           selectedTier.includes("Bronze") ? "bg-amber-600/20 text-amber-800" :
@@ -426,7 +426,7 @@ const Donate = () => {
                       <p className="text-lg font-semibold">
                         {donationTiers[donationType]?.find(t => t.name === selectedTier)?.name}
                       </p>
-                      <p className="text-2xl font-bold text-ngo-true-joy mt-2">
+                      <p className="text-2xl font-bold text-ngo-color4 mt-2">
                         {formatINR(selectedAmount || 0)} ({formatAmount((selectedAmount || 0) * 0.012)})
                       </p>
                       <p className="text-gray-600 mt-2">
@@ -436,7 +436,7 @@ const Donate = () => {
                       </p>
                       <button
                         onClick={() => setSelectedTier(null)}
-                        className="mt-4 text-ngo-true-joy underline text-sm"
+                        className="mt-4 text-ngo-color4 underline text-sm"
                       >
                         Choose different amount
                       </button>
@@ -445,8 +445,8 @@ const Donate = () => {
                 </div>
 
                 {/* Impact Preview */}
-                <div className="mb-8 p-6 bg-ngo-quietude/20 rounded-xl border border-ngo-quietude/30">
-                  <h4 className="font-semibold text-ngo-encore mb-3 text-center">
+                <div className="mb-8 p-6 bg-ngo-color8/20 rounded-xl border border-ngo-color8/30">
+                  <h4 className="font-semibold text-ngo-color6 mb-3 text-center">
                     Your Impact
                   </h4>
                   <p className="text-gray-700 text-center">
@@ -463,7 +463,7 @@ const Donate = () => {
                 {/* Donate Button */}
                 <Button
                   size="lg"
-                  className="w-full bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white font-bold py-6 text-xl rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
+                  className="w-full bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold py-6 text-xl rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
                   onClick={handleDonateClick}
                   disabled={!selectedAmount && !customAmount}
                 >
@@ -493,7 +493,7 @@ const Donate = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-24 bg-ngo-encore text-white">
+      <section className="py-24 bg-ngo-color6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl lg:text-5xl font-heading font-bold mb-8">
             Ready to Change Lives?
@@ -506,7 +506,7 @@ const Donate = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button
               size="lg"
-              className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white px-12 py-6 text-xl rounded-full shadow-2xl font-semibold"
+              className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-12 py-6 text-xl rounded-full shadow-2xl font-semibold"
               onClick={() => {
                 setDonationType("monthly");
                 document.getElementById("donation-form")?.scrollIntoView({ behavior: "smooth" });
@@ -518,7 +518,7 @@ const Donate = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-white  hover:bg-white text-ngo-encore px-12 py-6 text-xl rounded-full font-semibold"
+              className="border-2 border-white  hover:bg-white text-ngo-color6 px-12 py-6 text-xl rounded-full font-semibold"
               onClick={() => navigate("/impact")}
             >
               Learn About Impact

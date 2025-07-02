@@ -127,14 +127,14 @@ const DonorsSection = () => {
 
   return (
     <Card className="border-0 shadow-lg rounded-lg ">
-      <CardHeader className="border-b border-ngo-encore pb-4">
+      <CardHeader className="border-b border-ngo-color6 pb-4">
         <CardTitle className="text-2xl font-heading text-ngo-rakau">
           Donors
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-4">
         <div className="overflow-x-auto">
-          <Table className="min-w-full divide-y divide-ngo-encore">
+          <Table className="min-w-full divide-y divide-ngo-color6">
             <TableHeader>
               <TableRow className="">
                 <TableHead className="px-4 py-2 text-left text-ngo-rakau">
@@ -154,7 +154,7 @@ const DonorsSection = () => {
                 </TableHead>
               </TableRow>
             </TableHeader>
-            <TableBody className="divide-y divide-ngo-encore">
+            <TableBody className="divide-y divide-ngo-color6">
               {donors.map((donor) => (
                 <TableRow key={donor._id} className="">
                   <TableCell className="px-4 py-2 text-ngo-rakau">
@@ -375,7 +375,7 @@ const DonorsSection = () => {
                                         <Button
                                           variant="link"
                                           size="sm"
-                                          className="text-ngo-true-joy hover:text-ngo-true-joy/80"
+                                          className="text-ngo-color4 hover:text-ngo-color4/80"
                                         >
                                           View Details
                                         </Button>
@@ -410,7 +410,7 @@ const DonorsSection = () => {
                                             </div>
                                             <Button
                                               type="submit"
-                                              className="bg-ngo-true-joy text-ngo-rakau hover:bg-ngo-true-joy/90"
+                                              className="bg-ngo-color4 text-ngo-rakau hover:bg-ngo-color4/90"
                                               disabled={loading.updateProgress}
                                             >
                                               {loading.updateProgress ? (

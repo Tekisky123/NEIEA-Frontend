@@ -198,7 +198,7 @@ const Gallery = () => {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-encore to-ngo-rumors text-white">
+      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -236,7 +236,7 @@ const Gallery = () => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-encore mb-4">
+            <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
               Featured Media
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
@@ -261,7 +261,7 @@ const Gallery = () => {
 
                   {item.type === "video" && (
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
-                      <Button className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white rounded-full w-16 h-16">
+                      <Button className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white rounded-full w-16 h-16">
                         <Play className="w-6 h-6 ml-1" />
                       </Button>
                       {item.duration && (
@@ -273,7 +273,7 @@ const Gallery = () => {
                   )}
 
                   <div className="absolute top-4 left-4">
-                    <Badge className="bg-ngo-true-joy text-white">
+                    <Badge className="bg-ngo-color4 text-white">
                       {item.type === "video" ? "Video" : "Photo"}
                     </Badge>
                   </div>
@@ -291,7 +291,7 @@ const Gallery = () => {
                 </div>
 
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-ngo-encore mb-2">
+                  <h3 className="text-xl font-bold text-ngo-color6 mb-2">
                     {item.title}
                   </h3>
                   <p className="text-gray-600 mb-4 leading-relaxed">
@@ -311,12 +311,12 @@ const Gallery = () => {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button className="flex-1 bg-ngo-encore hover:bg-ngo-encore/90 text-white text-sm">
+                    <Button className="flex-1 bg-ngo-color6 hover:bg-ngo-color6/90 text-white text-sm">
                       View Full Size
                     </Button>
                     <Button
                       variant="outline"
-                      className="border-ngo-encore text-ngo-encore hover:bg-ngo-encore hover:text-white"
+                      className="border-ngo-color6 text-ngo-color6 hover:bg-ngo-color6 hover:text-white"
                       size="sm"
                     >
                       <Share2 className="w-4 h-4" />
@@ -340,8 +340,8 @@ const Gallery = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
                     selectedCategory === category.id
-                      ? "bg-ngo-encore text-white shadow-lg"
-                      : "bg-white text-gray-700 hover:bg-ngo-encore/10 hover:text-ngo-encore border border-gray-200"
+                      ? "bg-ngo-color6 text-white shadow-lg"
+                      : "bg-white text-gray-700 hover:bg-ngo-color6/10 hover:text-ngo-color6 border border-gray-200"
                   }`}
                 >
                   {category.label} ({category.count})
@@ -355,7 +355,7 @@ const Gallery = () => {
                   onClick={() => setViewMode("grid")}
                   className={`p-2 rounded-lg transition-colors ${
                     viewMode === "grid"
-                      ? "bg-ngo-encore text-white"
+                      ? "bg-ngo-color6 text-white"
                       : "bg-white text-gray-600 hover:bg-gray-100"
                   }`}
                 >
@@ -365,7 +365,7 @@ const Gallery = () => {
                   onClick={() => setViewMode("list")}
                   className={`p-2 rounded-lg transition-colors ${
                     viewMode === "list"
-                      ? "bg-ngo-encore text-white"
+                      ? "bg-ngo-color6 text-white"
                       : "bg-white text-gray-600 hover:bg-gray-100"
                   }`}
                 >
@@ -400,7 +400,7 @@ const Gallery = () => {
 
                     {item.type === "video" && (
                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
-                        <Button className="bg-ngo-true-joy hover:bg-ngo-true-joy/90 text-white rounded-full w-12 h-12">
+                        <Button className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white rounded-full w-12 h-12">
                           <Play className="w-4 h-4 ml-0.5" />
                         </Button>
                       </div>
@@ -431,7 +431,7 @@ const Gallery = () => {
                   </div>
 
                   <CardContent className="p-4">
-                    <h4 className="font-bold text-ngo-encore mb-2 text-sm line-clamp-2">
+                    <h4 className="font-bold text-ngo-color6 mb-2 text-sm line-clamp-2">
                       {item.title}
                     </h4>
                     <p className="text-gray-600 text-xs leading-relaxed line-clamp-2 mb-3">
@@ -439,12 +439,12 @@ const Gallery = () => {
                     </p>
 
                     <div className="flex gap-1">
-                      <Button className="flex-1 bg-ngo-encore hover:bg-ngo-encore/90 text-white text-xs py-1">
+                      <Button className="flex-1 bg-ngo-color6 hover:bg-ngo-color6/90 text-white text-xs py-1">
                         View
                       </Button>
                       <Button
                         variant="outline"
-                        className="border-ngo-encore text-ngo-encore hover:bg-ngo-encore hover:text-white text-xs px-2"
+                        className="border-ngo-color6 text-ngo-color6 hover:bg-ngo-color6 hover:text-white text-xs px-2"
                       >
                         <Share2 className="w-3 h-3" />
                       </Button>
@@ -479,7 +479,7 @@ const Gallery = () => {
                       <div className="lg:col-span-3">
                         <div className="flex justify-between items-start mb-3">
                           <div>
-                            <h3 className="text-xl font-bold text-ngo-encore mb-2">
+                            <h3 className="text-xl font-bold text-ngo-color6 mb-2">
                               {item.title}
                             </h3>
                             <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
@@ -521,19 +521,19 @@ const Gallery = () => {
                         </div>
 
                         <div className="flex gap-3">
-                          <Button className="bg-ngo-encore hover:bg-ngo-encore/90 text-white">
+                          <Button className="bg-ngo-color6 hover:bg-ngo-color6/90 text-white">
                             View Full Size
                           </Button>
                           <Button
                             variant="outline"
-                            className="border-ngo-encore text-ngo-encore hover:bg-ngo-encore hover:text-white"
+                            className="border-ngo-color6 text-ngo-color6 hover:bg-ngo-color6 hover:text-white"
                           >
                             <Download className="w-4 h-4 mr-2" />
                             Download
                           </Button>
                           <Button
                             variant="outline"
-                            className="border-ngo-encore text-ngo-encore hover:bg-ngo-encore hover:text-white"
+                            className="border-ngo-color6 text-ngo-color6 hover:bg-ngo-color6 hover:text-white"
                           >
                             <Share2 className="w-4 h-4 mr-2" />
                             Share
@@ -550,7 +550,7 @@ const Gallery = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="py-16 bg-ngo-true-joy text-white">
+      <section className="py-16 bg-ngo-color4 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Share Your Story
@@ -562,7 +562,7 @@ const Gallery = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
-              className="bg-white text-ngo-true-joy hover:bg-gray-100 px-8 py-3 text-lg font-medium"
+              className="bg-white text-ngo-color4 hover:bg-gray-100 px-8 py-3 text-lg font-medium"
             >
               Submit Media
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -570,7 +570,7 @@ const Gallery = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-ngo-true-joy px-8 py-3 text-lg font-medium"
+              className="border-2 border-white text-white hover:bg-white hover:text-ngo-color4 px-8 py-3 text-lg font-medium"
             >
               Download Gallery
               <Download className="ml-2 w-5 h-5" />
