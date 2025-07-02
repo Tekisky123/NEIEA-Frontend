@@ -238,7 +238,7 @@ const ApplyCourse = () => {
               <Textarea id="message" {...register("message")} placeholder="Why are you applying for this course?" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div className="col-span-1 md:col-span-2">
-              <Button type="submit" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg shadow-sm">
+              <Button type="submit" className="w-full bg-ngo-color1 hover:bg-ngo-color2 text-white font-medium py-3 px-4 rounded-lg shadow-sm">
                 Submit Application
               </Button>
             </div>
