@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 const formSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
   email: z.string().email("Invalid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits").max(10, "Phone number must be at most 10 digits").regex(/^\d+$/, "Phone number must contain only numbers"),
   motherTongue: z.string().min(1, "Mother Tongue is required"),
   age: z.string().min(1, "Age is required"),
   gender: z.string().min(1, "Gender is required"),
@@ -25,7 +25,7 @@ const formSchema = z.object({
   classStudying: z.string().min(1, "This field is required"),
   state: z.string().min(1, "State is required"),
   city: z.string().min(1, "City is required"),
-  whatsappNumber: z.string().min(10, "WhatsApp number must be at least 10 digits"),
+  whatsappNumber: z.string().min(10, "WhatsApp number must be at least 10 digits").max(10, "WhatsApp number must be at most 10 digits").regex(/^\d+$/, "WhatsApp number must contain only numbers"),
   referredBy: z.string().min(1, "Referred By is required"),
   convenientTimeSlot: z.string().min(1, "Convenient Time Slot is required"),
   message: z.string().optional(),
@@ -64,6 +64,13 @@ const ApplyCourse = () => {
     if (name === "state") {
       const selectedState = statesAndCities.find((s) => s.state === value);
       setCities(selectedState ? selectedState.cities : []);
+    }
+  };
+
+  const handlePhoneInput = (e) => {
+    const input = e.target.value;
+    if (input.length > 10) {
+      e.target.value = input.slice(0, 10);
     }
   };
 
@@ -114,7 +121,13 @@ const ApplyCourse = () => {
               </div>
               <div>
                 <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
-                <Input id="phone" {...register("phone")} placeholder="Phone Number" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                <Input
+                  id="phone"
+                  {...register("phone")}
+                  placeholder="Phone Number"
+                  className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  onInput={handlePhoneInput}
+                />
                 {errors.phone && <p className="mt-2 text-sm text-red-600">{errors.phone.message}</p>}
               </div>
               <div>
@@ -198,7 +211,13 @@ const ApplyCourse = () => {
               </div>
               <div>
                 <label htmlFor="whatsappNumber" className="block text-sm font-medium text-gray-700">WhatsApp Contact Number</label>
-                <Input id="whatsappNumber" {...register("whatsappNumber")} placeholder="WhatsApp Contact Number" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                <Input
+                  id="whatsappNumber"
+                  {...register("whatsappNumber")}
+                  placeholder="WhatsApp Contact Number"
+                  className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  onInput={handlePhoneInput}
+                />
                 {errors.whatsappNumber && <p className="mt-2 text-sm text-red-600">{errors.whatsappNumber.message}</p>}
               </div>
               <div>
