@@ -21,25 +21,28 @@ const Navigation: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-ngo-color6 border-b shadow-sm">
-      <div className="container mx-auto px-4 py-2 flex items-center justify-center">
-        <Link to="/" className="flex items-center space-x-2">
+      <div className="mx-auto px-4 py-2 flex sm:items-center sm:flex-row flex-col sm:justify-between">
+        <Link to="/" className="flex items-center justify-between space-x-2">
           <img src={logoRemovedBg} alt="NEIEA Logo" className="w-20" />
           <div className="lg:text-xl font-bold text-ngo-color5 text-center">
             The New Equitable and Innovative Educational Association
           </div>
         </Link>
-        <div className="py-1 px-4">
-          <GoogleTranslate />
-        </div>
-        <div className="flex items-center space-x-4">
-          <div className="lg:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded hover:bg-ngo-color8"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+
+        <div className='pt-4 flex justify-between'>
+          <div className="py-1 px-4">
+            <GoogleTranslate />
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="lg:hidden">
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 rounded hover:bg-ngo-color8"
+                aria-label="Toggle menu"
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </div>
