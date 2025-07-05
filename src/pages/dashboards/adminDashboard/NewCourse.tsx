@@ -14,10 +14,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import axiosInstance from "@/lib/axiosInstance";
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
+import {
+  Card,
+  CardContent,
+  CardHeader,
   CardTitle,
   CardDescription
 } from "@/components/ui/card";
@@ -26,6 +26,11 @@ import { PlusCircle } from "lucide-react";
 const courseSchema = z.object({
   title: z.string().min(1, "Title is required").max(100),
   description: z.string().min(1, "Description is required").max(500),
+  imageUrl: z.string().url("Must be a valid URL").optional(),
+  instructor: z.string().min(1, "Instructor is required"),
+  level: z.enum(["beginner", "intermediate", "advanced"], {
+    required_error: "Level is required",
+  }),
   duration: z.string().min(1, "Duration is required"),
 });
 
@@ -35,6 +40,9 @@ const NewCourse = () => {
     defaultValues: {
       title: "",
       description: "",
+      imageUrl: "https://img.freepik.com/free-photo/learning-education-ideas-insight-intelligence-study-concept_53876-120116.jpg?semt=ais_hybrid&w=740",
+      instructor: "",
+      level: undefined,
       duration: "",
     },
   });
@@ -77,6 +85,37 @@ const NewCourse = () => {
               />
               <FormField
                 control={form.control}
+                name="instructor"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Instructor</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter instructor name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="level"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Level</FormLabel>
+                    <FormControl>
+                      <select {...field} className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background">
+                        <option value="">Select a level</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="duration"
                 render={({ field }) => (
                   <FormItem>
@@ -89,7 +128,7 @@ const NewCourse = () => {
                 )}
               />
             </div>
-            
+
             <FormField
               control={form.control}
               name="description"
@@ -107,8 +146,7 @@ const NewCourse = () => {
                 </FormItem>
               )}
             />
-            
-        
+
             <div className="flex justify-end pt-4">
               <Button type="submit" className="w-full md:w-auto">
                 <PlusCircle className="w-4 h-4 mr-2" />

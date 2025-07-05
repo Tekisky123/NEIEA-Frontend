@@ -22,7 +22,7 @@ const formSchema = z.object({
   age: z.string().min(1, "Age is required"),
   gender: z.string().min(1, "Gender is required"),
   isStudent: z.string().min(1, "This field is required"),
-  classStudying: z.string().min(1, "This field is required"),
+  classStudying: z.string().optional(),
   state: z.string().min(1, "State is required"),
   city: z.string().min(1, "City is required"),
   whatsappNumber: z.string().min(10, "WhatsApp number must be at least 10 digits").max(10, "WhatsApp number must be at most 10 digits").regex(/^\d+$/, "WhatsApp number must contain only numbers"),
@@ -60,7 +60,6 @@ const ApplyCourse = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setValue(name, value);
-
     if (name === "state") {
       const selectedState = statesAndCities.find((s) => s.state === value);
       setCities(selectedState ? selectedState.cities : []);
@@ -84,6 +83,8 @@ const ApplyCourse = () => {
     }
   };
 
+  const isStudent = watch("isStudent");
+
   if (!course) return null;
 
   return (
@@ -92,7 +93,6 @@ const ApplyCourse = () => {
         <div className="bg-white shadow-xl rounded-xl p-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">Apply for {course.title}</h1>
           <p className="text-gray-600 mb-8 text-lg">{course.description}</p>
-
           <div className="bg-gray-50 p-6 rounded-lg mb-8">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">Course Details</h2>
             <p className="text-gray-600 mb-2"><strong>Duration:</strong> {course.duration}</p>
@@ -106,7 +106,6 @@ const ApplyCourse = () => {
               <strong>Certification:</strong> Certification is issued for students who complete the above course requirements.
             </p>
           </div>
-
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -184,11 +183,13 @@ const ApplyCourse = () => {
                 </div>
                 {errors.isStudent && <p className="mt-2 text-sm text-red-600">{errors.isStudent.message}</p>}
               </div>
-              <div>
-                <label htmlFor="classStudying" className="block text-sm font-medium text-gray-700">Which class are you studying in?</label>
-                <Input id="classStudying" {...register("classStudying")} placeholder="Which class are you studying in?" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
-                {errors.classStudying && <p className="mt-2 text-sm text-red-600">{errors.classStudying.message}</p>}
-              </div>
+              {isStudent === "Yes" && (
+                <div>
+                  <label htmlFor="classStudying" className="block text-sm font-medium text-gray-700">Which class are you studying in?</label>
+                  <Input id="classStudying" {...register("classStudying")} placeholder="Which class are you studying in?" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                  {errors.classStudying && <p className="mt-2 text-sm text-red-600">{errors.classStudying.message}</p>}
+                </div>
+              )}
               <div>
                 <label htmlFor="state" className="block text-sm font-medium text-gray-700">State</label>
                 <select id="state" {...register("state")} onChange={handleChange} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
@@ -262,7 +263,6 @@ const ApplyCourse = () => {
               </Button>
             </div>
           </form>
-
           <Dialog open={showDialog} onOpenChange={setShowDialog}>
             <DialogContent className="text-center max-w-md">
               <DialogHeader>
