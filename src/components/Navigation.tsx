@@ -1,5 +1,5 @@
 // components/Navigation.tsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -8,6 +8,7 @@ import GoogleTranslate from './GoogleTranslate';
 import DesktopNavigationItem from './DesktopNavigationItem';
 import MobileNavigationItem from './MobileNavigationItem';
 import useNavigation from '../hooks/useNavigation';
+import FloatingSocialIcons from './FloatingSocialIcons';
 
 const Navigation: React.FC = () => {
   const {
@@ -19,6 +20,18 @@ const Navigation: React.FC = () => {
     navigation,
   } = useNavigation();
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    // Cleanup function to reset overflow when component unmounts
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <header className="sticky top-0 z-50 bg-ngo-color6 border-b shadow-sm">
       <div className="mx-auto px-4 py-2 flex sm:items-center sm:flex-row flex-col sm:justify-between">
@@ -29,20 +42,21 @@ const Navigation: React.FC = () => {
           </div>
         </Link>
 
-        <div className='pt-4 flex justify-between'>
-          <div className="py-1 px-4">
+        <div className="pt-4 flex justify-between">
+          <div className="hidden md:flex items-center space-x-4">
+            <FloatingSocialIcons />
+          </div>
+          <div className="py-4 px-8">
             <GoogleTranslate />
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="lg:hidden">
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 rounded hover:bg-ngo-color8"
-                aria-label="Toggle menu"
-              >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+          <div className="flex md:hidden items-center space-x-4">
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded hover:bg-ngo-color8"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
         </div>
       </div>
@@ -66,23 +80,35 @@ const Navigation: React.FC = () => {
         </div>
       </nav>
       {isMobileMenuOpen && (
-        <nav className="lg:hidden px-4 pb-4 border-t space-y-2 bg-white shadow-lg">
-          {navigation.map((section) => (
-            <MobileNavigationItem
-              key={section.label}
-              section={section}
-              activeMobileMenu={activeMobileMenu}
-              toggleSubMenu={toggleSubMenu}
-              handleNavigation={handleNavigation}
-            />
-          ))}
-          <Button
-            onClick={() => handleNavigation('/donate')}
-            className="w-full mt-4 bg-gradient-to-r from-ngo-color6 to-ngo-color3 hover:from-ngo-color2 hover:to-ngo-color1 text-white font-semibold py-3 rounded-md"
-          >
-            Make a Donation
-          </Button>
-        </nav>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsMobileMenuOpen(false)}>
+          <nav className="lg:hidden fixed inset-y-0 right-0 bg-white shadow-lg w-full px-4 pb-4 overflow-y-auto">
+            <div className="flex justify-end pt-4">
+              <button
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 rounded hover:bg-ngo-color8"
+                aria-label="Close menu"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            {navigation.map((section) => (
+              <MobileNavigationItem
+                key={section.label}
+                section={section}
+                activeMobileMenu={activeMobileMenu}
+                toggleSubMenu={toggleSubMenu}
+                handleNavigation={handleNavigation}
+              />
+            ))}
+            <FloatingSocialIcons />
+            <Button
+              onClick={() => handleNavigation('/donate')}
+              className="w-full mt-4 bg-gradient-to-r from-ngo-color6 to-ngo-color3 hover:from-ngo-color2 hover:to-ngo-color1 text-white font-semibold py-3 rounded-md"
+            >
+              Make a Donation
+            </Button>
+          </nav>
+        </div>
       )}
     </header>
   );

@@ -92,7 +92,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ScrollToTop />
-        <FloatingSocialIcons/>
+        {/* <FloatingSocialIcons/> */}
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

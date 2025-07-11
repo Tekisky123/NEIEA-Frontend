@@ -1,3 +1,4 @@
+// components/FloatingSocialIcons.tsx
 import React from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
 
@@ -11,20 +12,18 @@ const FloatingSocialIcons: React.FC = () => {
   ];
 
   return (
-    <div className="fixed bottom-8 right-8 z-50">
-      <div className="flex flex-col space-y-4">
-        {socialLinks.map((social, index) => (
-          <a
-            key={index}
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`p-3 rounded-full shadow-lg bg-white text-2xl ${social.color} hover:opacity-80 transition-opacity duration-300`}
-          >
-            {social.icon}
-          </a>
-        ))}
-      </div>
+    <div className="flex space-x-4 justify-center py-4">
+      {socialLinks.map((social, index) => (
+        <a
+          key={index}
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`p-2 rounded-full shadow-lg bg-white text-xl ${social.color} hover:opacity-80 transition-opacity duration-300`}
+        >
+          {social.icon}
+        </a>
+      ))}
     </div>
   );
 };

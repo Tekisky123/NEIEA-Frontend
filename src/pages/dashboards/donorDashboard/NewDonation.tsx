@@ -11,9 +11,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 
 // Define the Zod schema for form validation
+const panCardRegex = /^([a-zA-Z]{5})(\d{4})([a-zA-Z]{1})$/;
+
 const donationFormSchema = z.object({
   amount: z.number().min(1, { message: "Amount is required" }),
   frequency: z.string().optional(),
+  panCard: z.string().refine((value) => {
+    if (value === undefined || value === "") return true;
+    return panCardRegex.test(value);
+  }, { message: "Invalid PAN Card Number format" }),
 });
 
 type DonationFormValues = z.infer<typeof donationFormSchema>;
@@ -39,13 +45,10 @@ const NewDonation = () => {
       try {
         const response = await axiosInstance.get("/donor/auth/me");
         const donorData = response.data.data;
-
         setDonorDetails(donorData);
-
         // Set default values for frequency and donorType if available
         if (donorData.donations && donorData.donations.length > 0) {
-          const lastDonation =
-            donorData.donations[donorData.donations.length - 1];
+          const lastDonation = donorData.donations[donorData.donations.length - 1];
           setValue("frequency", lastDonation.frequency || "once");
         }
       } catch (error) {
@@ -53,7 +56,6 @@ const NewDonation = () => {
         toast.error("Failed to fetch donor details.");
       }
     };
-
     fetchDonorDetails();
   }, [setValue]);
 
@@ -74,12 +76,10 @@ const NewDonation = () => {
   const initiateRazorpayPayment = async (orderData) => {
     try {
       setPaymentLoading(true);
-
       const isLoaded = await loadRazorpayScript();
       if (!isLoaded) {
         throw new Error("Razorpay SDK failed to load");
       }
-
       const options = {
         key: "rzp_test_HcrOflmaNTnjgB", // Replace with your test key
         amount: orderData.amount * 100, // Razorpay expects amount in paise
@@ -99,7 +99,6 @@ const NewDonation = () => {
                 donationData: orderData,
               }
             );
-
             if (verificationResponse.data.success) {
               toast.success("Payment successful! Thank you for your donation.");
               reset();
@@ -123,7 +122,6 @@ const NewDonation = () => {
           color: "#4f46e5", // Your brand color
         },
       };
-
       // @ts-ignore
       const razorpay = new window.Razorpay(options);
       razorpay.open();
@@ -141,20 +139,19 @@ const NewDonation = () => {
         toast.error("Donor details not available. Please try again.");
         return;
       }
-
       // Create Razorpay order
       const orderResponse = await axiosInstance.post("/donor/donate/create", {
         amount: data.amount,
         currency: "INR",
         receipt: `donation_${Date.now()}`,
       });
-
       if (orderResponse.data.success) {
         await initiateRazorpayPayment({
           ...donorDetails,
           amount: data.amount,
           frequency: data.frequency || donorDetails.frequency || "once",
           donorType: donorDetails.donorType || "Regular",
+          panCard: data.panCard,
           razorpayOrderId: orderResponse.data.orderId,
         });
       } else {
@@ -188,6 +185,23 @@ const NewDonation = () => {
                 {errors.amount.message}
               </p>
             )}
+          </div>
+          <div>
+            <Label htmlFor="panCard">PAN Card Number (Optional)</Label>
+            <Input
+              id="panCard"
+              type="text"
+              placeholder="Enter PAN Card Number"
+              {...register("panCard")}
+            />
+            {errors.panCard && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.panCard.message}
+              </p>
+            )}
+            <p className="mt-1 text-sm text-gray-600">
+              If your amount is greater than 2000 and you do not provide PAN Card details, Neiea will only receive 70% of your donation.
+            </p>
           </div>
           <Button
             type="submit"

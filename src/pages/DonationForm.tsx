@@ -1,3 +1,4 @@
+import { z } from "zod";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -5,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { toast } from "sonner";
 import axiosInstance from "@/lib/axiosInstance";
 import { useState, useEffect } from "react";
@@ -59,20 +59,19 @@ const DonationForm = () => {
 
   const amount = watch("amount");
 
-  // Set initial values from location state
   useEffect(() => {
     if (location.state) {
       const { type, amount, tier, customAmount } = location.state;
       const calculatedAmount = amount || customAmount;
-      
+
       if (calculatedAmount) {
         setValue("amount", calculatedAmount);
       }
-      
+
       if (type) {
         setValue("frequency", type);
       }
-      
+
       if (tier) {
         setValue("donorType", tier);
       }
@@ -96,7 +95,7 @@ const DonationForm = () => {
   const initiateRazorpayPayment = async (orderData: any) => {
     try {
       setPaymentLoading(true);
-      
+
       const isLoaded = await loadRazorpayScript();
       if (!isLoaded) {
         throw new Error('Razorpay SDK failed to load');
@@ -111,7 +110,6 @@ const DonationForm = () => {
         order_id: orderData.razorpayOrderId,
         handler: async (response: any) => {
           try {
-            // Verify payment on your server
             const verificationResponse = await axiosInstance.post('/donation/verify-payment', {
               razorpayOrderId: orderData.razorpayOrderId,
               razorpayPaymentId: response.razorpay_payment_id,
@@ -155,15 +153,12 @@ const DonationForm = () => {
   const onSubmit = async (data: DonationFormValues) => {
     setIsSubmitting(true);
     try {
-      // First create the donation record
       const payload = {
         ...data,
-        panCard: amount >= 50000 ? data.panCard : undefined,
+        panCard: data.panCard,
       };
-
       setDonationData(payload);
 
-      // Create Razorpay order
       const orderResponse = await axiosInstance.post('/donation/create-donation', {
         amount: payload.amount,
         currency: 'INR',
@@ -202,8 +197,7 @@ const DonationForm = () => {
               <p className="text-lg text-ngo-color1 max-w-2xl mx-auto md:text-xl">
                 Fill in your details to complete the donation process.
               </p>
-              
-              {/* Display selected donation details */}
+
               {donationData && (
                 <div className="mt-6 p-4 bg-ngo-color8/20 rounded-lg">
                   <h3 className="font-semibold text-lg text-ngo-color6">Your Donation Details</h3>
@@ -219,7 +213,6 @@ const DonationForm = () => {
                 </div>
               )}
             </div>
-
             <Card className="border-2 border-ngo-color4 shadow-lg bg-white">
               <CardContent className="p-6 lg:p-12">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -251,7 +244,6 @@ const DonationForm = () => {
                       )}
                     </div>
                   </div>
-
                   <div>
                     <Label htmlFor="email">Email *</Label>
                     <Input
@@ -266,7 +258,6 @@ const DonationForm = () => {
                       </p>
                     )}
                   </div>
-
                   <div>
                     <Label htmlFor="phone">Phone *</Label>
                     <Input
@@ -287,7 +278,6 @@ const DonationForm = () => {
                       </p>
                     )}
                   </div>
-
                   <div>
                     <Label htmlFor="address">Address *</Label>
                     <Input
@@ -301,7 +291,6 @@ const DonationForm = () => {
                       </p>
                     )}
                   </div>
-
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                     <div>
                       <Label htmlFor="city">City *</Label>
@@ -343,7 +332,6 @@ const DonationForm = () => {
                       )}
                     </div>
                   </div>
-
                   <div>
                     <Label htmlFor="country">Country *</Label>
                     <Input
@@ -357,7 +345,6 @@ const DonationForm = () => {
                       </p>
                     )}
                   </div>
-
                   <div>
                     <Label htmlFor="amount">Amount (INR) *</Label>
                     <Input
@@ -372,26 +359,24 @@ const DonationForm = () => {
                       </p>
                     )}
                   </div>
-
-                  {amount >= 50000 && (
-                    <div>
-                      <Label htmlFor="panCard">PAN Card *</Label>
-                      <Input
-                        id="panCard"
-                        placeholder="Enter your PAN card number"
-                        {...register("panCard")}
-                      />
-                      {errors.panCard && (
-                        <p className="mt-1 text-sm text-red-600">
-                          {errors.panCard?.message}
-                        </p>
-                      )}
-                    </div>
-                  )}
-
+                  <div>
+                    <Label htmlFor="panCard">PAN Card</Label>
+                    <Input
+                      id="panCard"
+                      placeholder="Enter your PAN card number"
+                      {...register("panCard")}
+                    />
+                    {errors.panCard && (
+                      <p className="mt-1 text-sm text-red-600">
+                        {errors.panCard.message}
+                      </p>
+                    )}
+                  </div>
+                  <p className="mt-1 font-bold text-sm text-yellow-600">
+                    Please note: For donations exceeding ₹2,000, if PAN card details are not provided, NEIEA will receive only 70% of the donated amount due to applicable regulations.
+                  </p>
                   <input type="hidden" {...register("donorType")} />
                   <input type="hidden" {...register("frequency")} />
-
                   <Button
                     type="submit"
                     className="w-full bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold py-3 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
@@ -412,7 +397,6 @@ const DonationForm = () => {
           </div>
         </div>
       </section>
-
       <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
         <DialogContent className="sm:max-w-[425px] bg-white">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-ngo-color4">
