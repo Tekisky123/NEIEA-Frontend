@@ -1,6 +1,5 @@
-// components/Navigation.tsx
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import logoRemovedBg from '../images/logoRemovedBg.png';
@@ -11,6 +10,7 @@ import useNavigation from '../hooks/useNavigation';
 import FloatingSocialIcons from './FloatingSocialIcons';
 
 const Navigation: React.FC = () => {
+  const location = useLocation();
   const {
     isMobileMenuOpen,
     setIsMobileMenuOpen,
@@ -20,17 +20,18 @@ const Navigation: React.FC = () => {
     navigation,
   } = useNavigation();
 
+  const [isTranslateLoaded, setIsTranslateLoaded] = useState(false);
+
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-    // Cleanup function to reset overflow when component unmounts
-    return () => {
-      document.body.style.overflow = 'auto';
+    // Reset or reinitialize the GoogleTranslate component on route change
+    const loadTranslate = async () => {
+      setIsTranslateLoaded(false);
+      // Add any necessary loading logic here
+      setIsTranslateLoaded(true);
     };
-  }, [isMobileMenuOpen]);
+
+    loadTranslate();
+  }, [location]);
 
   return (
     <header className="sticky top-0 z-50 bg-ngo-color6 border-b shadow-sm">
