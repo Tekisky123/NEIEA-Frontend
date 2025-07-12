@@ -35,9 +35,9 @@ const Navigation: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 bg-ngo-color6 border-b shadow-sm">
       <div className="mx-auto px-4 py-2 flex sm:items-center sm:flex-row flex-col sm:justify-between">
-        <Link to="/" className="flex items-center justify-between space-x-2">
-          <img src={logoRemovedBg} alt="NEIEA Logo" className="w-20" />
-          <div className="lg:text-xl font-bold text-ngo-color5 text-center">
+        <Link to="/" className="flex items-center lg:justify-between space-x-8 space-y-2">
+          <img src={logoRemovedBg} alt="NEIEA Logo" className="lg:w-20 w-16" />
+          <div className="lg:text-2xl font-bold text-ngo-color5 text-md">
             The New Equitable and Innovative Educational Association
           </div>
         </Link>
@@ -46,7 +46,7 @@ const Navigation: React.FC = () => {
           <div className="hidden md:flex items-center space-x-4">
             <FloatingSocialIcons />
           </div>
-          <div className="py-4 px-8">
+          <div className="py-4 lg:px-8 px-2">
             <GoogleTranslate />
           </div>
           <div className="flex md:hidden items-center space-x-4">

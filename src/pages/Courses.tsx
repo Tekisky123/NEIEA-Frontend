@@ -12,7 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Search, Clock, User, BookOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import SkeletonLoading from "../components/SkeletonLoading"; // Adjust the import path as needed
+import SkeletonLoading from "../components/SkeletonLoading";
 
 interface Course {
   _id: string;
@@ -94,7 +94,7 @@ const Courses = () => {
                   </Card>
                 ))
               : filteredCourses.map((course) => (
-                  <Card key={course._id} className="h-80 flex flex-col">
+                  <Card key={course._id} className="flex flex-col">
                     {course.imageUrl && (
                       <img
                         src={course.imageUrl}
@@ -108,8 +108,8 @@ const Courses = () => {
                         {course.description || "No description provided."}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="p-3 pt-0 flex-grow flex flex-col justify-between">
-                      <div className="space-y-1">
+                    <CardContent className="p-3 flex flex-col flex-grow">
+                      <div className="space-y-1 mb-2">
                         {course.duration && (
                           <div className="flex items-center text-xs text-gray-500 truncate">
                             <Clock className="w-3 h-3 mr-1 text-ngo-color4" />
@@ -131,7 +131,7 @@ const Courses = () => {
                       </div>
                       <Button
                         onClick={() => navigate(`/apply-course/${course._id}`)}
-                        className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white mt-2 text-xs py-1"
+                        className="mt-auto w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white text-xs py-1"
                       >
                         Apply Now
                       </Button>
