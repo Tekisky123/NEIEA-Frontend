@@ -49,7 +49,7 @@ const NewCourse = () => {
       duration: "",
       targetAudience: [""],
       fees: 0,
-      whatsappLink:""
+      whatsappLink: ""
     },
   });
 
@@ -81,7 +81,7 @@ const NewCourse = () => {
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Course Title</FormLabel>
+                    <FormLabel>Course Title *</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter course title" {...field} />
                     </FormControl>
@@ -94,7 +94,7 @@ const NewCourse = () => {
                 name="instructor"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Instructor</FormLabel>
+                    <FormLabel>Instructor *</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter instructor name" {...field} />
                     </FormControl>
@@ -107,7 +107,7 @@ const NewCourse = () => {
                 name="level"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Level</FormLabel>
+                    <FormLabel>Level *</FormLabel>
                     <FormControl>
                       <select {...field} className="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background">
                         <option value="">Select a level</option>
@@ -125,7 +125,7 @@ const NewCourse = () => {
                 name="duration"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Duration</FormLabel>
+                    <FormLabel>Duration *</FormLabel>
                     <FormControl>
                       <Input placeholder="e.g., 8 weeks" {...field} />
                     </FormControl>
@@ -138,7 +138,7 @@ const NewCourse = () => {
                 name="fees"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Fees</FormLabel>
+                    <FormLabel>Fees *</FormLabel>
                     <FormControl>
                       <Input
                         type="number"
@@ -157,7 +157,7 @@ const NewCourse = () => {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Overview</FormLabel>
+                  <FormLabel>Overview *</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Enter course overview - What will be taught?"
@@ -174,7 +174,7 @@ const NewCourse = () => {
               name="targetAudience"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Target Audience</FormLabel>
+                  <FormLabel>Target Audience *</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Enter target audience, separated by commas"
@@ -191,7 +191,7 @@ const NewCourse = () => {
               name="whatsappLink"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>WhatsApp Link</FormLabel>
+                  <FormLabel>WhatsApp Link *</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter WhatsApp link" {...field} />
                   </FormControl>
