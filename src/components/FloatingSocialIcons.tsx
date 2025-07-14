@@ -1,14 +1,15 @@
 // components/FloatingSocialIcons.tsx
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube, FaWhatsapp } from 'react-icons/fa';
 
 const FloatingSocialIcons: React.FC = () => {
   const socialLinks = [
-    { icon: <FaFacebook />, url: "https://facebook.com", color: "text-[#1877F2]" },
-    { icon: <FaTwitter />, url: "https://twitter.com", color: "text-[#1DA1F2]" },
-    { icon: <FaInstagram />, url: "https://instagram.com", color: "text-[#E1306C]" },
-    { icon: <FaLinkedin />, url: "https://linkedin.com", color: "text-[#0077B5]" },
-    { icon: <FaYoutube />, url: "https://youtube.com", color: "text-[#FF0000]" },
+    { icon: <FaFacebook />, url: "https://www.facebook.com/profile.php?id=100093505457474", color: "text-[#1877F2]" },
+    { icon: <FaTwitter />, url: "https://x.com/neiea_india", color: "text-[#1DA1F2]" },
+    { icon: <FaInstagram />, url: "https://www.instagram.com/neiea_india/", color: "text-[#E1306C]" },
+    { icon: <FaLinkedin />, url: "https://www.linkedin.com/company/the-neiea/", color: "text-[#0077B5]" },
+    { icon: <FaYoutube />, url: "https://www.youtube.com/@neiea_india", color: "text-[#FF0000]" },
+    { icon: <FaWhatsapp />, url: "https://whatsapp.com/channel/0029VaA7jjBLo4hapNUZ1s3B", color: "text-[#25D366]" },
   ];
 
   return (
