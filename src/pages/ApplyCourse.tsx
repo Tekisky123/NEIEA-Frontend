@@ -13,7 +13,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-// Define the schema for form validation
 const formSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
   email: z.string().email("Invalid email address"),
@@ -274,6 +273,13 @@ const ApplyCourse = () => {
               <p className="text-gray-600 mt-4">
                 You have successfully registered for the NEIEA Foundational English Course. We will inform you about the start of the class in the WhatsApp group.
               </p>
+              {course.whatsappLink && (
+                <p className="text-gray-600 mt-4">
+                  <a href={course.whatsappLink} target="_blank" rel="noopener noreferrer" className="text-green-500 hover:underline">
+                    Join our WhatsApp group for updates
+                  </a>
+                </p>
+              )}
               <p className="text-gray-600 mt-4">
                 Best regards from Team NEIEA
               </p>

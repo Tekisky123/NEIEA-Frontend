@@ -34,6 +34,7 @@ const courseSchema = z.object({
   duration: z.string().min(1, "Duration is required"),
   targetAudience: z.array(z.string()).min(1, "Target audience is required"),
   fees: z.number().min(0, "Fees must be a positive number"),
+  whatsappLink: z.string().url("Must be a valid URL"),
 });
 
 const NewCourse = () => {
@@ -48,6 +49,7 @@ const NewCourse = () => {
       duration: "",
       targetAudience: [""],
       fees: 0,
+      whatsappLink:""
     },
   });
 
@@ -179,6 +181,19 @@ const NewCourse = () => {
                       {...field}
                       onChange={(e) => field.onChange(e.target.value.split(','))}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="whatsappLink"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>WhatsApp Link</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter WhatsApp link" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
