@@ -14,6 +14,25 @@ import { Search, Clock, User, BookOpen, Users, IndianRupee } from "lucide-react"
 import { useNavigate } from "react-router-dom";
 import SkeletonLoading from "../components/SkeletonLoading";
 
+// Simple modal implementation (no external dependency)
+function Modal({ open, onClose, children }: { open: boolean; onClose: () => void; children: React.ReactNode }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-xs relative">
+        <button
+          className="absolute top-2 right-2 text-gray-400 hover:text-gray-600"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          ×
+        </button>
+        {children}
+      </div>
+    </div>
+  );
+}
+
 interface Course {
   _id: string;
   title: string;
@@ -31,7 +50,24 @@ const Courses = () => {
   const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const handleApplyClick = (courseId: string) => {
+    setSelectedCourseId(courseId);
+    setShowModal(true);
+  };
+
+  const handleUserTypeSelect = (type: "individual" | "institution") => {
+    if (!selectedCourseId) return;
+    setShowModal(false);
+    if (type === "individual") {
+      navigate(`/apply-course/${selectedCourseId}`);
+    } else {
+      navigate(`/apply-course-institution/${selectedCourseId}`);
+    }
+  };
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -146,7 +182,7 @@ const Courses = () => {
                         )}
                       </div>
                       <Button
-                        onClick={() => navigate(`/apply-course/${course._id}`)}
+                        onClick={() => handleApplyClick(course._id)}
                         className="mt-auto w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white text-xs py-1"
                       >
                         Apply Now
@@ -157,6 +193,34 @@ const Courses = () => {
           </div>
         </div>
       </section>
+      {/* Modal for applicant type selection */}
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <div className="text-center">
+          <h3 className="text-lg font-semibold mb-4">Who are you applying as?</h3>
+          <div className="flex flex-col gap-3">
+            <Button
+              className="bg-ngo-color6 text-white flex items-center justify-center gap-2"
+              onClick={() => handleUserTypeSelect("individual")}
+            >
+              <User className="w-5 h-5" />
+              Individual
+            </Button>
+            <Button
+              className="bg-ngo-color4 text-white flex items-center justify-center gap-2"
+              onClick={() => handleUserTypeSelect("institution")}
+            >
+              <Users className="w-5 h-5" />
+              Institution
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </Layout>
   );
 };
