@@ -137,7 +137,7 @@ const CoursesSection = ({ searchQuery }) => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Title</TableHead>
-                  <TableHead>Description</TableHead>
+                  <TableHead>Overview</TableHead>
                   <TableHead>Duration</TableHead>
                   <TableHead>Students</TableHead>
                   <TableHead>Actions</TableHead>

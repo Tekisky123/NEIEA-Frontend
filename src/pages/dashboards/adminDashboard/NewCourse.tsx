@@ -19,19 +19,21 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardDescription
+  CardDescription,
 } from "@/components/ui/card";
 import { PlusCircle } from "lucide-react";
 
 const courseSchema = z.object({
   title: z.string().min(1, "Title is required").max(100),
-  description: z.string().min(1, "Description is required").max(500),
+  description: z.string().min(1, "Course overview is required").max(500),
   imageUrl: z.string().url("Must be a valid URL").optional(),
   instructor: z.string().min(1, "Instructor is required"),
   level: z.enum(["beginner", "intermediate", "advanced"], {
     required_error: "Level is required",
   }),
   duration: z.string().min(1, "Duration is required"),
+  targetAudience: z.array(z.string()).min(1, "Target audience is required"),
+  fees: z.number().min(0, "Fees must be a positive number"),
 });
 
 const NewCourse = () => {
@@ -44,6 +46,8 @@ const NewCourse = () => {
       instructor: "",
       level: undefined,
       duration: "",
+      targetAudience: [""],
+      fees: 0,
     },
   });
 
@@ -127,17 +131,34 @@ const NewCourse = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="fees"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Fees</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter course fees"
+                        {...field}
+                        onChange={(e) => field.onChange(parseInt(e.target.value))}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
-
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Overview</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Enter course description"
+                      placeholder="Enter course overview - What will be taught?"
                       className="min-h-[120px]"
                       {...field}
                     />
@@ -146,7 +167,23 @@ const NewCourse = () => {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="targetAudience"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Target Audience</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter target audience, separated by commas"
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.value.split(','))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <div className="flex justify-end pt-4">
               <Button type="submit" className="w-full md:w-auto">
                 <PlusCircle className="w-4 h-4 mr-2" />

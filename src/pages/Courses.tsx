@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search, Clock, User, BookOpen } from "lucide-react";
+import { Search, Clock, User, BookOpen, Users, IndianRupee } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import SkeletonLoading from "../components/SkeletonLoading";
 
@@ -22,6 +22,8 @@ interface Course {
   imageUrl?: string;
   instructor?: string;
   level?: string;
+  targetAudience?: string[];
+  fees?: number;
 }
 
 const Courses = () => {
@@ -41,6 +43,8 @@ const Courses = () => {
           imageUrl: course.imageUrl || "https://img.freepik.com/free-photo/learning-education-ideas-insight-intelligence-study-concept_53876-120116.jpg?semt=ais_hybrid&w=740",
           instructor: course.instructor || "John Doe",
           level: course.level || "Beginner",
+          targetAudience: course.targetAudience || ["General"],
+          fees: course.fees || 0,
         }));
         setCourses(coursesWithDummyImages);
         setFilteredCourses(coursesWithDummyImages);
@@ -102,13 +106,13 @@ const Courses = () => {
                         className="w-full h-32 object-cover"
                       />
                     )}
-                    <CardHeader className="p-3">
-                      <CardTitle className="text-sm font-bold truncate">{course.title}</CardTitle>
-                      <CardDescription className="text-xs text-gray-600 line-clamp-3">
+                    <CardHeader>
+                      <CardTitle className="truncate">{course.title}</CardTitle>
+                      <CardDescription className="line-clamp-3">
                         {course.description || "No description provided."}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="p-3 flex flex-col flex-grow">
+                    <CardContent className="flex flex-col flex-grow">
                       <div className="space-y-1 mb-2">
                         {course.duration && (
                           <div className="flex items-center text-xs text-gray-500 truncate">
@@ -126,6 +130,18 @@ const Courses = () => {
                           <div className="flex items-center text-xs text-gray-500 truncate">
                             <BookOpen className="w-3 h-3 mr-1 text-ngo-color4" />
                             <span>Level: {course.level}</span>
+                          </div>
+                        )}
+                        {course.targetAudience && (
+                          <div className="flex items-center text-xs text-gray-500 truncate">
+                            <Users className="w-3 h-3 mr-1 text-ngo-color4" />
+                            <span>Target Audience: {course.targetAudience.join(", ") || "learners of all ages"}</span>
+                          </div>
+                        )}
+                        {course.fees !== undefined && (
+                          <div className="flex items-center text-xs text-gray-500 truncate">
+                            <IndianRupee className="w-3 h-3 mr-1 text-ngo-color4" />
+                            <span>Fees: ₹{course.fees}</span>
                           </div>
                         )}
                       </div>

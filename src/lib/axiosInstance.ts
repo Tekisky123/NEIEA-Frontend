@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://neiea-backend.vercel.app",
-  // baseURL: "http://localhost:5000",
+  // baseURL: "https://neiea-backend.vercel.app",
+  baseURL: "http://localhost:5000",
   headers: {
     "Content-Type": "application/json",
   },
