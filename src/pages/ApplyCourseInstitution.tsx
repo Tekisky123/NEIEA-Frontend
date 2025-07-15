@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "@/lib/axiosInstance";
 import Layout from "@/components/Layout";
 import { Input } from "@/components/ui/input";
@@ -22,20 +22,19 @@ const formSchema = z.object({
   coordinatorContactNumber1: z.string().min(10, "Contact number must be at least 10 digits").max(10, "Contact number must be at most 10 digits").regex(/^\d+$/, "Contact number must contain only numbers"),
   coordinatorEmail: z.string().min(1, "Coordinator Email is required").email("Invalid email address"),
   coordinatorContactNumber2: z.string().min(10, "Contact number must be at least 10 digits").max(10, "Contact number must be at most 10 digits").regex(/^\d+$/, "Contact number must contain only numbers").optional(),
-  coordinatorEmail2: z.string().email("Invalid email address").optional(),
+  coordinatorEmail2: z.string(),
   state: z.string().min(1, "State is required"),
   city: z.string().min(1, "City is required"),
   address: z.string().min(1, "Address is required"),
   numberOfStudents: z.string().min(1, "Number of Students is required"),
-  preferredCourse: z.string().min(1, "Preferred Course is required"),
   startMonth: z.string().min(1, "Start Month is required"),
   studentList: z.instanceof(FileList).refine((files) => {
-    if (files.length === 0) return true; // Not mandatory
-    return files[0].size <= 10 * 1024 * 1024; // Max 10 MB
+    if (files.length === 0) return true;
+    return files[0].size <= 10 * 1024 * 1024;
   }, "File size must be less than 10 MB"),
   institutionLogo: z.instanceof(FileList).refine((files) => {
-    if (files.length === 0) return true; // Not mandatory
-    return files[0].size <= 100 * 1024 * 1024; // Max 100 MB
+    if (files.length === 0) return true;
+    return files[0].size <= 100 * 1024 * 1024;
   }, "File size must be less than 100 MB"),
   suitableTime: z.string().min(1, "Suitable Time is required"),
 });
@@ -43,28 +42,15 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const ApplyCourseInstitution = () => {
-  const { id } = useParams();
+  const location = useLocation();
   const navigate = useNavigate();
-  const [course, setCourse] = useState(null);
-  const [showDialog, setShowDialog] = useState(false);
   const [cities, setCities] = useState<string[]>([]);
-
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
-  const fetchCourse = async () => {
-    try {
-      const response = await axiosInstance.get(`/course/getOneCourse/${id}`);
-      setCourse(response.data);
-    } catch (error) {
-      toast.error("Failed to load course");
-    }
-  };
-
-  useEffect(() => {
-    fetchCourse();
-  }, [id]);
+  const queryParams = new URLSearchParams(location.search);
+  const courseIds = queryParams.getAll("courseIds");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -79,46 +65,41 @@ const ApplyCourseInstitution = () => {
     try {
       const formData = new FormData();
       Object.entries(data).forEach(([key, value]) => {
-        if (key === "studentList" || key === "institutionLogo") {
-          if (value.length > 0) {
-            formData.append(key, value[0]);
-          }
-        } else {
+        if (key !== "studentList" && key !== "institutionLogo") {
           formData.append(key, value);
         }
       });
 
-      await axiosInstance.post(`/course/apply-institution/${id}`, formData, {
+      courseIds.forEach((id) => {
+        formData.append("courseIds", id);
+      });
+
+      if (data.studentList && data.studentList.length > 0) {
+        formData.append("studentList", data.studentList[0]);
+      }
+      if (data.institutionLogo && data.institutionLogo.length > 0) {
+        formData.append("institutionLogo", data.institutionLogo[0]);
+      }
+
+      await axiosInstance.post(`/course/apply-institution`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      setShowDialog(true);
+      toast.success("Application submitted successfully!");
+      navigate("/courses");
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || "Application submission failed");
     }
   };
 
-  if (!course) return null;
-
   return (
     <Layout>
       <div className="container mx-auto py-12 px-4 max-w-4xl">
         <div className="bg-white shadow-xl rounded-xl p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6">Apply for {course.title}</h1>
-          <p className="text-gray-600 mb-8 text-lg">{course.description}</p>
-          <div className="bg-gray-50 p-6 rounded-lg mb-8">
-            <h2 className="text-2xl font-semibold text-gray-700 mb-4">Course Details</h2>
-            <p className="text-gray-600 mb-2"><strong>Duration:</strong> {course.duration}</p>
-            <p className="text-gray-600 mb-2">
-              <strong>Requirements:</strong> Schools/Institutions are requested to allocate 1 hour time every day for the students and provide a classroom with LED Screen and high-speed internet.
-            </p>
-            <p className="text-gray-600">
-              <strong>Certification:</strong> Certification is issued for students who complete the above course requirements.
-            </p>
-          </div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-6">Apply for Courses</h1>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -249,33 +230,6 @@ const ApplyCourseInstitution = () => {
               </Button>
             </div>
           </form>
-          <Dialog open={showDialog} onOpenChange={setShowDialog}>
-            <DialogContent className="text-center max-w-md">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-gray-800">Application Submitted!</DialogTitle>
-              </DialogHeader>
-              <p className="text-gray-600 mt-4">
-                You have successfully registered with NEIEA for FREE online Course.
-              </p>
-              <p className="text-gray-600 mt-4">
-                Best regards from Team NEIEA
-              </p>
-              <p className="text-gray-600 mt-4">
-                For more details, please contact:
-                <br />
-                Ms. Saara - +919019431646
-              </p>
-              <Button
-                className="mt-6 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg"
-                onClick={() => {
-                  setShowDialog(false);
-                  navigate("/courses");
-                }}
-              >
-                Go Back to Courses
-              </Button>
-            </DialogContent>
-          </Dialog>
         </div>
       </div>
     </Layout>
