@@ -43,6 +43,8 @@ const CoursesSection = ({ searchQuery }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [viewStudents, setViewStudents] = useState(false);
   const [formData, setFormData] = useState({ title: "", description: "" });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(10); // Number of items per page
 
   const fetchCourses = async () => {
     try {
@@ -72,11 +74,14 @@ const CoursesSection = ({ searchQuery }) => {
     } else {
       setFilteredCourses(courses);
     }
+    setCurrentPage(1); // Reset to the first page whenever the search query changes
   }, [searchQuery, courses]);
 
   const handleDelete = async () => {
     try {
-      await axiosInstance.delete(`/admin/courses/delete/${selectedCourse._id}`);
+      await axiosInstance.delete(
+        `/admin/courses/delete/${selectedCourse._id}`
+      );
       const updated = courses.filter((c) => c._id !== selectedCourse._id);
       setCourses(updated);
       setFilteredCourses(updated);
@@ -111,6 +116,13 @@ const CoursesSection = ({ searchQuery }) => {
     }
   };
 
+  // Pagination logic
+  const paginatedCourses = filteredCourses.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
+  const totalPages = Math.ceil(filteredCourses.length / pageSize);
+
   return (
     <Card className="border-0 shadow-none">
       <CardHeader>
@@ -123,7 +135,6 @@ const CoursesSection = ({ searchQuery }) => {
           </div>
         </div>
       </CardHeader>
-
       <CardContent>
         {loading ? (
           <SectionLoader />
@@ -144,9 +155,11 @@ const CoursesSection = ({ searchQuery }) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredCourses.map((course) => (
+                {paginatedCourses.map((course) => (
                   <TableRow key={course._id}>
-                    <TableCell className="font-medium">{course.title}</TableCell>
+                    <TableCell className="font-medium">
+                      {course.title}
+                    </TableCell>
                     <TableCell className="max-w-xs truncate">
                       {course.description}
                     </TableCell>
@@ -206,15 +219,34 @@ const CoursesSection = ({ searchQuery }) => {
                 ))}
               </TableBody>
             </Table>
+            {/* Pagination Controls */}
+            <div className="flex justify-end items-center mt-4 gap-2">
+              <Button
+                variant="outline"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              >
+                Previous
+              </Button>
+              <span>
+                Page <strong>{currentPage}</strong> of{" "}
+                <strong>{totalPages}</strong>
+              </span>
+              <Button
+                variant="outline"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              >
+                Next
+              </Button>
+            </div>
           </div>
         )}
       </CardContent>
-
       <CardFooter className="flex justify-between text-sm text-muted-foreground">
-        Showing <strong>{filteredCourses.length}</strong> of{" "}
-        <strong>{courses.length}</strong> courses
+        Showing <strong>{paginatedCourses.length}</strong> of{" "}
+        <strong>{filteredCourses.length}</strong> courses
       </CardFooter>
-
       {/* View Students Dialog */}
       <Dialog open={viewStudents} onOpenChange={setViewStudents}>
         <DialogContent className="max-w-4xl">
@@ -257,7 +289,6 @@ const CoursesSection = ({ searchQuery }) => {
           )}
         </DialogContent>
       </Dialog>
-
       {/* Edit Course Dialog */}
       <Dialog
         open={isEditing}
@@ -289,7 +320,6 @@ const CoursesSection = ({ searchQuery }) => {
           </div>
         </DialogContent>
       </Dialog>
-
       {/* Delete Confirmation Dialog */}
       <Dialog
         open={isDeleting}

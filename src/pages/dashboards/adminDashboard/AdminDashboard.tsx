@@ -15,8 +15,8 @@ import {
   Search,
   UserPlus,
   Key,
+  Building2, // Importing an icon for institutions
 } from "lucide-react";
-
 // Components
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -33,13 +33,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 // Sections
 import CoursesSection from "./CoursesSection";
 import DonorsSection from "./DonorsSection";
 import NewCourse from "./NewCourse";
 import SecuritySection from "./SecuritySection";
 import ManageAdmins from "./ManageAdmins";
+import CourseSectionForInstitution from "./CourseSectionForInstitution"; // Import the new component
 
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
@@ -50,7 +50,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     if (!user) {
-      //   navigate("/login");
+      // navigate("/login");
     }
   }, [user, navigate]);
 
@@ -73,7 +73,6 @@ const AdminDashboard = () => {
                 <h1 className="text-xl font-bold text-gray-900">Admin Panel</h1>
                 <p className="text-sm font-bold text-gray-900">Welcome {user.fullName || "Admin"}</p>
               </div>
-
               <div className="flex items-center space-x-4">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -82,7 +81,6 @@ const AdminDashboard = () => {
                       className="relative h-8 w-8 rounded-full"
                     >
                       <Avatar className="h-8 w-8">
-                      
                         <AvatarFallback>
                           {user.firstName?.charAt(0)}
                           {user.lastName?.charAt(0)}
@@ -112,18 +110,15 @@ const AdminDashboard = () => {
             </div>
           </div>
         </header>
-
         {/* Main Content */}
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
-
           {/* Main Content Tabs */}
           <Tabs
             value={activeTab}
             onValueChange={setActiveTab}
             className="w-full"
           >
-            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-5 h-auto mb-6 bg-white">
+            <TabsList className="grid w-full grid-cols-1 sm:grid-cols-6 h-auto mb-6 bg-white">
               <TabsTrigger
                 value="courses"
                 className="py-3 flex items-center gap-2"
@@ -143,6 +138,13 @@ const AdminDashboard = () => {
                 Donors
               </TabsTrigger>
               <TabsTrigger
+                value="institutions"
+                className="py-3 flex items-center gap-2"
+              >
+                <Building2 className="w-4 h-4" />
+                Institutions
+              </TabsTrigger>
+              <TabsTrigger
                 value="admins"
                 className="py-3 flex items-center gap-2"
               >
@@ -157,7 +159,6 @@ const AdminDashboard = () => {
                 Security
               </TabsTrigger>
             </TabsList>
-
             <TabsContent value="courses" className="bg-white rounded-lg shadow">
               <CoursesSection searchQuery={searchQuery} />
             </TabsContent>
@@ -166,6 +167,9 @@ const AdminDashboard = () => {
             </TabsContent>
             <TabsContent value="new" className="bg-white rounded-lg shadow">
               <NewCourse />
+            </TabsContent>
+            <TabsContent value="institutions" className="bg-white rounded-lg shadow">
+              <CourseSectionForInstitution searchQuery={searchQuery} />
             </TabsContent>
             <TabsContent value="admins" className="bg-white rounded-lg shadow">
               <ManageAdmins />
