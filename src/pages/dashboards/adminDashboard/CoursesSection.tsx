@@ -34,7 +34,7 @@ import { MoreHorizontal } from "lucide-react";
 import { toast } from "sonner";
 import { SectionLoader } from "@/components/LoadingSpinner";
 
-const CoursesSection = ({ searchQuery }) => {
+const CoursesSection = ({ searchQuery = "" }) => {
   const [courses, setCourses] = useState([]);
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -124,7 +124,7 @@ const CoursesSection = ({ searchQuery }) => {
   const totalPages = Math.ceil(filteredCourses.length / pageSize);
 
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="border-0 rounded-none shadow-none">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div>

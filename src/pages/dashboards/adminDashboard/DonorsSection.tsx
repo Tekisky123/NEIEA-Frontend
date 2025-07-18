@@ -126,7 +126,7 @@ const DonorsSection = () => {
   }
 
   return (
-    <Card className="border-0 shadow-lg rounded-lg ">
+    <Card className="border-0 shadow-lg rounded-none ">
       <CardHeader className="border-b border-ngo-color6 pb-4">
         <CardTitle className="text-2xl font-heading text-ngo-rakau">
           Donors

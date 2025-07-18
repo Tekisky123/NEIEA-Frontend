@@ -132,7 +132,7 @@ const ManageAdmins = () => {
   };
 
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="border-0 shadow-none rounded-none">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div>

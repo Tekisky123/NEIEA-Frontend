@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/dialog";
 import { SectionLoader } from "@/components/LoadingSpinner";
 
-const CourseSectionForInstitution = ({ searchQuery }) => {
+const CourseSectionForInstitution = ({ searchQuery = "" }) => {
   const [institutions, setInstitutions] = useState([]);
   const [filteredInstitutions, setFilteredInstitutions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,7 +72,7 @@ const CourseSectionForInstitution = ({ searchQuery }) => {
   const totalPages = Math.ceil(filteredInstitutions.length / pageSize);
 
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="border-0 shadow-none rounded-none">
       <CardHeader>
         <div className="flex justify-between items-center">
           <div>

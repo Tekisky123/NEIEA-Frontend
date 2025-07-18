@@ -56,8 +56,8 @@ const SecuritySection = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <Card className="border-0 shadow-none">
+    <div className="space-y-1">
+      <Card className="border-0 rounded-none shadow-none">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
             <Shield className="w-5 h-5" />
@@ -138,7 +138,7 @@ const SecuritySection = () => {
         </CardContent>
       </Card>
       
-      <Card className="border-0 shadow-none">
+      <Card className="border-0 rounded-none shadow-none">
         <CardHeader>
           <CardTitle className="text-xl flex items-center gap-2">
             <Lock className="w-5 h-5" />

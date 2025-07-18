@@ -2,6 +2,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { useState, useRef } from "react";
+import ReactCrop, { type Crop, centerCrop, makeAspectCrop } from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -26,7 +36,7 @@ import { PlusCircle } from "lucide-react";
 const courseSchema = z.object({
   title: z.string().min(1, "Title is required").max(100),
   description: z.string().min(1, "Course overview is required").max(500),
-  imageUrl: z.string().url("Must be a valid URL").optional(),
+  imageUrl: z.string().optional(),
   instructor: z.string().min(1, "Instructor is required"),
   level: z.enum(["beginner", "intermediate", "advanced"], {
     required_error: "Level is required",
@@ -38,12 +48,19 @@ const courseSchema = z.object({
 });
 
 const NewCourse = () => {
+  const [imgSrc, setImgSrc] = useState("");
+  const [crop, setCrop] = useState<Crop>();
+  const [croppedImageUrl, setCroppedImageUrl] = useState("");
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [isCropping, setIsCropping] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(courseSchema),
     defaultValues: {
       title: "",
       description: "",
-      imageUrl: "https://img.freepik.com/free-photo/learning-education-ideas-insight-intelligence-study-concept_53876-120116.jpg?semt=ais_hybrid&w=740",
+      imageUrl: "",
       instructor: "",
       level: undefined,
       duration: "",
@@ -53,19 +70,118 @@ const NewCourse = () => {
     },
   });
 
+  const dataURLtoFile = (dataurl: string, filename: string) => {
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)?.[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  };
+
   const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("title", data.title);
+    formData.append("description", data.description);
+    formData.append("instructor", data.instructor);
+    formData.append("level", data.level);
+    formData.append("duration", data.duration);
+    data.targetAudience.forEach((ta) => formData.append("targetAudience[]", ta));
+    formData.append("fees", data.fees.toString());
+    formData.append("whatsappLink", data.whatsappLink);
+
+    if (croppedImageUrl) {
+      const imageFile = dataURLtoFile(croppedImageUrl, "courseImage.jpeg");
+      formData.append("image", imageFile);
+    }
+
     try {
-      await axiosInstance.post("/admin/courses", data);
+      await axiosInstance.post("/admin/courses", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       toast.success("Course created successfully");
       form.reset();
+      setCroppedImageUrl("");
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     } catch (error) {
       toast.error("Failed to create course");
       console.error("Create course error:", error);
     }
   };
 
+  const onSelectFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => setImgSrc(reader.result?.toString() || ""));
+      reader.readAsDataURL(e.target.files[0]);
+      setIsCropping(true);
+    }
+  };
+
+  const getCroppedImg = () => {
+    const image = imgRef.current;
+    if (!image || !crop) {
+      return;
+    }
+    const canvas = document.createElement("canvas");
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+
+    if (ctx) {
+      ctx.drawImage(
+        image,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width,
+        crop.height
+      );
+    }
+    return canvas.toDataURL("image/jpeg");
+  };
+
+  const handleCrop = () => {
+    const croppedDataUrl = getCroppedImg();
+    if (croppedDataUrl) {
+      setCroppedImageUrl(croppedDataUrl);
+      form.setValue("imageUrl", croppedDataUrl);
+      setIsCropping(false);
+    }
+  };
+
+  function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
+    const { width, height } = e.currentTarget;
+    const newCrop = centerCrop(
+      makeAspectCrop(
+        {
+          unit: '%',
+          width: 90,
+        },
+        16 / 9,
+        width,
+        height
+      ),
+      width,
+      height
+    );
+    setCrop(newCrop);
+  }
+
   return (
-    <Card className="border-0 shadow-none">
+    <Card className="border-0 shadow-none rounded-none">
       <CardHeader>
         <CardTitle className="text-xl">Create New Course</CardTitle>
         <CardDescription>
@@ -151,7 +267,78 @@ const NewCourse = () => {
                   </FormItem>
                 )}
               />
+              <FormItem>
+                <FormLabel>Course Image *</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={onSelectFile}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             </div>
+            <Dialog open={isCropping} onOpenChange={setIsCropping}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Crop Image</DialogTitle>
+                </DialogHeader>
+                <div className="flex justify-center">
+                  <ReactCrop
+                    crop={crop}
+                    onChange={(c) => setCrop(c)}
+                    aspect={16 / 9}
+                  >
+                    <img
+                      ref={imgRef}
+                      src={imgSrc}
+                      alt="Source"
+                      style={{ maxHeight: "70vh" }}
+                      onLoad={onImageLoad}
+                    />
+                  </ReactCrop>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsCropping(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleCrop}>Crop Image</Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+            {croppedImageUrl && (
+              <div>
+                <FormLabel>Cropped Image Preview</FormLabel>
+                <div className="mt-2 relative">
+                  <img src={croppedImageUrl} alt="Cropped" className="h-48 rounded-md" />
+                  <div className="absolute top-2 right-2 flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setIsCropping(true)}
+                    >
+                      Re-crop
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => {
+                        setCroppedImageUrl("");
+                        setImgSrc("");
+                        form.setValue("imageUrl", "");
+                        if (fileInputRef.current) {
+                          fileInputRef.current.value = "";
+                        }
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
             <FormField
               control={form.control}
               name="description"
