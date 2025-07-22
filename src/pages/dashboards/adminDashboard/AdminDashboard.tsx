@@ -24,6 +24,7 @@ import WebsiteNavigationSection from "./WebsiteNavigationSection";
 import logoRemovedBg from "@/images/logoRemovedBg.png";
 
 const sidebarItems = [
+  { label: "Dashboard", value: "dashboard", icon: <Menu className="w-5 h-5" /> },
   { label: "Courses", value: "courses", icon: <BookOpen className="w-5 h-5" /> },
   { label: "New Course", value: "new", icon: <PlusCircle className="w-5 h-5" /> },
   { label: "Donors", value: "donors", icon: <Users className="w-5 h-5" /> },

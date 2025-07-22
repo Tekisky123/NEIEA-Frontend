@@ -16,8 +16,14 @@ import { useForm } from "react-hook-form";
 const formSchema = z.object({
     email: z.string().min(1, "Email is required").email("Invalid email address"),
     institutionName: z.string().min(1, "Institution Name is required"),
-    howDidYouFindUs: z.string().min(1, "This field is required"),
-    referredBy: z.string().min(1, "Referred By is required"),
+    howDidYouFindUs: z.string().optional().refine(
+      (val) => !val || val.length > 0,
+      { message: "This field is required" }
+    ),
+    referredBy: z.string().optional().refine(
+      (val) => !val || val.length > 0,
+      { message: "Referred By is required" }
+    ),
     coordinatorName: z.string().min(1, "Coordinator Name is required"),
     coordinatorContactNumber1: z.string().min(10, "Contact number must be at least 10 digits").max(10, "Contact number must be at most 10 digits").regex(/^\d+$/, "Contact number must contain only numbers"),
     coordinatorEmail: z.string().min(1, "Coordinator Email is required").email("Invalid email address"),
@@ -72,7 +78,9 @@ const ApplyCourseInstitution = () => {
             const formData = new FormData();
             Object.entries(data).forEach(([key, value]) => {
                 if (key !== "studentList" && key !== "institutionLogo") {
-                    formData.append(key, value);
+                    if (typeof value === 'string') {
+                        formData.append(key, value);
+                    }
                 }
             });
 
@@ -119,7 +127,7 @@ const ApplyCourseInstitution = () => {
                                 {errors.institutionName && <p className="mt-2 text-sm text-red-600">{errors.institutionName.message}</p>}
                             </div>
                             <div>
-                                <label htmlFor="howDidYouFindUs" className="block text-sm font-medium text-gray-700">How did you find us? *</label>
+                                <label htmlFor="howDidYouFindUs" className="block text-sm font-medium text-gray-700">How did you find us?</label>
                                 <select id="howDidYouFindUs" {...register("howDidYouFindUs")} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="">Select Option</option>
                                     <option value="Facebook">Facebook</option>
@@ -131,7 +139,7 @@ const ApplyCourseInstitution = () => {
                                 {errors.howDidYouFindUs && <p className="mt-2 text-sm text-red-600">{errors.howDidYouFindUs.message}</p>}
                             </div>
                             <div>
-                                <label htmlFor="referredBy" className="block text-sm font-medium text-gray-700">Referred By *</label>
+                                <label htmlFor="referredBy" className="block text-sm font-medium text-gray-700">Referred By</label>
                                 <select id="referredBy" {...register("referredBy")} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="">Select Option</option>
                                     {referredByOptions.map((option) => (

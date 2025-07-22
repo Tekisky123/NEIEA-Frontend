@@ -37,7 +37,7 @@ const courseSchema = z.object({
   title: z.string().min(1, "Title is required").max(100),
   description: z.string().min(1, "Course overview is required").max(500),
   imageUrl: z.string().optional(),
-  instructor: z.string().min(1, "Instructor is required"),
+  // instructor: z.string().min(1, "Instructor is required"),
   level: z.enum(["beginner", "intermediate", "advanced"], {
     required_error: "Level is required",
   }),
@@ -61,7 +61,7 @@ const NewCourse = () => {
       title: "",
       description: "",
       imageUrl: "",
-      instructor: "",
+      // instructor: "",
       level: undefined,
       duration: "",
       targetAudience: [""],
@@ -86,7 +86,7 @@ const NewCourse = () => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
-    formData.append("instructor", data.instructor);
+    // formData.append("instructor", data.instructor);
     formData.append("level", data.level);
     formData.append("duration", data.duration);
     data.targetAudience.forEach((ta) => formData.append("targetAudience[]", ta));
@@ -205,7 +205,7 @@ const NewCourse = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="instructor"
                 render={({ field }) => (
@@ -217,7 +217,7 @@ const NewCourse = () => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
+              /> */}
               <FormField
                 control={form.control}
                 name="level"
@@ -386,8 +386,11 @@ const NewCourse = () => {
                 </FormItem>
               )}
             />
-            <div className="flex justify-end pt-4">
-              <Button type="submit" className="w-full md:w-auto">
+            <div className="flex justify-center pt-4">
+              <Button
+                type="submit"
+                className="w-full md:w-auto bg-ngo-color4 hover:bg-ngo-color2 text-white font-bold shadow-lg border-2 transition-all duration-300"
+              >
                 <PlusCircle className="w-4 h-4 mr-2" />
                 Create Course
               </Button>

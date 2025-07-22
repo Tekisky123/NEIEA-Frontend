@@ -108,17 +108,17 @@ const ApplyCourse = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name *</label>
                 <Input id="fullName" {...register("fullName")} placeholder="Your Full Name" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
                 {errors.fullName && <p className="mt-2 text-sm text-red-600">{errors.fullName.message}</p>}
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email *</label>
                 <Input id="email" {...register("email")} type="email" placeholder="Your Email" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
                 {errors.email && <p className="mt-2 text-sm text-red-600">{errors.email.message}</p>}
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number *</label>
                 <Input
                   id="phone"
                   {...register("phone")}
@@ -129,17 +129,17 @@ const ApplyCourse = () => {
                 {errors.phone && <p className="mt-2 text-sm text-red-600">{errors.phone.message}</p>}
               </div>
               <div>
-                <label htmlFor="motherTongue" className="block text-sm font-medium text-gray-700">Mother Tongue</label>
+                <label htmlFor="motherTongue" className="block text-sm font-medium text-gray-700">Mother Tongue *</label>
                 <Input id="motherTongue" {...register("motherTongue")} placeholder="Mother Tongue" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
                 {errors.motherTongue && <p className="mt-2 text-sm text-red-600">{errors.motherTongue.message}</p>}
               </div>
               <div>
-                <label htmlFor="age" className="block text-sm font-medium text-gray-700">Age</label>
+                <label htmlFor="age" className="block text-sm font-medium text-gray-700">Age *</label>
                 <Input id="age" {...register("age")} placeholder="Age" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
                 {errors.age && <p className="mt-2 text-sm text-red-600">{errors.age.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Gender</label>
+                <label className="block text-sm font-medium text-gray-700">Gender *</label>
                 <div className="flex mt-4 items-center gap-4">
                   {["Male", "Female", "Others"].map((gender) => (
                     <div key={gender} className="flex items-center">
@@ -161,7 +161,7 @@ const ApplyCourse = () => {
                 {errors.gender && <p className="mt-2 text-sm text-red-600">{errors.gender.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Are you a student?</label>
+                <label className="block text-sm font-medium text-gray-700">Are you a student? *</label>
                 <div className="flex mt-4 items-center gap-4">
                   {["Yes", "No"].map((option) => (
                     <div key={option} className="flex items-center">
@@ -184,13 +184,13 @@ const ApplyCourse = () => {
               </div>
               {isStudent === "Yes" && (
                 <div>
-                  <label htmlFor="classStudying" className="block text-sm font-medium text-gray-700">Which class are you studying in?</label>
+                  <label htmlFor="classStudying" className="block text-sm font-medium text-gray-700">Which class are you studying in? *</label>
                   <Input id="classStudying" {...register("classStudying")} placeholder="Which class are you studying in?" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
                   {errors.classStudying && <p className="mt-2 text-sm text-red-600">{errors.classStudying.message}</p>}
                 </div>
               )}
               <div>
-                <label htmlFor="state" className="block text-sm font-medium text-gray-700">State</label>
+                <label htmlFor="state" className="block text-sm font-medium text-gray-700">State *</label>
                 <select id="state" {...register("state")} onChange={handleChange} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                   <option value="">Select State</option>
                   {statesAndCities.map((stateData) => (
@@ -200,7 +200,7 @@ const ApplyCourse = () => {
                 {errors.state && <p className="mt-2 text-sm text-red-600">{errors.state.message}</p>}
               </div>
               <div>
-                <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700">City *</label>
                 <select id="city" {...register("city")} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                   <option value="">Select City</option>
                   {cities.map((city) => (
@@ -210,7 +210,7 @@ const ApplyCourse = () => {
                 {errors.city && <p className="mt-2 text-sm text-red-600">{errors.city.message}</p>}
               </div>
               <div>
-                <label htmlFor="whatsappNumber" className="block text-sm font-medium text-gray-700">WhatsApp Contact Number</label>
+                <label htmlFor="whatsappNumber" className="block text-sm font-medium text-gray-700">WhatsApp Contact Number *</label>
                 <Input
                   id="whatsappNumber"
                   {...register("whatsappNumber")}
@@ -221,7 +221,7 @@ const ApplyCourse = () => {
                 {errors.whatsappNumber && <p className="mt-2 text-sm text-red-600">{errors.whatsappNumber.message}</p>}
               </div>
               <div>
-                <label htmlFor="referredBy" className="block text-sm font-medium text-gray-700">Referred By</label>
+                <label htmlFor="referredBy" className="block text-sm font-medium text-gray-700">Referred By *</label>
                 <select id="referredBy" {...register("referredBy")} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                   {referredByOptions.map((option) => (
                     <option key={option} value={option}>{option}</option>
@@ -230,7 +230,7 @@ const ApplyCourse = () => {
                 {errors.referredBy && <p className="mt-2 text-sm text-red-600">{errors.referredBy.message}</p>}
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Convenient Time Slot</label>
+                <label className="block text-sm font-medium text-gray-700">Convenient Time Slot *</label>
                 <div className="flex mt-4 items-center gap-4">
                   {["9:00 PM - 10:00 PM"].map((slot) => (
                     <div key={slot} className="flex items-center">

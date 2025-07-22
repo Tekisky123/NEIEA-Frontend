@@ -36,12 +36,8 @@ const Navigation: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 bg-ngo-color6 border-b shadow-sm">
       {/* Top Banner */}
-      <div className="w-full bg-ngo-color6 text-white flex flex-col md:flex-row items-center justify-between px-4 md:px-12 py-3 gap-3 md:gap-0 shadow-xl z-50">
-        <div className="flex-1 text-center md:text-left">
-          <span className="font-bold text-lg md:text-2xl">Support Education, Change Lives!</span>
-          <span className="block md:inline text-sm md:text-base font-medium md:ml-3 text-white/90">Your donation and time can make a real difference for children and communities.</span>
-        </div>
-        <div className="flex gap-3 mt-2 md:mt-0">
+      <div className="w-full bg-ngo-color6 text-white flex flex-col md:flex-row items-center justify-between px-4 md:px-12 py-1.5 gap-3 md:gap-0 shadow-xl z-50">
+        <div className="flex gap-3 mt-2 md:mt-0 md:ml-auto">
           <a
             href="/donate"
             className="inline-block bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold rounded-full px-6 py-2 md:px-8 md:py-3 text-base md:text-lg shadow transition-all duration-300 border-2 border-ngo-color4"
@@ -61,6 +57,7 @@ const Navigation: React.FC = () => {
         <Link to="/" className="flex items-center lg:justify-between space-x-8 space-y-2">
           <img src={logoRemovedBg} alt="NEIEA Logo" className="lg:w-20 w-16" />
           <div className="lg:text-xl font-bold text-ngo-color5 text-md">
+            NEIEA <br />
             The New Equitable and Innovative Educational Association
           </div>
         </Link>

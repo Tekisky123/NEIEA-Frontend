@@ -65,7 +65,6 @@ const useNavigation = () => {
         { label: 'Global Partners', href: '/partners/global' },
       ],
     },
-    { label: 'NEI USA', href: '/nei-usa' },
     { label: 'Donate', href: '/donate' },
     { label: 'Featured Stories', href: '/stories' },
     {
@@ -80,6 +79,7 @@ const useNavigation = () => {
       ],
     },
     { label: 'Volunteers', href: '/volunteer' },
+    { label: 'NEI USA', href: '/nei-usa' },
   ];
 
   return {
