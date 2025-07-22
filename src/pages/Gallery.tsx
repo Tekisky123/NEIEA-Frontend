@@ -1,4 +1,6 @@
 import Layout from "@/components/Layout";
+import HeroCarousel from "@/components/HeroCarousel";
+import VideoCards from "@/components/videoCards";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -22,8 +24,6 @@ import {
   List,
 } from "lucide-react";
 import { useState } from "react";
-import HeroCarousel from "@/components/HeroCarousel";
-import VideoCards from "@/components/videoCards";
 
 const Gallery = () => {
   const [viewMode, setViewMode] = useState("grid");
