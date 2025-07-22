@@ -1,6 +1,6 @@
 import Layout from "@/components/Layout";
 import HeroCarousel from "@/components/HeroCarousel";
-import VideoCards from "@/components/videoCards";
+import VideoCards from "@/components/VideoCards";
 import { Button } from "@/components/ui/button";
 import {
   Card,
