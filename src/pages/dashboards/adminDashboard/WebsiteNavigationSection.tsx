@@ -44,6 +44,17 @@ interface Carousel {
   updatedAt: string;
 }
 
+// Add VideoCard type
+interface VideoCard {
+  _id: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  duration: string;
+  videoUrl: string;
+  page: string;
+}
+
 const WebsiteNavigationSection = () => {
   const [activePage, setActivePage] = useState(navigationPages[0].key);
   const [activeSubmenu, setActiveSubmenu] = useState(navigationPages[0].submenus[0].key);
@@ -56,6 +67,13 @@ const WebsiteNavigationSection = () => {
   const [loadingCarousel, setLoadingCarousel] = useState(false);
   const [deletingImage, setDeletingImage] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Video Cards state
+  const [videoCards, setVideoCards] = useState<VideoCard[]>([]);
+  const [loadingVideoCards, setLoadingVideoCards] = useState(false);
+  const [videoCardForm, setVideoCardForm] = useState<Partial<VideoCard>>({});
+  const [editingVideoCardId, setEditingVideoCardId] = useState<string | null>(null);
+  const [videoCardUploading, setVideoCardUploading] = useState(false);
 
   const currentPage = navigationPages.find((page) => page.key === activePage);
   const currentSubmenu = currentPage?.submenus.find((sm) => sm.key === activeSubmenu);
@@ -109,8 +127,26 @@ const WebsiteNavigationSection = () => {
     }
   };
 
+  // Fetch video cards for the current submenu
+  const fetchVideoCards = async () => {
+    setLoadingVideoCards(true);
+    try {
+      const res = await axiosInstance.get(`/video-cards/${activeSubmenu}`);
+      if (res.data.success && res.data.data) {
+        setVideoCards(res.data.data);
+      } else {
+        setVideoCards([]);
+      }
+    } catch (err) {
+      setVideoCards([]);
+    } finally {
+      setLoadingVideoCards(false);
+    }
+  };
+
   useEffect(() => {
     fetchExistingCarousel();
+    fetchVideoCards();
   }, [activeSubmenu]);
 
   const handleCarouselSubmit = async (e: React.FormEvent) => {
@@ -137,18 +173,57 @@ const WebsiteNavigationSection = () => {
     }
   };
 
-  const handleDeleteImage = async (imageId: string) => {
-    if (!confirm("Are you sure you want to delete this image?")) return;
-    
-    setDeletingImage(imageId);
+  // Handle form input changes
+  const handleVideoCardInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setVideoCardForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Add or update video card
+  const handleVideoCardSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setVideoCardUploading(true);
     try {
-      await axiosInstance.delete(`/carousel/${activeSubmenu}/image/${imageId}`);
-      toast.success("Image deleted successfully!");
-      fetchExistingCarousel(); // Refresh the carousel
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Failed to delete image.");
+      if (editingVideoCardId) {
+        // Update
+        await axiosInstance.put(`/admin/video-cards/${editingVideoCardId}`, {
+          ...videoCardForm,
+          page: activeSubmenu,
+        });
+        toast.success("Video card updated!");
+      } else {
+        // Add
+        await axiosInstance.post(`/admin/video-cards`, {
+          ...videoCardForm,
+          page: activeSubmenu,
+        });
+        toast.success("Video card added!");
+      }
+      setVideoCardForm({});
+      setEditingVideoCardId(null);
+      fetchVideoCards();
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to save video card.");
     } finally {
-      setDeletingImage(null);
+      setVideoCardUploading(false);
+    }
+  };
+
+  // Edit video card
+  const handleEditVideoCard = (card: VideoCard) => {
+    setVideoCardForm(card);
+    setEditingVideoCardId(card._id);
+  };
+
+  // Delete video card
+  const handleDeleteVideoCard = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this video card?")) return;
+    try {
+      await axiosInstance.delete(`/admin/video-cards/${id}`);
+      toast.success("Video card deleted!");
+      fetchVideoCards();
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to delete video card.");
     }
   };
 
@@ -221,42 +296,40 @@ const WebsiteNavigationSection = () => {
                 ) : existingCarousel ? (
                   <div className="mb-6">
                     <h3 className="text-md font-medium mb-3 text-gray-700">Current Carousel Images</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {(existingCarousel.images || []).map((image, idx) => (
-                        <div key={image._id} className="relative group bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                          <img
-                            src={image.url}
-                            alt={`Carousel ${idx + 1}`}
-                            className="w-full h-48 object-cover"
-                          />
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-200"></div>
-                          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <button
-                              onClick={() => handleDeleteImage(image._id)}
-                              disabled={deletingImage === image._id}
-                              className="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm hover:bg-red-700 transition-colors disabled:opacity-50"
-                              title="Delete image"
-                            >
-                              {deletingImage === image._id ? (
-                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                              ) : (
-                                "×"
-                              )}
-                            </button>
-                          </div>
-                          <div className="p-3">
-                            <div className="text-sm text-gray-600">
-                              Image {idx + 1} of {existingCarousel.images?.length || 0}
-                            </div>
-                            {image.heading && (
-                              <div className="text-xs text-gray-500 mt-1 truncate">
-                                Heading: {image.heading}
+                    {existingCarousel.images && existingCarousel.images.length > 0 ? (
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {(existingCarousel.images || []).map((image, idx) => (
+                          <div key={image._id} className="relative group bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                            <img
+                              src={image.url}
+                              alt={`Carousel ${idx + 1}`}
+                              className="w-full h-48 object-cover"
+                            />
+                            {/* Removed delete button and overlay */}
+                            <div className="p-3">
+                              <div className="text-sm text-gray-600">
+                                Image {idx + 1} of {existingCarousel.images?.length || 0}
                               </div>
-                            )}
+                              {image.heading && (
+                                <div className="text-xs text-gray-500 mt-1 truncate">
+                                  Heading: {image.heading}
+                                </div>
+                              )}
+                            </div>
                           </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="mb-6 p-6 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                        <div className="text-gray-500 mb-2">
+                          <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
                         </div>
-                      ))}
-                    </div>
+                        <p className="text-gray-600 font-medium">No images present in the carousel yet</p>
+                        <p className="text-gray-500 text-sm">Upload images to populate the carousel for this page</p>
+                      </div>
+                    )}
                     <div className="text-sm text-gray-500 mt-2">
                       Last updated: {existingCarousel.updatedAt ? new Date(existingCarousel.updatedAt).toLocaleDateString() : 'N/A'}
                     </div>
@@ -332,8 +405,96 @@ const WebsiteNavigationSection = () => {
               {/* Video Cards CRUD */}
               <section>
                 <h2 className="text-lg font-semibold mb-2">Video Cards</h2>
-                <div className="border border-dashed border-gray-300 rounded p-6 text-center text-gray-500">
-                  Video cards (video URLs) management coming soon...
+                <div className="border border-dashed border-gray-300 rounded p-6">
+                  {/* Video Card Form */}
+                  <form onSubmit={handleVideoCardSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <input
+                      type="text"
+                      name="title"
+                      placeholder="Title"
+                      value={videoCardForm.title || ""}
+                      onChange={handleVideoCardInput}
+                      className="border rounded px-3 py-2"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="thumbnail"
+                      placeholder="Thumbnail URL"
+                      value={videoCardForm.thumbnail || ""}
+                      onChange={handleVideoCardInput}
+                      className="border rounded px-3 py-2"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="duration"
+                      placeholder="Duration (e.g. 5:32)"
+                      value={videoCardForm.duration || ""}
+                      onChange={handleVideoCardInput}
+                      className="border rounded px-3 py-2"
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="videoUrl"
+                      placeholder="Video URL"
+                      value={videoCardForm.videoUrl || ""}
+                      onChange={handleVideoCardInput}
+                      className="border rounded px-3 py-2"
+                      required
+                    />
+                    <textarea
+                      name="description"
+                      placeholder="Description"
+                      value={videoCardForm.description || ""}
+                      onChange={handleVideoCardInput}
+                      className="border rounded px-3 py-2 md:col-span-2"
+                      required
+                    />
+                    <div className="md:col-span-2 flex gap-3">
+                      <Button
+                        type="submit"
+                        className="bg-ngo-color6 hover:bg-ngo-color5"
+                        disabled={videoCardUploading}
+                      >
+                        {editingVideoCardId ? (videoCardUploading ? "Updating..." : "Update Video Card") : (videoCardUploading ? "Adding..." : "Add Video Card")}
+                      </Button>
+                      {editingVideoCardId && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => { setVideoCardForm({}); setEditingVideoCardId(null); }}
+                        >
+                          Cancel
+                        </Button>
+                      )}
+                    </div>
+                  </form>
+                  {/* Video Cards List */}
+                  {loadingVideoCards ? (
+                    <div className="text-center py-8 text-gray-500">Loading video cards...</div>
+                  ) : videoCards.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">No video cards found for this page.</div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {videoCards.map((card) => (
+                        <div key={card._id} className="border rounded-lg p-4 bg-white shadow-sm flex flex-col gap-2 relative">
+                          <img src={card.thumbnail} alt={card.title} className="w-full h-40 object-cover rounded mb-2" />
+                          <div className="font-semibold text-lg text-ngo-color6">{card.title}</div>
+                          <div className="text-sm text-gray-600 mb-1">{card.description}</div>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <span>Duration: {card.duration}</span>
+                            <a href={card.videoUrl} target="_blank" rel="noopener noreferrer" className="text-ngo-color4 underline ml-auto">Watch</a>
+                          </div>
+                          <div className="flex gap-2 mt-2">
+                            <Button size="sm" onClick={() => handleEditVideoCard(card)} className="bg-ngo-color6 hover:bg-ngo-color5">Edit</Button>
+                            <Button size="sm" variant="outline" onClick={() => handleDeleteVideoCard(card._id)} className="text-red-600 border-red-200 hover:bg-red-50">Delete</Button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </section>
             </div>

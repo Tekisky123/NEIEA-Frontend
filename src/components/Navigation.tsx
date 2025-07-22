@@ -35,6 +35,28 @@ const Navigation: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-ngo-color6 border-b shadow-sm">
+      {/* Top Banner */}
+      <div className="w-full bg-ngo-color6 text-white flex flex-col md:flex-row items-center justify-between px-4 md:px-12 py-3 gap-3 md:gap-0 shadow-xl z-50">
+        <div className="flex-1 text-center md:text-left">
+          <span className="font-bold text-lg md:text-2xl">Support Education, Change Lives!</span>
+          <span className="block md:inline text-sm md:text-base font-medium md:ml-3 text-white/90">Your donation and time can make a real difference for children and communities.</span>
+        </div>
+        <div className="flex gap-3 mt-2 md:mt-0">
+          <a
+            href="/donate"
+            className="inline-block bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold rounded-full px-6 py-2 md:px-8 md:py-3 text-base md:text-lg shadow transition-all duration-300 border-2 border-ngo-color4"
+          >
+            Donate Now
+          </a>
+          <a
+            href="/volunteer"
+            className="inline-block bg-white hover:bg-gray-100 text-ngo-color6 font-bold rounded-full px-6 py-2 md:px-8 md:py-3 text-base md:text-lg shadow transition-all duration-300 border-2 border-white"
+          >
+            Volunteer
+          </a>
+        </div>
+      </div>
+      <hr />
       <div className="mx-auto px-4 py-2 flex sm:items-center sm:flex-row flex-col sm:justify-between">
         <Link to="/" className="flex items-center lg:justify-between space-x-8 space-y-2">
           <img src={logoRemovedBg} alt="NEIEA Logo" className="lg:w-20 w-16" />

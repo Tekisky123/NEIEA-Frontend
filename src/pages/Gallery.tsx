@@ -22,6 +22,8 @@ import {
   List,
 } from "lucide-react";
 import { useState } from "react";
+import HeroCarousel from "@/components/HeroCarousel";
+import VideoCards from "@/components/videoCards";
 
 const Gallery = () => {
   const [viewMode, setViewMode] = useState("grid");
@@ -197,8 +199,10 @@ const Gallery = () => {
 
   return (
     <Layout>
+      <HeroCarousel pageKey="introduction" />
+
       {/* Hero Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
+      {/* <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -230,10 +234,25 @@ const Gallery = () => {
             </div>
           </div>
         </div>
+      </section> */}
+
+      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
+            About NEIEA Introduction
+            </h1>
+            <p className="text-lg lg:text-xl leading-relaxed mb-8">
+              NEIEA (New Equitable And Innovative Educational Association) is dedicated to empowering communities through quality education, innovation, and equity. Our mission is to bridge educational gaps and create sustainable solutions for underserved populations. Explore our story, vision, and impact below.
+            </p>
+          </div>
+        </div>
       </section>
 
+      <VideoCards />
+
       {/* Featured Media */}
-      <section className="py-16 bg-white">
+      {/* <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
@@ -327,10 +346,10 @@ const Gallery = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Filter and View Controls */}
-      <section className="py-12 bg-gray-50 border-t">
+      {/* <section className="py-12 bg-gray-50 border-t">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
             <div className="flex flex-wrap gap-3">
@@ -378,10 +397,10 @@ const Gallery = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Media Grid */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           {viewMode === "grid" ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -547,10 +566,10 @@ const Gallery = () => {
             </div>
           )}
         </div>
-      </section>
+      </section> */}
 
       {/* Call to Action */}
-      <section className="py-16 bg-ngo-color4 text-white">
+      {/* <section className="py-16 bg-ngo-color4 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Share Your Story
@@ -577,7 +596,7 @@ const Gallery = () => {
             </Button>
           </div>
         </div>
-      </section>
+      </section> */}
     </Layout>
   );
 };

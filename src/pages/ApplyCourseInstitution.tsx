@@ -28,7 +28,7 @@ const formSchema = z.object({
             (val) => !val || (val.length === 10 && /^\d+$/.test(val)),
             "Contact number must be 10 digits and contain only numbers"
         ),
-    coordinatorEmail2: z.string(),
+    coordinatorEmail2: z.string().email("Invalid email address").or(z.literal("")),
     state: z.string().min(1, "State is required"),
     city: z.string().min(1, "City is required"),
     address: z.string().min(1, "Address is required"),

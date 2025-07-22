@@ -106,7 +106,7 @@ const Courses = () => {
                   : "bg-white border border-gray-300"
               }`}
             >
-              Student
+              Individual
             </button>
             <button
               onClick={() => setRole("institution")}
