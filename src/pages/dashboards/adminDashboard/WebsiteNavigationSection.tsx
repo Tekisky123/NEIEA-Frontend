@@ -3,26 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import axiosInstance from "@/lib/axiosInstance";
 import { toast } from "sonner";
-
-const navigationPages = [
-  {
-    label: "About Us",
-    key: "about-us",
-    submenus: [
-      { label: 'Introduction of NEIEA', key: 'introduction' },
-      { label: 'Vision and Mission', key: 'vision-mission' },
-      { label: 'Leadership and Team', key: 'leadership' },
-      { label: 'Management Advisory Board', key: 'advisory-board' },
-      { label: 'Blended Learning Model', key: 'blended-learning' },
-      { label: 'Our Working Process', key: 'workshops' },
-      { label: 'Application of Technologies', key: 'technologies' },
-      { label: 'Discourse Oriented Pedagogy (DOP)', key: 'eop' },
-      { label: 'Impact', key: 'impact' },
-      { label: 'Testimonials', key: 'testimonials' },
-    ],
-  },
-  // Add more main pages here as needed
-];
+import { navigationPages } from "@/lib/navigationPages";
 
 const MAX_IMAGES = 3;
 const MAX_SIZE_MB = 1;
@@ -57,7 +38,7 @@ interface VideoCard {
 
 const WebsiteNavigationSection = () => {
   const [activePage, setActivePage] = useState(navigationPages[0].key);
-  const [activeSubmenu, setActiveSubmenu] = useState(navigationPages[0].submenus[0].key);
+  const [activeSubmenu, setActiveSubmenu] = useState(navigationPages[0].submenus[0]?.key);
   const [submenuOpen, setSubmenuOpen] = useState<string | null>(null);
 
   // Carousel Images state
@@ -106,6 +87,7 @@ const WebsiteNavigationSection = () => {
 
   // Fetch existing carousel
   const fetchExistingCarousel = async () => {
+    if (!activeSubmenu) return;
     setLoadingCarousel(true);
     try {
       const response = await axiosInstance.get(`/carousel/${activeSubmenu}`);
@@ -129,6 +111,7 @@ const WebsiteNavigationSection = () => {
 
   // Fetch video cards for the current submenu
   const fetchVideoCards = async () => {
+    if (!activeSubmenu) return;
     setLoadingVideoCards(true);
     try {
       const res = await axiosInstance.get(`/video-cards/${activeSubmenu}`);
@@ -145,8 +128,10 @@ const WebsiteNavigationSection = () => {
   };
 
   useEffect(() => {
-    fetchExistingCarousel();
-    fetchVideoCards();
+    if (activeSubmenu) {
+      fetchExistingCarousel();
+      fetchVideoCards();
+    }
   }, [activeSubmenu]);
 
   const handleCarouselSubmit = async (e: React.FormEvent) => {
@@ -244,7 +229,7 @@ const WebsiteNavigationSection = () => {
               }`}
               onClick={() => {
                 setActivePage(page.key);
-                setActiveSubmenu(page.submenus[0].key);
+                setActiveSubmenu(page.submenus[0]?.key);
               }}
             >
               {page.label}
@@ -361,6 +346,13 @@ const WebsiteNavigationSection = () => {
                       disabled={carouselImages.length >= MAX_IMAGES || uploading}
                       className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-ngo-color6 file:text-white hover:file:bg-ngo-color5"
                     />
+                    <div className="text-xs text-gray-500 mt-1">
+                      Recommended size: <span className="font-medium">23:9 aspect ratio, at least 1840x720px</span> for best results in the homepage carousel.
+                    </div>
+                    <div className="text-xs text-gray-400 mt-1 italic">
+                      Example prompt for AI image generation:<br/>
+                      <span className="text-gray-600">"A beautiful, inspiring education scene in India, children learning together, bright and positive, 23:9 aspect ratio, 1840x720px"</span>
+                    </div>
                     <div className="flex gap-4 flex-wrap">
                       {carouselImages.map((img, idx) => (
                         <div key={idx} className="relative group">

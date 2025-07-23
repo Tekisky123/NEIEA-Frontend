@@ -249,7 +249,7 @@ const Gallery = () => {
         </div>
       </section>
 
-      <VideoCards />
+      <VideoCards pageKey="introduction" />
 
       {/* Featured Media */}
       {/* <section className="py-16 bg-white">

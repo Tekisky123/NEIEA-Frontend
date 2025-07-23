@@ -277,6 +277,13 @@ const NewCourse = () => {
                     onChange={onSelectFile}
                   />
                 </FormControl>
+                <div className="text-xs text-gray-500 mt-1">
+                  Recommended size: <span className="font-medium">16:9 aspect ratio, at least 480x270px</span> to match the crop frame and ensure sharp display on all screens.
+                </div>
+                <div className="text-xs text-gray-400 mt-1 italic">
+                  Example prompt for AI image generation:<br/>
+                  <span className="text-gray-600">"A vibrant classroom scene with Indian children learning together, books and educational materials, bright and positive, 16:9 aspect ratio, 480x270px"</span>
+                </div>
                 <FormMessage />
               </FormItem>
             </div>

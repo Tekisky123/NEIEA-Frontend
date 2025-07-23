@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/card";
 import { Play, Share2 } from "lucide-react";
 import axiosInstance from "@/lib/axiosInstance";
+import { navigationPages } from "@/lib/navigationPages";
 
 interface VideoCard {
   _id: string;
