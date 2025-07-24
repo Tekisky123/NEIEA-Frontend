@@ -78,7 +78,7 @@ const useNavigation = () => {
         { label: 'FAQ', href: '/contact/faq' },
       ],
     },
-    { label: 'Volunteers', href: '/volunteer' },
+    { label: 'Volunteer', href: '/volunteer' },
     { label: 'NEI USA', href: '/nei-usa' },
   ];
 
