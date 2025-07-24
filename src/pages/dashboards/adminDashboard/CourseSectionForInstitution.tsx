@@ -24,6 +24,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { SectionLoader } from "@/components/LoadingSpinner";
+import * as XLSX from "xlsx";
 
 const CourseSectionForInstitution = ({ searchQuery = "" }) => {
   const [institutions, setInstitutions] = useState([]);
@@ -71,6 +72,36 @@ const CourseSectionForInstitution = ({ searchQuery = "" }) => {
   );
   const totalPages = Math.ceil(filteredInstitutions.length / pageSize);
 
+  const handleDownloadExcel = () => {
+    const data = filteredInstitutions.map((inst) => ({
+      "Institution Name": inst.institutionName,
+      "Coordinator Name": inst.coordinatorName,
+      "Email Address": inst.email,
+      "Number Of Students": inst.numberOfStudents,
+      "Start Month": inst.startMonth,
+      "Suitable Time Slot": inst.suitableTimeSlot,
+      "Applied Courses": inst.appliedCourses?.length || 0,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Institutions Report");
+    XLSX.writeFile(workbook, "institutions_report.xlsx");
+  };
+
+  const handleDownloadCoursesExcel = () => {
+    if (!selectedInstitution || !selectedInstitution.appliedCourses) return;
+    const data = selectedInstitution.appliedCourses.map((course) => ({
+      Title: course.title,
+      Overview: course.description,
+      Duration: course.duration,
+    }));
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Applied Courses");
+    const institutionName = (selectedInstitution.institutionName || "institution").replace(/\s+/g, "_");
+    XLSX.writeFile(workbook, `${institutionName}_courses.xlsx`);
+  };
+
   return (
     <Card className="border-0 shadow-none rounded-none">
       <CardHeader>
@@ -81,6 +112,9 @@ const CourseSectionForInstitution = ({ searchQuery = "" }) => {
               View all institutions and their applied courses
             </CardDescription>
           </div>
+          <Button onClick={handleDownloadExcel} className="bg-ngo-color6 text-white font-bold">
+            Download
+          </Button>
         </div>
       </CardHeader>
 
@@ -168,9 +202,16 @@ const CourseSectionForInstitution = ({ searchQuery = "" }) => {
       <Dialog open={viewCourses} onOpenChange={setViewCourses}>
         <DialogContent className="max-w-3xl">
           <DialogHeader>
-            <DialogTitle>
-              Applied Courses for: {selectedInstitution?.institutionName}
-            </DialogTitle>
+            <div className="flex justify-between items-center">
+              <DialogTitle>
+                Applied Courses for: {selectedInstitution?.institutionName}
+              </DialogTitle>
+              {selectedInstitution?.appliedCourses?.length > 0 && (
+                <Button onClick={handleDownloadCoursesExcel} className="bg-ngo-color6 mr-8 text-white font-bold">
+                  Download
+                </Button>
+              )}
+            </div>
           </DialogHeader>
           {selectedInstitution?.appliedCourses?.length > 0 ? (
             <Table>
