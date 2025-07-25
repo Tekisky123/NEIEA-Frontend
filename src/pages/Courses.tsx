@@ -138,7 +138,7 @@ const Courses = () => {
             </div>
           </div>
           {role === "institution" && selectedCourses.length > 0 && (
-            <div className="fixed bottom-6 left-6 z-40 flex flex-col items-center space-y-2">
+            <div className="fixed bottom-6 sm:bottom-[23rem] md:bottom-[18rem] left-6 sm:md:left-[40rem] z-40 flex flex-col items-center space-y-2">
               <div className="bg-blue-50 border-l-4 border-blue-400 p-3 text-sm text-blue-700 rounded shadow mb-2">
                 <strong>{selectedCourses.length}</strong> course(s) selected
               </div>
