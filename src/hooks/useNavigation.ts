@@ -44,7 +44,7 @@ const useNavigation = () => {
     {
       label: 'Our Projects',
       items: [
-        { label: 'IT Skills Training', href: '/projects/it-skills' },
+        { label: 'IT Skills Training', href: '/it-skills-training' },
         { label: 'Cluster Education', href: '/projects/cluster-education' },
         { label: 'Teachers Training', href: '/projects/teachers-training' },
         { label: 'Slum Children Education', href: '/projects/slum-children' },

@@ -24,6 +24,7 @@ import ApplyCourse from "./pages/ApplyCourse";
 import FloatingSocialIcons from "./components/FloatingSocialIcons";
 import ApplyCourseInstitution from "./pages/ApplyCourseInstitution";
 import EditCoursePage from "./pages/dashboards/adminDashboard/EditCoursePage";
+import ITSkillsTraining from "./pages/ITSkillsTraining";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +68,7 @@ const App = () => (
           <Route path="/donor/dashboard" element={<DonorDashboard />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/dashboard/course/edit/:id" element={<EditCoursePage />} />
+          <Route path="/it-skills-training" element={<ITSkillsTraining />} />
           {/* Additional Pages */}
           <Route
             path="/events"

@@ -16,6 +16,15 @@ export const navigationPages = [
       { label: 'Testimonials', key: 'testimonials' },
     ],
   },
+  {
+    label: "Our Projects",
+    key: "our-projects",
+    submenus: [
+      { label: 'IT Skills Training', key: 'it-skills-training' },
+      {label: "Cluster Education", key: "cluster-education"},
+      {label: "Teachers Training", key: "teachers-training"},
+    ],
+  },
   // Add more main pages here as needed
 ];
 
