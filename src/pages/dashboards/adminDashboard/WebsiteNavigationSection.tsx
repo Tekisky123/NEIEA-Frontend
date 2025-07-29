@@ -36,6 +36,34 @@ interface VideoCard {
   page: string;
 }
 
+// Add new types for IT Skills Training
+interface HeroSection {
+  _id: string;
+  h1: string;
+  h2: string;
+  page: string;
+}
+
+interface BulletPoint {
+  _id: string;
+  page: string;
+  points: string[];
+}
+
+interface Testimonial {
+  _id: string;
+  name: string;
+  message: string;
+  page: string;
+}
+
+// Map submenu keys to landing page URLs
+const submenuToUrl: Record<string, string> = {
+  "introduction": "/about/introduction",
+  "it-skills-training": "/it-skills-training",
+  // Add more mappings as needed
+};
+
 const WebsiteNavigationSection = () => {
   const [activePage, setActivePage] = useState(navigationPages[0].key);
   const [activeSubmenu, setActiveSubmenu] = useState(navigationPages[0].submenus[0]?.key);
@@ -55,6 +83,26 @@ const WebsiteNavigationSection = () => {
   const [videoCardForm, setVideoCardForm] = useState<Partial<VideoCard>>({});
   const [editingVideoCardId, setEditingVideoCardId] = useState<string | null>(null);
   const [videoCardUploading, setVideoCardUploading] = useState(false);
+
+  // IT Skills Training state
+  const [heroSection, setHeroSection] = useState<HeroSection | null>(null);
+  const [loadingHero, setLoadingHero] = useState(false);
+  const [heroForm, setHeroForm] = useState<Partial<HeroSection>>({});
+  const [heroUploading, setHeroUploading] = useState(false);
+
+  const [bulletPoints, setBulletPoints] = useState<BulletPoint | null>(null);
+  const [loadingBulletPoints, setLoadingBulletPoints] = useState(false);
+  const [bulletPointForm, setBulletPointForm] = useState<string>("");
+  const [bulletPointUploading, setBulletPointUploading] = useState(false);
+  const [editingBulletIndex, setEditingBulletIndex] = useState<number | null>(null);
+
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [loadingTestimonials, setLoadingTestimonials] = useState(false);
+  const [testimonialForm, setTestimonialForm] = useState<Partial<Testimonial>>({});
+  const [editingTestimonialId, setEditingTestimonialId] = useState<string | null>(null);
+  const [testimonialUploading, setTestimonialUploading] = useState(false);
+
+  const [previewMode, setPreviewMode] = useState(false);
 
   const currentPage = navigationPages.find((page) => page.key === activePage);
   const currentSubmenu = currentPage?.submenus.find((sm) => sm.key === activeSubmenu);
@@ -127,10 +175,72 @@ const WebsiteNavigationSection = () => {
     }
   };
 
+  // Fetch IT Skills Training data
+  const fetchHeroSection = async () => {
+    if (!activeSubmenu) return;
+    setLoadingHero(true);
+    try {
+      const res = await axiosInstance.get(`/hero-section/${activeSubmenu}`);
+      if (res.data.success && res.data.data && res.data.data.length > 0) {
+        // API returns an array, take the first item
+        const heroData = res.data.data[0];
+        setHeroSection(heroData);
+        setHeroForm(heroData);
+      } else {
+        setHeroSection(null);
+        setHeroForm({});
+      }
+    } catch (err) {
+      setHeroSection(null);
+      setHeroForm({});
+    } finally {
+      setLoadingHero(false);
+    }
+  };
+
+  const fetchBulletPoints = async () => {
+    if (!activeSubmenu) return;
+    setLoadingBulletPoints(true);
+    try {
+      const res = await axiosInstance.get(`/bullet-points/${activeSubmenu}`);
+      if (res.data.success && res.data.data && res.data.data.length > 0) {
+        // API returns an array, take the first item
+        const bulletData = res.data.data[0];
+        setBulletPoints(bulletData);
+      } else {
+        setBulletPoints(null);
+      }
+    } catch (err) {
+      setBulletPoints(null);
+    } finally {
+      setLoadingBulletPoints(false);
+    }
+  };
+
+  const fetchTestimonials = async () => {
+    if (!activeSubmenu) return;
+    setLoadingTestimonials(true);
+    try {
+      const res = await axiosInstance.get(`/testimonials/${activeSubmenu}`);
+      if (res.data.success && res.data.data) {
+        setTestimonials(res.data.data);
+      } else {
+        setTestimonials([]);
+      }
+    } catch (err) {
+      setTestimonials([]);
+    } finally {
+      setLoadingTestimonials(false);
+    }
+  };
+
   useEffect(() => {
     if (activeSubmenu) {
       fetchExistingCarousel();
       fetchVideoCards();
+      fetchHeroSection();
+      fetchBulletPoints();
+      fetchTestimonials();
     }
   }, [activeSubmenu]);
 
@@ -138,6 +248,10 @@ const WebsiteNavigationSection = () => {
     e.preventDefault();
     if (carouselImages.length === 0) {
       toast.error("Please select at least one image.");
+      return;
+    }
+    if (!activeSubmenu) {
+      toast.error("No active submenu selected.");
       return;
     }
     setUploading(true);
@@ -167,21 +281,39 @@ const WebsiteNavigationSection = () => {
   // Add or update video card
   const handleVideoCardSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate required fields
+    if (!videoCardForm.title?.trim() || !videoCardForm.description?.trim() || 
+        !videoCardForm.thumbnail?.trim() || !videoCardForm.duration?.trim() || 
+        !videoCardForm.videoUrl?.trim()) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    
+    if (!activeSubmenu) {
+      toast.error("No active submenu selected.");
+      return;
+    }
+    
     setVideoCardUploading(true);
     try {
+      // Filter out undefined values
+      const payload = {
+        title: videoCardForm.title.trim(),
+        description: videoCardForm.description.trim(),
+        thumbnail: videoCardForm.thumbnail.trim(),
+        duration: videoCardForm.duration.trim(),
+        videoUrl: videoCardForm.videoUrl.trim(),
+        page: activeSubmenu,
+      };
+      
       if (editingVideoCardId) {
         // Update
-        await axiosInstance.put(`/admin/video-cards/${editingVideoCardId}`, {
-          ...videoCardForm,
-          page: activeSubmenu,
-        });
+        await axiosInstance.put(`/admin/video-cards/${editingVideoCardId}`, payload);
         toast.success("Video card updated!");
       } else {
         // Add
-        await axiosInstance.post(`/admin/video-cards`, {
-          ...videoCardForm,
-          page: activeSubmenu,
-        });
+        await axiosInstance.post(`/admin/video-cards`, payload);
         toast.success("Video card added!");
       }
       setVideoCardForm({});
@@ -212,8 +344,234 @@ const WebsiteNavigationSection = () => {
     }
   };
 
+  // IT Skills Training form handlers
+  const handleHeroInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setHeroForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleHeroSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    if (!heroForm.h1?.trim() || !heroForm.h2?.trim()) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    
+    if (!activeSubmenu) {
+      toast.error("No active submenu selected.");
+      return;
+    }
+    
+    setHeroUploading(true);
+    try {
+      // Filter out undefined values
+      const payload = {
+        h1: heroForm.h1.trim(),
+        h2: heroForm.h2.trim(),
+        page: activeSubmenu,
+      };
+      
+      if (heroSection) {
+        // Update
+        await axiosInstance.put(`/admin/hero-section/${heroSection._id}`, payload);
+        toast.success("Hero section updated!");
+      } else {
+        // Add
+        await axiosInstance.post(`/admin/hero-section`, payload);
+        toast.success("Hero section added!");
+      }
+      fetchHeroSection();
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to save hero section.");
+    } finally {
+      setHeroUploading(false);
+    }
+  };
+
+  const handleBulletPointInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setBulletPointForm(value);
+  };
+
+  const handleBulletPointSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    if (!bulletPointForm.trim()) {
+      toast.error("Please enter bullet point text.");
+      return;
+    }
+    
+    if (!activeSubmenu) {
+      toast.error("No active submenu selected.");
+      return;
+    }
+    
+    setBulletPointUploading(true);
+    try {
+      // Get current points or create new array
+      const currentPoints = bulletPoints?.points || [];
+      let newPoints: string[];
+      
+      if (editingBulletIndex !== null) {
+        // Update existing bullet point
+        newPoints = [...currentPoints];
+        newPoints[editingBulletIndex] = bulletPointForm.trim();
+      } else {
+        // Add new bullet point
+        newPoints = [...currentPoints, bulletPointForm.trim()];
+      }
+      
+      const payload = {
+        points: newPoints,
+        page: activeSubmenu,
+      };
+      
+      if (bulletPoints) {
+        // Update existing
+        await axiosInstance.put(`/admin/bullet-points/${bulletPoints._id}`, payload);
+        toast.success(editingBulletIndex !== null ? "Bullet point updated!" : "Bullet point added!");
+      } else {
+        // Create new
+        await axiosInstance.post(`/admin/bullet-points`, payload);
+        toast.success("Bullet point added!");
+      }
+      setBulletPointForm("");
+      setEditingBulletIndex(null);
+      fetchBulletPoints();
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to save bullet point.");
+    } finally {
+      setBulletPointUploading(false);
+    }
+  };
+
+  const handleEditBulletPoint = (index: number) => {
+    if (bulletPoints?.points[index]) {
+      setBulletPointForm(bulletPoints.points[index]);
+      setEditingBulletIndex(index);
+    }
+  };
+
+  const handleDeleteBulletPoint = async (index: number) => {
+    if (!bulletPoints) return;
+    
+    if (!confirm("Are you sure you want to delete this bullet point?")) return;
+    
+    try {
+      const newPoints = bulletPoints.points.filter((_, i) => i !== index);
+      const payload = {
+        points: newPoints,
+        page: activeSubmenu,
+      };
+      
+      await axiosInstance.put(`/admin/bullet-points/${bulletPoints._id}`, payload);
+      toast.success("Bullet point deleted!");
+      fetchBulletPoints();
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to delete bullet point.");
+    }
+  };
+
+  const handleTestimonialInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTestimonialForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleTestimonialSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validate required fields
+    if (!testimonialForm.name?.trim() || !testimonialForm.message?.trim()) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+    
+    if (!activeSubmenu) {
+      toast.error("No active submenu selected.");
+      return;
+    }
+    
+    setTestimonialUploading(true);
+    try {
+      // Filter out undefined values
+      const payload = {
+        name: testimonialForm.name.trim(),
+        message: testimonialForm.message.trim(),
+        page: activeSubmenu,
+      };
+      
+      if (editingTestimonialId) {
+        // Update
+        await axiosInstance.put(`/admin/testimonials/${editingTestimonialId}`, payload);
+        toast.success("Testimonial updated!");
+      } else {
+        // Add
+        await axiosInstance.post(`/admin/testimonials`, payload);
+        toast.success("Testimonial added!");
+      }
+      setTestimonialForm({});
+      setEditingTestimonialId(null);
+      fetchTestimonials();
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to save testimonial.");
+    } finally {
+      setTestimonialUploading(false);
+    }
+  };
+
+  const handleEditTestimonial = (testimonial: Testimonial) => {
+    setTestimonialForm(testimonial);
+    setEditingTestimonialId(testimonial._id);
+  };
+
+  const handleDeleteTestimonial = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this testimonial?")) return;
+    try {
+      await axiosInstance.delete(`/admin/testimonials/${id}`);
+      toast.success("Testimonial deleted!");
+      fetchTestimonials();
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || "Failed to delete testimonial.");
+    }
+  };
+
   return (
     <div className="w-full">
+      {/* Top bar with Preview button */}
+      <div className="flex justify-between items-center mb-4">
+        <div />
+        <button
+          className="px-4 py-2 bg-ngo-color6 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
+          onClick={() => setPreviewMode(true)}
+          disabled={!activeSubmenu || !submenuToUrl[activeSubmenu]}
+        >
+          Preview
+        </button>
+      </div>
+
+      {/* Preview Mode Overlay */}
+      {previewMode && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex flex-col items-center justify-center">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-5xl h-[80vh] flex flex-col relative">
+            <button
+              className="absolute top-4 right-4 px-4 py-2 bg-ngo-color6 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
+              onClick={() => setPreviewMode(false)}
+            >
+              Close Preview
+            </button>
+            <iframe
+              src={submenuToUrl[activeSubmenu] || "/"}
+              title="Preview"
+              className="flex-1 w-full rounded-b-lg border-0"
+              style={{ minHeight: "70vh" }}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Horizontal Navigation Menu */}
       <nav className="flex gap-6 border-b border-gray-200 mb-6 relative shadow-lg">
         {navigationPages.map((page) => (
@@ -292,7 +650,6 @@ const WebsiteNavigationSection = () => {
                                     alt={`Carousel ${idx + 1}`}
                                     className="w-full h-48 object-cover"
                                   />
-                                  {/* Removed delete button and overlay */}
                                   <div className="p-3">
                                     <div className="text-sm text-gray-600">
                                       Image {idx + 1} of {existingCarousel.images?.length || 0}
@@ -495,121 +852,390 @@ const WebsiteNavigationSection = () => {
                 );
               case "it-skills-training":
                 return (
-                  <div className="space-y-8 max-w-4xl mx-auto">
-                    {/* 1. Hero Section */}
-                    <div className="bg-white rounded-lg shadow p-6">
-                      <h2 className="text-xl font-bold mb-4 text-ngo-color4">Hero Section</h2>
-                      <div className="space-y-2 max-w-xl mx-auto">
-                        <label className="block text-sm font-medium">Title (H1)</label>
-                        <input type="text" className="border rounded px-3 py-2 w-full" placeholder="IT Skills Training" />
-                        <label className="block text-sm font-medium mt-2">Subtitle (H2)</label>
-                        <input type="text" className="border rounded px-3 py-2 w-full" placeholder="Empowering communities with essential digital skills" />
-                      </div>
-                    </div>
-
-                    {/* 2. Image Carousel */}
-                    <div className="bg-white rounded-lg shadow p-6">
-                      <h2 className="text-xl font-bold mb-4 text-ngo-color4">Image Carousel</h2>
-                      <div className="flex flex-wrap gap-4 mb-4">
-                        {/* Carousel image previews here */}
-                        <div className="w-32 h-20 bg-gray-100 rounded flex items-center justify-center">Preview</div>
-                        <div className="w-32 h-20 bg-gray-100 rounded flex items-center justify-center">Preview</div>
-                      </div>
-                      <input type="file" accept="image/*" multiple className="mb-2" />
-                      <div className="flex gap-2 mt-2">
-                        <button className="px-3 py-1 bg-ngo-color6 text-white rounded">Add Image</button>
-                        <button className="px-3 py-1 bg-gray-200 rounded">Reorder</button>
-                      </div>
-                    </div>
-
-                    {/* 3. Bullet Points Section */}
-                    <div className="bg-white rounded-lg shadow p-6">
-                      <h2 className="text-xl font-bold mb-4 text-ngo-color4">Bullet Points</h2>
-                      <ul className="space-y-2 mb-4">
-                        <li className="flex items-center gap-2"><input type="text" className="border rounded px-2 py-1 flex-1" value="Teachers and educators transitioning to digital platforms" readOnly /><button className="text-red-500">Delete</button></li>
-                        <li className="flex items-center gap-2"><input type="text" className="border rounded px-2 py-1 flex-1" value="Students under NIOS or other non-mainstream boards" readOnly /><button className="text-red-500">Delete</button></li>
-                      </ul>
-                      <div className="flex gap-2">
-                        <input type="text" className="border rounded px-2 py-1 flex-1" placeholder="Add new bullet point..." />
-                        <button className="px-3 py-1 bg-ngo-color6 text-white rounded">Add</button>
-                      </div>
-                    </div>
-
-                    {/* 4. Video Carousel Section */}
-                    <div className="bg-white rounded-lg shadow p-6">
-                      <h2 className="text-xl font-bold mb-4 text-ngo-color4">Video Carousel</h2>
-                      <div className="grid md:grid-cols-2 gap-4 mb-4">
-                        {/* Video cards here */}
-                        <div className="border rounded-lg p-4 flex flex-col gap-2 bg-gray-50">
-                          <img src="https://media.licdn.com/dms/image/v2/D4D12AQHVMcx-ckRzTQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1693712101604?e=2147483647&v=beta&t=x2x4Klr6G4MotvdA5Vknr0huNRVJi0dNJ4ojugImG-Q" alt="Google Docs" className="w-full h-32 object-cover rounded mb-2" />
-                          <div className="font-semibold">Intro to Google Docs</div>
-                          <div className="text-xs text-gray-500 mb-1">3:45</div>
-                          <div className="text-sm text-gray-600 mb-2">Learn the basics of Google Docs and how to collaborate in real time.</div>
-                          <div className="flex gap-2">
-                            <button className="px-2 py-1 bg-ngo-color6 text-white rounded text-xs">Edit</button>
-                            <button className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Delete</button>
+                  <div className="space-y-10">
+                    {/* Carousel Images CRUD */}
+                    <section>
+                      <h2 className="text-lg font-semibold mb-4">Carousel Images</h2>
+                      
+                      {/* Existing Carousel Preview */}
+                      {loadingCarousel ? (
+                        <div className="flex items-center justify-center py-8">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ngo-color6"></div>
+                        </div>
+                      ) : existingCarousel ? (
+                        <div className="mb-6">
+                          <h3 className="text-md font-medium mb-3 text-gray-700">Current Carousel Images</h3>
+                          {existingCarousel.images && existingCarousel.images.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                              {(existingCarousel.images || []).map((image, idx) => (
+                                <div key={image._id} className="relative group bg-white border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                                  <img
+                                    src={image.url}
+                                    alt={`Carousel ${idx + 1}`}
+                                    className="w-full h-48 object-cover"
+                                  />
+                                  <div className="p-3">
+                                    <div className="text-sm text-gray-600">
+                                      Image {idx + 1} of {existingCarousel.images?.length || 0}
+                                    </div>
+                                    {image.heading && (
+                                      <div className="text-xs text-gray-500 mt-1 truncate">
+                                        Heading: {image.heading}
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="mb-6 p-6 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                              <div className="text-gray-500 mb-2">
+                                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                              </div>
+                              <p className="text-gray-600 font-medium">No images present in the carousel yet</p>
+                              <p className="text-gray-500 text-sm">Upload images to populate the carousel for this page</p>
+                            </div>
+                          )}
+                          <div className="text-sm text-gray-500 mt-2">
+                            Last updated: {existingCarousel.updatedAt ? new Date(existingCarousel.updatedAt).toLocaleDateString() : 'N/A'}
                           </div>
                         </div>
-                        <div className="border rounded-lg p-4 flex flex-col gap-2 bg-gray-50">
-                          <img src="https://s3.amazonaws.com/libapps/accounts/1505/images/Excel_Example_1.jpg" />
-                          <div className="font-semibold">Basic Excel for Beginners</div>
-                          <div className="text-xs text-gray-500 mb-1">5:10</div>
-                          <div className="text-sm text-gray-600 mb-2">Step-by-step walkthrough of Excel fundamentals and formulas.</div>
-                          <div className="flex gap-2">
-                            <button className="px-2 py-1 bg-ngo-color6 text-white rounded text-xs">Edit</button>
-                            <button className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Delete</button>
+                      ) : (
+                        <div className="mb-6 p-6 border-2 border-dashed border-gray-300 rounded-lg text-center">
+                          <div className="text-gray-500 mb-2">
+                            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
                           </div>
+                          <p className="text-gray-600 font-medium">No carousel images found</p>
+                          <p className="text-gray-500 text-sm">Upload images to create a carousel for this page</p>
                         </div>
-                      </div>
-                      <div className="border-t pt-4 mt-4">
-                        <h3 className="font-semibold mb-2">Add/Edit Video</h3>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <input type="text" className="border rounded px-2 py-1" placeholder="Title" />
-                          <input type="text" className="border rounded px-2 py-1" placeholder="Duration (e.g. 3:45)" />
-                          <input type="text" className="border rounded px-2 py-1" placeholder="Video URL (embed)" />
-                          <input type="text" className="border rounded px-2 py-1" placeholder="Thumbnail URL or upload" />
-                          <textarea className="border rounded px-2 py-1 md:col-span-2" placeholder="Description"></textarea>
-                        </div>
-                        <div className="flex gap-2 mt-2">
-                          <button className="px-3 py-1 bg-ngo-color6 text-white rounded">Save Video</button>
-                          <button className="px-3 py-1 bg-gray-200 rounded">Cancel</button>
-                        </div>
-                      </div>
-                    </div>
+                      )}
 
-                    {/* 5. Testimonials Section */}
-                    <div className="bg-white rounded-lg shadow p-6">
-                      <h2 className="text-xl font-bold mb-4 text-ngo-color4">Testimonials</h2>
-                      <div className="grid md:grid-cols-2 gap-4 mb-4">
-                        <div className="border rounded-lg p-4 bg-gray-50 flex flex-col gap-2">
-                          <div className="font-semibold text-ngo-color6 mb-1">Hazeera Khanam</div>
-                          <blockquote className="italic text-gray-700">Yes it's good. I have learnt so many new things. This program helped me a lot.</blockquote>
-                          <div className="flex gap-2 mt-2">
-                            <button className="px-2 py-1 bg-ngo-color6 text-white rounded text-xs">Edit</button>
-                            <button className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Delete</button>
+                      {/* Upload New Images */}
+                      <div className="border-t pt-6">
+                        <h3 className="text-md font-medium mb-3 text-gray-700">
+                          {existingCarousel ? "Add More Images" : "Upload Carousel Images"}
+                        </h3>
+                        <form onSubmit={handleCarouselSubmit} encType="multipart/form-data" className="space-y-4">
+                          <input
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            ref={fileInputRef}
+                            onChange={handleImageChange}
+                            disabled={carouselImages.length >= MAX_IMAGES || uploading}
+                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-ngo-color6 file:text-white hover:file:bg-ngo-color5"
+                          />
+                          <div className="text-xs text-gray-500 mt-1">
+                            Recommended size: <span className="font-medium">23:9 aspect ratio, at least 1840x720px</span> for best results in the homepage carousel.
                           </div>
-                        </div>
-                        <div className="border rounded-lg p-4 bg-gray-50 flex flex-col gap-2">
-                          <div className="font-semibold text-ngo-color6 mb-1">Naziya Tabassum N</div>
-                          <blockquote className="italic text-gray-700">Wonderful training center. Very useful training. Got many things to learn. Thanks!</blockquote>
-                          <div className="flex gap-2 mt-2">
-                            <button className="px-2 py-1 bg-ngo-color6 text-white rounded text-xs">Edit</button>
-                            <button className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Delete</button>
+                          <div className="text-xs text-gray-400 mt-1 italic">
+                            Example prompt for AI image generation:<br/>
+                            <span className="text-gray-600">"A beautiful, inspiring education scene in India, children learning together, bright and positive, 23:9 aspect ratio, 1840x720px"</span>
                           </div>
-                        </div>
+                          <div className="flex gap-4 flex-wrap">
+                            {carouselImages.map((img, idx) => (
+                              <div key={idx} className="relative group">
+                                <img
+                                  src={URL.createObjectURL(img)}
+                                  alt={`carousel-img-${idx}`}
+                                  className="w-32 h-20 object-cover border rounded shadow-sm"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveImage(idx)}
+                                  className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs opacity-80 hover:opacity-100 transition-opacity"
+                                  title="Remove"
+                                >
+                                  ×
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            You can upload up to 3 images. Only image files (max 1MB each).
+                            {existingCarousel && ` Current: ${existingCarousel.images?.length || 0}/3`}
+                          </div>
+                          <Button 
+                            type="submit" 
+                            disabled={uploading || carouselImages.length === 0}
+                            className="bg-ngo-color6 hover:bg-ngo-color5"
+                          >
+                            {uploading ? (
+                              <div className="flex items-center gap-2">
+                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                                Uploading...
+                              </div>
+                            ) : (
+                              "Upload Carousel Images"
+                            )}
+                          </Button>
+                        </form>
                       </div>
-                      <div className="border-t pt-4 mt-4">
-                        <h3 className="font-semibold mb-2">Add/Edit Testimonial</h3>
-                        <div className="grid md:grid-cols-2 gap-4">
-                          <input type="text" className="border rounded px-2 py-1" placeholder="Name" />
-                          <textarea className="border rounded px-2 py-1 md:col-span-2" placeholder="Message"></textarea>
-                        </div>
-                        <div className="flex gap-2 mt-2">
-                          <button className="px-3 py-1 bg-ngo-color6 text-white rounded">Save Testimonial</button>
-                          <button className="px-3 py-1 bg-gray-200 rounded">Cancel</button>
-                        </div>
+                    </section>
+
+                    {/* Hero Section CRUD */}
+                    <section>
+                      <h2 className="text-lg font-semibold mb-4">Hero Section</h2>
+                      <div className="border border-dashed border-gray-300 rounded p-6">
+                        <form onSubmit={handleHeroSubmit} className="space-y-4">
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Title (H1)</label>
+                            <input
+                              type="text"
+                              name="h1"
+                              value={heroForm.h1 || ""}
+                              onChange={handleHeroInput}
+                              className="border rounded px-3 py-2 w-full"
+                              placeholder="IT Skills Training"
+                              required
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium mb-2">Subtitle (H2)</label>
+                            <input
+                              type="text"
+                              name="h2"
+                              value={heroForm.h2 || ""}
+                              onChange={handleHeroInput}
+                              className="border rounded px-3 py-2 w-full"
+                              placeholder="Empowering communities with essential digital skills"
+                              required
+                            />
+                          </div>
+                          <Button
+                            type="submit"
+                            className="bg-ngo-color6 hover:bg-ngo-color5"
+                            disabled={heroUploading}
+                          >
+                            {heroUploading ? "Saving..." : (heroSection ? "Update Hero Section" : "Save Hero Section")}
+                          </Button>
+                        </form>
                       </div>
-                    </div>
+                    </section>
+
+                    {/* Bullet Points CRUD */}
+                    <section>
+                      <h2 className="text-lg font-semibold mb-4">Bullet Points</h2>
+                      <div className="border border-dashed border-gray-300 rounded p-6">
+                        {/* Bullet Point Form */}
+                        <form onSubmit={handleBulletPointSubmit} className="flex gap-3 mb-6">
+                          <input
+                            type="text"
+                            name="text"
+                            value={bulletPointForm}
+                            onChange={handleBulletPointInput}
+                            className="border rounded px-3 py-2 flex-1"
+                            placeholder={editingBulletIndex !== null ? "Edit bullet point..." : "Add new bullet point..."}
+                            required
+                          />
+                          <Button
+                            type="submit"
+                            className="bg-ngo-color6 hover:bg-ngo-color5"
+                            disabled={bulletPointUploading}
+                          >
+                            {bulletPointUploading ? "Saving..." : (editingBulletIndex !== null ? "Update" : "Add Bullet Point")}
+                          </Button>
+                          {editingBulletIndex !== null && (
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => { 
+                                setBulletPointForm(""); 
+                                setEditingBulletIndex(null); 
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                          )}
+                        </form>
+
+                        {/* Bullet Points List */}
+                        {loadingBulletPoints ? (
+                          <div className="text-center py-8 text-gray-500">Loading bullet points...</div>
+                        ) : bulletPoints?.points.length === 0 ? (
+                          <div className="text-center py-8 text-gray-500">No bullet points found for this page.</div>
+                        ) : (
+                          <div className="space-y-2">
+                            {bulletPoints?.points.map((point, index) => (
+                              <div key={index} className="flex items-center gap-2 bg-gray-50 p-3 rounded">
+                                <span className="text-ngo-color4">•</span>
+                                <span className="flex-1">{point}</span>
+                                <div className="flex gap-2">
+                                  <Button size="sm" onClick={() => handleEditBulletPoint(index)} className="bg-ngo-color6 hover:bg-ngo-color5">Edit</Button>
+                                  <Button size="sm" variant="outline" onClick={() => handleDeleteBulletPoint(index)} className="text-red-600 border-red-200 hover:bg-red-50">Delete</Button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </section>
+
+                    {/* Video Cards CRUD */}
+                    <section>
+                      <h2 className="text-lg font-semibold mb-2">Video Cards</h2>
+                      <div className="border border-dashed border-gray-300 rounded p-6">
+                        {/* Video Card Form */}
+                        <form onSubmit={handleVideoCardSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                          <input
+                            type="text"
+                            name="title"
+                            placeholder="Title"
+                            value={videoCardForm.title || ""}
+                            onChange={handleVideoCardInput}
+                            className="border rounded px-3 py-2"
+                            required
+                          />
+                          <input
+                            type="text"
+                            name="thumbnail"
+                            placeholder="Thumbnail URL"
+                            value={videoCardForm.thumbnail || ""}
+                            onChange={handleVideoCardInput}
+                            className="border rounded px-3 py-2"
+                            required
+                          />
+                          <input
+                            type="text"
+                            name="duration"
+                            placeholder="Duration (e.g. 5:32)"
+                            value={videoCardForm.duration || ""}
+                            onChange={handleVideoCardInput}
+                            className="border rounded px-3 py-2"
+                            required
+                          />
+                          <input
+                            type="text"
+                            name="videoUrl"
+                            placeholder="Video URL"
+                            value={videoCardForm.videoUrl || ""}
+                            onChange={handleVideoCardInput}
+                            className="border rounded px-3 py-2"
+                            required
+                          />
+                          <textarea
+                            name="description"
+                            placeholder="Description"
+                            value={videoCardForm.description || ""}
+                            onChange={handleVideoCardInput}
+                            className="border rounded px-3 py-2 md:col-span-2"
+                            required
+                          />
+                          <div className="md:col-span-2 flex gap-3">
+                            <Button
+                              type="submit"
+                              className="bg-ngo-color6 hover:bg-ngo-color5"
+                              disabled={videoCardUploading}
+                            >
+                              {editingVideoCardId ? (videoCardUploading ? "Updating..." : "Update Video Card") : (videoCardUploading ? "Adding..." : "Add Video Card")}
+                            </Button>
+                            {editingVideoCardId && (
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => { setVideoCardForm({}); setEditingVideoCardId(null); }}
+                              >
+                                Cancel
+                              </Button>
+                            )}
+                          </div>
+                        </form>
+                        {/* Video Cards List */}
+                        {loadingVideoCards ? (
+                          <div className="text-center py-8 text-gray-500">Loading video cards...</div>
+                        ) : videoCards.length === 0 ? (
+                          <div className="text-center py-8 text-gray-500">No video cards found for this page.</div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {videoCards.map((card) => (
+                              <div key={card._id} className="border rounded-lg p-4 bg-white shadow-sm flex flex-col gap-2 relative">
+                                <img src={card.thumbnail} alt={card.title} className="w-full h-40 object-cover rounded mb-2" />
+                                <div className="font-semibold text-lg text-ngo-color6">{card.title}</div>
+                                <div className="text-sm text-gray-600 mb-1">{card.description}</div>
+                                <div className="flex items-center gap-2 text-xs text-gray-500">
+                                  <span>Duration: {card.duration}</span>
+                                  <a href={card.videoUrl} target="_blank" rel="noopener noreferrer" className="text-ngo-color4 underline ml-auto">Watch</a>
+                                </div>
+                                <div className="flex gap-2 mt-2">
+                                  <Button size="sm" onClick={() => handleEditVideoCard(card)} className="bg-ngo-color6 hover:bg-ngo-color5">Edit</Button>
+                                  <Button size="sm" variant="outline" onClick={() => handleDeleteVideoCard(card._id)} className="text-red-600 border-red-200 hover:bg-red-50">Delete</Button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </section>
+
+                    {/* Testimonials CRUD */}
+                    <section>
+                      <h2 className="text-lg font-semibold mb-4">Testimonials</h2>
+                      <div className="border border-dashed border-gray-300 rounded p-6">
+                        {/* Testimonial Form */}
+                        <form onSubmit={handleTestimonialSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                          <input
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            value={testimonialForm.name || ""}
+                            onChange={handleTestimonialInput}
+                            className="border rounded px-3 py-2"
+                            required
+                          />
+                          <textarea
+                            name="message"
+                            placeholder="Message"
+                            value={testimonialForm.message || ""}
+                            onChange={handleTestimonialInput}
+                            className="border rounded px-3 py-2 md:col-span-2"
+                            rows={3}
+                            required
+                          />
+                          <div className="md:col-span-2 flex gap-3">
+                            <Button
+                              type="submit"
+                              className="bg-ngo-color6 hover:bg-ngo-color5"
+                              disabled={testimonialUploading}
+                            >
+                              {editingTestimonialId ? (testimonialUploading ? "Updating..." : "Update Testimonial") : (testimonialUploading ? "Adding..." : "Add Testimonial")}
+                            </Button>
+                            {editingTestimonialId && (
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => { setTestimonialForm({}); setEditingTestimonialId(null); }}
+                              >
+                                Cancel
+                              </Button>
+                            )}
+                          </div>
+                        </form>
+
+                        {/* Testimonials List */}
+                        {loadingTestimonials ? (
+                          <div className="text-center py-8 text-gray-500">Loading testimonials...</div>
+                        ) : testimonials.length === 0 ? (
+                          <div className="text-center py-8 text-gray-500">No testimonials found for this page.</div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {testimonials.map((testimonial) => (
+                              <div key={testimonial._id} className="border rounded-lg p-4 bg-white shadow-sm flex flex-col gap-2">
+                                <div className="font-semibold text-ngo-color6">{testimonial.name}</div>
+                                <blockquote className="italic text-gray-700 text-sm">"{testimonial.message}"</blockquote>
+                                <div className="flex gap-2 mt-2">
+                                  <Button size="sm" onClick={() => handleEditTestimonial(testimonial)} className="bg-ngo-color6 hover:bg-ngo-color5">Edit</Button>
+                                  <Button size="sm" variant="outline" onClick={() => handleDeleteTestimonial(testimonial._id)} className="text-red-600 border-red-200 hover:bg-red-50">Delete</Button>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </section>
                   </div>
                 );
               default:
