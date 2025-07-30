@@ -1014,10 +1014,10 @@ const WebsiteNavigationSection = () => {
   return (
     <div className="w-full">
       {/* Top bar with Preview button */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-0 mx-4 my-4">
         <div />
         <button
-          className="px-4 py-2 bg-ngo-color6 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
+          className=" px-4 py-2 bg-ngo-color4 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
           onClick={() => setPreviewMode(true)}
           disabled={!activeSubmenu || !submenuToUrl[activeSubmenu]}
         >
@@ -2015,11 +2015,11 @@ const WebsiteNavigationSection = () => {
                     </section>
 
                     {/* Section Content CRUD */}
-                    <section>
+                    {/* <section>
                       <h2 className="text-lg font-semibold mb-4">Section Content</h2>
-                      <div className="border border-dashed border-gray-300 rounded p-6">
+                      <div className="border border-dashed border-gray-300 rounded p-6"> */}
                         {/* Section Content Form */}
-                        <form onSubmit={handleSaveOrUpdateSection} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                        {/* <form onSubmit={handleSaveOrUpdateSection} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                           <input
                             type="text"
                             name="heading"
@@ -2095,10 +2095,10 @@ const WebsiteNavigationSection = () => {
                               </Button>
                             )}
                           </div>
-                        </form>
+                        </form> */}
 
                         {/* Section Content Preview */}
-                        <div className="mt-6 p-4 border border-gray-200 rounded-lg">
+                        {/* <div className="mt-6 p-4 border border-gray-200 rounded-lg">
                           <h3 className="text-md font-medium mb-3 text-gray-700">Preview</h3>
                           <div className="prose dark:prose-invert" dangerouslySetInnerHTML={{ __html: `
                             <h1>${sectionContent.heading || ''}</h1>
@@ -2106,9 +2106,9 @@ const WebsiteNavigationSection = () => {
                             <p>${sectionContent.body || ''}</p>
                                                          ${sectionContent.imageUrl ? `<img src="${sectionContent.imageUrl}" alt="Section Image" class="max-w-full h-auto" />` : ''}
                           `}} />
-                        </div>
-                      </div>
-                    </section>
+                        </div> */}
+                      {/* </div>
+                    </section> */}
                   </div>
                 );
               default:

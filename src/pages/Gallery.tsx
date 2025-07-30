@@ -237,7 +237,7 @@ const Gallery = () => {
         </div>
       </section> */}
 
-      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
+      {/* <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -248,7 +248,7 @@ const Gallery = () => {
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       <ConfigSections page="introduction" />
 
