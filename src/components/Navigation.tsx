@@ -39,7 +39,7 @@ const Navigation: React.FC = () => {
         <Link to="/" className="flex items-center lg:justify-between space-x-8 space-y-2">
           <img src={logoRemovedBg} alt="NEIEA Logo" className="lg:w-20 w-16" />
           <div className="lg:text-xl font-bold text-white text-md">
-            NEIEA <br />
+            <span className='text-white'>NEIEA</span> <br />
             The New Equitable and Innovative Educational Association
           </div>
         </Link>

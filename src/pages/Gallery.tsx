@@ -1,6 +1,7 @@
 import Layout from "@/components/Layout";
 import HeroCarousel from "@/components/HeroCarousel";
 import VideoCards from "@/components/VideoCards";
+import ConfigSections from "@/components/ConfigSections";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -248,6 +249,8 @@ const Gallery = () => {
           </div>
         </div>
       </section>
+
+      {/* <ConfigSections page="introduction" /> */}
 
       <VideoCards pageKey="introduction" />
 
