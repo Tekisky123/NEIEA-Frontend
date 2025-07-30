@@ -250,7 +250,7 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* <ConfigSections page="introduction" /> */}
+      <ConfigSections page="introduction" />
 
       <VideoCards pageKey="introduction" />
 
