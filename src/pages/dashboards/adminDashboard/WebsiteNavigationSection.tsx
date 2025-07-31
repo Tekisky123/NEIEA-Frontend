@@ -79,6 +79,8 @@ interface Section {
 // Map submenu keys to landing page URLs
 const submenuToUrl: Record<string, string> = {
   "introduction": "/about/introduction",
+  "blended-learning": "/about/blended-learning",
+  "workshops": "/about/workshops",
   "it-skills-training": "/it-skills-training",
   // Add more mappings as needed
 };
@@ -1017,7 +1019,7 @@ const WebsiteNavigationSection = () => {
       <div className="flex justify-between items-center mb-0 mx-4 my-4">
         <div />
         <button
-          className=" px-4 py-2 bg-ngo-color4 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
+          className=" px-4 py-2 bg-ngo-color1 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
           onClick={() => setPreviewMode(true)}
           disabled={!activeSubmenu || !submenuToUrl[activeSubmenu]}
         >
@@ -1030,7 +1032,7 @@ const WebsiteNavigationSection = () => {
         <div className="fixed inset-0 z-50 bg-black/70 flex flex-col items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-5xl h-[80vh] flex flex-col relative">
             <button
-              className="absolute top-4 right-4 px-4 py-2 bg-ngo-color6 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
+              className="absolute top-4 right-0 px-4 py-2 bg-ngo-color1 text-white rounded hover:bg-ngo-color5 font-semibold shadow"
               onClick={() => setPreviewMode(false)}
             >
               Close Preview
@@ -1039,7 +1041,7 @@ const WebsiteNavigationSection = () => {
               src={submenuToUrl[activeSubmenu] || "/"}
               title="Preview"
               className="flex-1 w-full rounded-b-lg border-0"
-              style={{ minHeight: "70vh" }}
+              style={{ minHeight: "70vh", minWidth: "80vw" }}
             />
           </div>
         </div>
