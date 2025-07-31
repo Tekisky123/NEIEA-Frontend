@@ -25,6 +25,7 @@ import FloatingSocialIcons from "./components/FloatingSocialIcons";
 import ApplyCourseInstitution from "./pages/ApplyCourseInstitution";
 import EditCoursePage from "./pages/dashboards/adminDashboard/EditCoursePage";
 import ITSkillsTraining from "./pages/ITSkillsTraining";
+import BlendedLearning from "./pages/BlendedLearning";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,8 @@ const App = () => (
           {/* About Us Dropdown */}
           <Route path="/about/vision-mission" element={<Mission />} />
           <Route path="/about/leadership" element={<Team />} />
+          <Route path="/about/workshops" element={<OurWork />} />
+          <Route path="/about/blended-learning" element={<BlendedLearning />} />
           <Route path="/values" element={<Values />} />
           {/* Take Action Dropdown */}
           <Route path="/monthly-giving" element={<MonthlyGiving />} />

@@ -23,7 +23,7 @@ export const navigationPages = [
       { label: 'IT Skills Training', key: 'it-skills-training' },
       {label: "Cluster Education", key: "cluster-education"},
       {label: "Teachers Training", key: "teachers-training"},
-      {label: "Slum Children Education", key: "slum-children-education"},
+      {label: "Slum Children Education", key: "slum-children"},
     ],
   },
   // Add more main pages here as needed

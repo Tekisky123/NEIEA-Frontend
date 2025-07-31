@@ -1100,6 +1100,8 @@ const WebsiteNavigationSection = () => {
           {(() => {
             switch (activeSubmenu) {
               case "introduction":
+              case "blended-learning":
+              case "workshops":
                 return (
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
                     <TabsList className="grid w-full grid-cols-3">

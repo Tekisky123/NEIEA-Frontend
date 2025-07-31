@@ -21,6 +21,9 @@ import {
   Clock,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import ConfigSections from "@/components/ConfigSections";
+import HeroCarousel from "@/components/HeroCarousel";
+import VideoCards from "@/components/VideoCards";
 
 const OurWork = () => {
   const workStats = [
@@ -113,8 +116,11 @@ const OurWork = () => {
 
   return (
     <Layout>
+      <HeroCarousel pageKey="workshops" />
+      <ConfigSections page="workshops" />
+      <VideoCards pageKey="workshops" />
       {/* Header Section */}
-      <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
+      {/* <section className="py-16 bg-gradient-to-r from-ngo-color6 to-ngo-color2 text-white">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl lg:text-5xl font-heading font-bold mb-6">
@@ -126,7 +132,7 @@ const OurWork = () => {
               community-based learning solutions.
             </p>
 
-            {/* Impact Statistics */}
+            Impact Statistics
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {workStats.map((stat, index) => (
                 <div
@@ -145,10 +151,10 @@ const OurWork = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Work Areas */}
-      <section className="py-16 bg-white">
+      {/* <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
@@ -193,10 +199,10 @@ const OurWork = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Current Projects */}
-      <section className="py-16 bg-gray-50">
+      {/* <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-heading font-bold text-ngo-color6 mb-4">
@@ -252,10 +258,10 @@ const OurWork = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Call to Action */}
-      <section className="py-16 bg-ngo-color4 text-white">
+      {/* <section className="py-16 bg-ngo-color4 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl lg:text-4xl font-heading font-bold mb-6">
             Join Our Mission
@@ -287,7 +293,7 @@ const OurWork = () => {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
     </Layout>
   );
 };
