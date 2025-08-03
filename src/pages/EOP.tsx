@@ -3,15 +3,15 @@ import ConfigSections from "@/components/ConfigSections";
 import HeroCarousel from "@/components/HeroCarousel";
 import VideoCards from "@/components/VideoCards";
 
-const Mission = () => {
+const EOP = () => {
 
     return (
         <Layout>
-            <HeroCarousel pageKey="leadership" />
-            <ConfigSections page="leadership" />
-            <VideoCards pageKey="leadership" />
+            <HeroCarousel pageKey="eop" />
+            <ConfigSections page="eop" />
+            <VideoCards pageKey="eop" />
         </Layout>
     );
 };
 
-export default Mission;
+export default EOP;

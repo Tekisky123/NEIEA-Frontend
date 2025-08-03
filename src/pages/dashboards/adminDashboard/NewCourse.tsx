@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useState, useRef } from "react";
 import ReactCrop, { type Crop, centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -45,6 +46,8 @@ const courseSchema = z.object({
   targetAudience: z.array(z.string()).min(1, "Target audience is required"),
   fees: z.number().min(0, "Fees must be a positive number"),
   whatsappLink: z.string().url("Must be a valid URL"),
+  timeSlots: z.array(z.string()).min(1, "At least one time slot must be selected"),
+  isNew: z.boolean().optional(),
 });
 
 const NewCourse = () => {
@@ -66,7 +69,9 @@ const NewCourse = () => {
       duration: "",
       targetAudience: [""],
       fees: 0,
-      whatsappLink: ""
+      whatsappLink: "",
+      timeSlots: [],
+      isNew: false
     },
   });
 
@@ -92,6 +97,8 @@ const NewCourse = () => {
     data.targetAudience.forEach((ta) => formData.append("targetAudience[]", ta));
     formData.append("fees", data.fees.toString());
     formData.append("whatsappLink", data.whatsappLink);
+    data.timeSlots.forEach((slot) => formData.append("timeSlots[]", slot));
+    formData.append("isNew", data.isNew.toString());
 
     if (croppedImageUrl) {
       const imageFile = dataURLtoFile(croppedImageUrl, "courseImage.jpeg");
@@ -393,6 +400,101 @@ const NewCourse = () => {
                 </FormItem>
               )}
             />
+            
+            <FormField
+              control={form.control}
+              name="isNew"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Course Status</FormLabel>
+                  <FormControl>
+                    <div className="flex items-start space-x-3 space-y-0">
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                      <div className="space-y-1 leading-none">
+                        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                          Mark as New
+                        </label>
+                        <p className="text-sm text-gray-500">
+                          Optional: Mark this course as new to highlight it on the courses page
+                        </p>
+                      </div>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="timeSlots"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Convenient Time Slots *</FormLabel>
+                    <div className="text-sm text-gray-500 mt-1">
+                      Select all time slots that are available for this course
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[
+                      "8:00 AM - 9:00 AM",
+                      "9:00 AM - 10:00 AM",
+                      "10:00 AM - 11:00 AM",
+                      "11:00 AM - 12:00 PM",
+                      "12:00 PM - 1:00 PM",
+                      "1:00 PM - 2:00 PM",
+                      "2:00 PM - 3:00 PM",
+                      "3:00 PM - 4:00 PM",
+                      "4:00 PM - 5:00 PM",
+                      "5:00 PM - 6:00 PM",
+                      "6:00 PM - 7:00 PM",
+                      "7:00 PM - 8:00 PM",
+                      "8:00 PM - 9:00 PM",
+                      "9:00 PM - 10:00 PM",
+                      "10:00 PM - 11:00 PM"
+                    ].map((timeSlot) => (
+                      <FormField
+                        key={timeSlot}
+                        control={form.control}
+                        name="timeSlots"
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={timeSlot}
+                              className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(timeSlot)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([...field.value, timeSlot])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== timeSlot
+                                          )
+                                        )
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="text-sm font-normal">
+                                {timeSlot}
+                              </FormLabel>
+                            </FormItem>
+                          )
+                        }}
+                      />
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
             <div className="flex justify-center pt-4">
               <Button
                 type="submit"

@@ -10,6 +10,7 @@ export interface CourseCardProps {
   level?: string;
   targetAudience?: string[];
   fees?: number;
+  isNew?: string[];
   // Optionally allow children for actions (edit/delete/view)
   children?: React.ReactNode;
 }
@@ -23,9 +24,20 @@ const CourseCard: React.FC<CourseCardProps> = ({
   targetAudience,
   fees,
   children,
+  isNew
 }) => {
   return (
     <Card className="flex flex-col hover:shadow-md transition-shadow cursor-pointer select-none w-full max-w-md mx-auto">
+      <div className="relative">
+        {isNew && (
+          <div className="absolute top-0 left-0">
+            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200 shadow-2xl">
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-1 animate-pulse"></span>
+              NEW COURSE
+            </span>
+          </div>
+        )}
+      </div>
       {imageUrl && (
         <img
           src={imageUrl}
@@ -33,6 +45,7 @@ const CourseCard: React.FC<CourseCardProps> = ({
           className="w-full h-32 object-cover rounded-t-md"
         />
       )}
+
       <CardHeader className="p-3">
         <CardTitle className="text-sm font-bold truncate">{title}</CardTitle>
         <CardDescription className="text-xs text-gray-600 line-clamp-3">

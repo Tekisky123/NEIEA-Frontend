@@ -31,12 +31,33 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { MoreHorizontal } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { 
+  MoreHorizontal, 
+  MessageCircle, 
+  Clock, 
+  Users, 
+  DollarSign, 
+  Target,
+  GraduationCap,
+  ExternalLink,
+  Sparkles,
+  User,
+  Calendar,
+  MapPin,
+  Phone,
+  Mail,
+  Clock as ClockIcon,
+  BookOpen,
+  Languages,
+  GraduationCap as StudentIcon
+} from "lucide-react";
 import { toast } from "sonner";
 import { SectionLoader } from "@/components/LoadingSpinner";
 import CourseCard from "@/components/CourseCard";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
+import { FaRupeeSign } from "react-icons/fa";
 
 const CoursesSection = ({ searchQuery = "" }) => {
   const [courses, setCourses] = useState([]);
@@ -187,8 +208,14 @@ const CoursesSection = ({ searchQuery = "" }) => {
   const handleDownloadExcel = () => {
     const data = filteredCourses.map((course) => ({
       Title: course.title,
-      Overview: course.description,
+      Description: course.description,
       Duration: course.duration,
+      Instructor: course.instructor || "",
+      Level: course.level,
+      Fees: course.fees,
+      TargetAudience: Array.isArray(course.targetAudience) ? course.targetAudience.join(", ") : course.targetAudience,
+      WhatsAppLink: course.whatsappLink,
+      IsNew: course.isNew ? "Yes" : "No",
       Students: course.applicants?.length || 0,
     }));
     const worksheet = XLSX.utils.json_to_sheet(data);
@@ -200,9 +227,19 @@ const CoursesSection = ({ searchQuery = "" }) => {
   const handleDownloadStudentsExcel = () => {
     if (!selectedCourse || !selectedCourse.applicants) return;
     const data = selectedCourse.applicants.map((applicant) => ({
-      Name: applicant.fullName || "",
+      "Full Name": applicant.fullName || "",
       Email: applicant.email || "",
       Phone: applicant.phone || "",
+      Age: applicant.age || "",
+      Gender: applicant.gender || "",
+      "Is Student": applicant.isStudent ? "Yes" : "No",
+      "Class Studying": applicant.isStudent ? (applicant.classStudying || "") : "",
+      "Mother Tongue": applicant.motherTongue || "",
+      State: applicant.state || "",
+      City: applicant.city || "",
+      "WhatsApp Number": applicant.whatsappNumber || "",
+      "Referred By": applicant.referredBy || "",
+      "Convenient Time Slot": applicant.convenientTimeSlot || "",
       Message: applicant.message || "",
       "Applied On": applicant.appliedAt ? new Date(applicant.appliedAt).toLocaleDateString() : "",
     }));
@@ -219,6 +256,19 @@ const CoursesSection = ({ searchQuery = "" }) => {
     currentPage * pageSize
   );
   const totalPages = Math.ceil(filteredCourses.length / pageSize);
+
+  const getLevelColor = (level) => {
+    switch (level?.toLowerCase()) {
+      case "beginner":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "intermediate":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "advanced":
+        return "bg-red-100 text-red-800 border-red-200";
+      default:
+        return "bg-gray-100 text-gray-800 border-gray-200";
+    }
+  };
 
   return (
     <Card className="border-0 rounded-none shadow-none">
@@ -247,37 +297,119 @@ const CoursesSection = ({ searchQuery = "" }) => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Overview</TableHead>
-                  <TableHead>Duration</TableHead>
+                  <TableHead className="w-16">Image</TableHead>
+                  <TableHead>Course Details</TableHead>
+                  <TableHead className="hidden lg:table-cell">Level & Fees</TableHead>
+                  <TableHead className="hidden md:table-cell">Target Audience</TableHead>
+                  <TableHead className="hidden xl:table-cell">WhatsApp Group Link</TableHead>
                   <TableHead>Students</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {paginatedCourses.map((course) => (
-                  <TableRow key={course._id}>
-                    <TableCell className="font-medium">
-                      {course.title}
+                  <TableRow key={course._id} className="hover:bg-gray-50">
+                    <TableCell className="w-16">
+                      <div className="relative">
+                        <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+                          {course.imageUrl ? (
+                            <img
+                              src={course.imageUrl}
+                              alt={course.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <GraduationCap className="w-6 h-6 text-gray-400" />
+                          )}
+                        </div>
+                        {course.isNew && (
+                          <div className="absolute -top-1 -right-1">
+                            <Badge className="bg-green-100 text-green-800 border-green-200 text-xs px-1.5 py-0.5 flex items-center gap-1">
+                              <Sparkles className="w-3 h-3" />
+                              New
+                            </Badge>
+                          </div>
+                        )}
+                      </div>
                     </TableCell>
-                    <TableCell className="max-w-xs truncate">
-                      {course.description}
-                    </TableCell>
-                    <TableCell>{course.duration}</TableCell>
                     <TableCell>
-                      {course.applicants?.length || 0}{" "}
-                      {course.applicants?.length > 0 && (
-                        <Button
-                          variant="link"
-                          className="text-xs text-blue-600"
-                          onClick={() => {
-                            setSelectedCourse(course);
-                            setViewStudents(true);
-                          }}
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2">
+                          <h3 className="font-semibold text-sm text-gray-900 line-clamp-1">
+                            {course.title}
+                          </h3>
+                        </div>
+                        <p className="text-xs text-gray-600 line-clamp-2 leading-relaxed">
+                          {course.description}
+                        </p>
+                        <div className="flex items-center gap-4 text-xs text-gray-500">
+                          <div className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            <span>{course.duration}</span>
+                          </div>
+                          {course.instructor && (
+                            <div className="flex items-center gap-1">
+                              <Users className="w-3 h-3" />
+                              <span>{course.instructor}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden lg:table-cell">
+                      <div className="space-y-2">
+                        <Badge className={getLevelColor(course.level)}>
+                          {course.level?.charAt(0).toUpperCase() + course.level?.slice(1)}
+                        </Badge>
+                        <div className="flex items-center gap-1 text-sm text-gray-700">
+                          <FaRupeeSign className="w-4 h-4" />
+                          <span className="font-medium">{course.fees || 0}</span>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      <div className="flex items-center gap-1 text-xs text-gray-600">
+                        <Target className="w-3 h-3" />
+                        <span className="line-clamp-2">
+                          {Array.isArray(course.targetAudience) 
+                            ? course.targetAudience.join(", ")
+                            : course.targetAudience || "Not specified"
+                          }
+                        </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden xl:table-cell">
+                      {course.whatsappLink && (
+                        <a
+                          href={course.whatsappLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-xs text-green-600 hover:text-green-700 transition-colors"
                         >
-                          View
-                        </Button>
+                          <MessageCircle className="w-3 h-3" />
+                          <span>WhatsApp</span>
+                          <ExternalLink className="w-2 h-2" />
+                        </a>
                       )}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">
+                          {course.applicants?.length || 0}
+                        </span>
+                        {course.applicants?.length > 0 && (
+                          <Button
+                            variant="link"
+                            className="text-xs text-blue-600 p-0 h-auto"
+                            onClick={() => {
+                              setSelectedCourse(course);
+                              setViewStudents(true);
+                            }}
+                          >
+                            View
+                          </Button>
+                        )}
+                      </div>
                     </TableCell>
                     <TableCell>
                       <DropdownMenu>
@@ -306,7 +438,7 @@ const CoursesSection = ({ searchQuery = "" }) => {
                               setViewCourseCard(true);
                             }}
                           >
-                            View
+                            View Details
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -345,50 +477,165 @@ const CoursesSection = ({ searchQuery = "" }) => {
       </CardFooter>
       {/* View Students Dialog */}
       <Dialog open={viewStudents} onOpenChange={setViewStudents}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-7xl max-h-[85vh] overflow-hidden">
           <DialogHeader>
             <div className="flex justify-between items-center">
-              <DialogTitle>
+              <DialogTitle className="text-xl">
                 Applicants for: {selectedCourse?.title}
               </DialogTitle>
               {selectedCourse?.applicants?.length > 0 && (
-                <Button onClick={handleDownloadStudentsExcel} className="bg-ngo-color6 text-white mr-8 font-bold">
-                  Download
+                <Button onClick={handleDownloadStudentsExcel} className="bg-ngo-color6 text-white font-bold">
+                  Download Excel
                 </Button>
               )}
             </div>
           </DialogHeader>
           {selectedCourse?.applicants?.length > 0 ? (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Phone</TableHead>
-                  <TableHead>Message</TableHead>
-                  <TableHead>Applied On</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {selectedCourse.applicants.map((applicant) => (
-                  <TableRow key={applicant._id}>
-                    <TableCell>{applicant.fullName || "-"}</TableCell>
-                    <TableCell>{applicant.email || "-"}</TableCell>
-                    <TableCell>{applicant.phone || "-"}</TableCell>
-                    <TableCell className="max-w-xs truncate">
-                      {applicant.message || "—"}
-                    </TableCell>
-                    <TableCell>
-                      {new Date(applicant.appliedAt).toLocaleDateString()}
-                    </TableCell>
+            <div className="overflow-auto max-h-[70vh]">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-12">Avatar</TableHead>
+                    <TableHead>Full Name</TableHead>
+                    <TableHead>Contact Info</TableHead>
+                    <TableHead className="hidden lg:table-cell">Personal Details</TableHead>
+                    <TableHead className="hidden xl:table-cell">Location</TableHead>
+                    <TableHead className="hidden 2xl:table-cell">Time Slot</TableHead>
+                    <TableHead className="hidden 2xl:table-cell">Referral</TableHead>
+                    <TableHead>Applied On</TableHead>
+                    <TableHead className="w-32">Message</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {selectedCourse.applicants.map((applicant) => (
+                    <TableRow key={applicant._id} className="hover:bg-gray-50">
+                      <TableCell className="w-12">
+                        <div className="flex items-center justify-center">
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center">
+                            <StudentIcon className="w-4 h-4 text-blue-600" />
+                          </div>
+                                                     {applicant.isStudent === "Yes" && (
+                             <Badge className="ml-1 bg-green-100 text-green-800 border-green-200 text-xs px-1 py-0">
+                               S
+                             </Badge>
+                           )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1">
+                          <div className="font-medium text-sm">{applicant.fullName || "N/A"}</div>
+                                                     {applicant.isStudent === "Yes" && applicant.classStudying && (
+                             <div className="text-xs text-gray-500 flex items-center gap-1">
+                               <BookOpen className="w-3 h-3" />
+                               Class {applicant.classStudying}
+                             </div>
+                           )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="space-y-1 text-xs">
+                          <div className="flex items-center gap-1">
+                            <Mail className="w-3 h-3 text-gray-400" />
+                            <span className="text-gray-600">{applicant.email || "N/A"}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Phone className="w-3 h-3 text-gray-400" />
+                            <span className="text-gray-600">{applicant.phone || "N/A"}</span>
+                          </div>
+                          {applicant.whatsappNumber && (
+                            <div className="flex items-center gap-1">
+                              <MessageCircle className="w-3 h-3 text-gray-400" />
+                              <span className="text-gray-600">{applicant.whatsappNumber}</span>
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="hidden lg:table-cell">
+                        <div className="space-y-1 text-xs">
+                          {applicant.age && (
+                            <div className="flex items-center gap-1">
+                              <User className="w-3 h-3 text-gray-400" />
+                              <span className="text-gray-600">{applicant.age} years</span>
+                            </div>
+                          )}
+                          {applicant.gender && (
+                            <div className="flex items-center gap-1">
+                              <User className="w-3 h-3 text-gray-400" />
+                              <span className="text-gray-600">{applicant.gender}</span>
+                            </div>
+                          )}
+                          {applicant.motherTongue && (
+                            <div className="flex items-center gap-1">
+                              <Languages className="w-3 h-3 text-gray-400" />
+                              <span className="text-gray-600">{applicant.motherTongue}</span>
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell className="hidden xl:table-cell">
+                        {(applicant.state || applicant.city) ? (
+                          <div className="flex items-center gap-1 text-xs">
+                            <MapPin className="w-3 h-3 text-gray-400" />
+                            <span className="text-gray-600">
+                              {[applicant.city, applicant.state].filter(Boolean).join(", ")}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-gray-400">N/A</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="hidden 2xl:table-cell">
+                        {applicant.convenientTimeSlot ? (
+                          <div className="flex items-center gap-1 text-xs">
+                            <ClockIcon className="w-3 h-3 text-gray-400" />
+                            <span className="text-gray-600">{applicant.convenientTimeSlot}</span>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-gray-400">N/A</span>
+                        )}
+                      </TableCell>
+                      <TableCell className="hidden 2xl:table-cell">
+                        {applicant.referredBy ? (
+                          <div className="flex items-center gap-1 text-xs">
+                            <Users className="w-3 h-3 text-gray-400" />
+                            <span className="text-gray-600">{applicant.referredBy}</span>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-gray-400">N/A</span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1 text-xs">
+                          <Calendar className="w-3 h-3 text-gray-400" />
+                          <span className="text-gray-600">
+                            {applicant.appliedAt ? new Date(applicant.appliedAt).toLocaleDateString() : "N/A"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="w-32">
+                        {applicant.message ? (
+                          <div className="text-xs">
+                            <div className="flex items-start gap-1">
+                              <MessageCircle className="w-3 h-3 text-gray-400 mt-0.5 flex-shrink-0" />
+                              <p className="text-gray-600 line-clamp-2 leading-relaxed">
+                                {applicant.message}
+                              </p>
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-xs text-gray-400">No message</span>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           ) : (
-            <p className="text-muted-foreground mt-4">
-              No applicants found for this course.
-            </p>
+            <div className="text-center py-12">
+              <StudentIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+              <p className="text-muted-foreground">No applicants found for this course.</p>
+            </div>
           )}
         </DialogContent>
       </Dialog>
@@ -407,6 +654,7 @@ const CoursesSection = ({ searchQuery = "" }) => {
               level={selectedCourse.level}
               targetAudience={selectedCourse.targetAudience}
               fees={selectedCourse.fees}
+              isNew={selectedCourse.isNew}
             />
           )}
           <div className="flex justify-end mt-4">

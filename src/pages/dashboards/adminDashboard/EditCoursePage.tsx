@@ -4,6 +4,7 @@ import axiosInstance from "@/lib/axiosInstance";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import CourseCard from "@/components/CourseCard";
 import ReactCrop, { type Crop, centerCrop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
@@ -22,6 +23,8 @@ const initialForm = {
   targetAudience: "",
   whatsappLink: "",
   imageUrl: "",
+  timeSlots: [] as string[],
+  isNew: false,
 };
 
 export default function EditCoursePage() {
@@ -49,10 +52,12 @@ export default function EditCoursePage() {
           description: c.description || "",
           duration: c.duration || "",
           level: c.level || "beginner",
-          fees: c.fees || 0,
+          fees: c.fees || '0',
           targetAudience: (c.targetAudience || []).join(", "),
           whatsappLink: c.whatsappLink || "",
           imageUrl: c.imageUrl || "",
+          timeSlots: c.timeSlots || [],
+          isNew: c.isNew || false,
         });
         setCroppedImageUrl(c.imageUrl || "");
       } catch (e) {
@@ -128,6 +133,15 @@ export default function EditCoursePage() {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  const handleTimeSlotChange = (timeSlot: string, checked: boolean) => {
+    setForm((prev) => ({
+      ...prev,
+      timeSlots: checked
+        ? [...prev.timeSlots, timeSlot]
+        : prev.timeSlots.filter((slot) => slot !== timeSlot),
+    }));
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -144,6 +158,8 @@ export default function EditCoursePage() {
         data.append("fees", String(form.fees));
         data.append("targetAudience", form.targetAudience);
         data.append("whatsappLink", form.whatsappLink);
+        form.timeSlots.forEach((slot) => data.append("timeSlots[]", slot));
+        data.append("isNew", form.isNew.toString());
         // Convert dataURL to File
         const arr = croppedImageUrl.split(',');
         const mime = arr[0].match(/:(.*?);/)?.[1];
@@ -171,6 +187,8 @@ export default function EditCoursePage() {
           fees: form.fees,
           targetAudience: form.targetAudience,
           whatsappLink: form.whatsappLink,
+          timeSlots: form.timeSlots,
+          isNew: form.isNew,
         });
       }
       toast.success("Course updated successfully");
@@ -265,6 +283,61 @@ export default function EditCoursePage() {
               />
             </div>
             <div>
+              <label className="block text-sm font-medium mb-1">Course Status</label>
+              <div className="flex items-start space-x-3 space-y-0">
+                <input
+                  type="checkbox"
+                  id="isNew"
+                  checked={form.isNew}
+                  onChange={(e) => handleChange("isNew", e.target.checked)}
+                  className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                />
+                <div className="space-y-1 leading-none">
+                  <label htmlFor="isNew" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                    Mark as New
+                  </label>
+                  <p className="text-sm text-gray-500">
+                    Optional: Mark this course as new to highlight it on the courses page
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Convenient Time Slots *</label>
+              <div className="text-sm text-gray-500 mb-2">
+                Select all time slots that are available for this course
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  "8:00 AM - 9:00 AM",
+                  "9:00 AM - 10:00 AM",
+                  "10:00 AM - 11:00 AM",
+                  "11:00 AM - 12:00 PM",
+                  "12:00 PM - 1:00 PM",
+                  "1:00 PM - 2:00 PM",
+                  "2:00 PM - 3:00 PM",
+                  "3:00 PM - 4:00 PM",
+                  "4:00 PM - 5:00 PM",
+                  "5:00 PM - 6:00 PM",
+                  "6:00 PM - 7:00 PM",
+                  "7:00 PM - 8:00 PM",
+                  "8:00 PM - 9:00 PM",
+                  "9:00 PM - 10:00 PM",
+                  "10:00 PM - 11:00 PM"
+                ].map((timeSlot) => (
+                  <div key={timeSlot} className="flex items-start space-x-3 space-y-0">
+                    <Checkbox
+                      checked={form.timeSlots.includes(timeSlot)}
+                      onCheckedChange={(checked) => handleTimeSlotChange(timeSlot, checked as boolean)}
+                    />
+                    <label className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                      {timeSlot}
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
               <label className="block text-sm font-medium mb-1">Course Image *</label>
               <Input
                 type="file"
@@ -347,6 +420,17 @@ export default function EditCoursePage() {
           <div className="hidden md:block">
             <div className="sticky top-24">
               <h2 className="text-lg font-semibold mb-2 text-ngo-color6">Live Preview</h2>
+              <div className="relative">
+
+                {previewData.isNew && (
+                  <div className="absolute top-0 left-0">
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200 shadow-2xl">
+                      <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-1 animate-pulse"></span>
+                      NEW COURSE
+                    </span>
+                  </div>
+                )}
+              </div>
               <CourseCard {...previewData} />
             </div>
           </div>

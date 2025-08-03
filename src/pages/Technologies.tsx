@@ -3,15 +3,15 @@ import ConfigSections from "@/components/ConfigSections";
 import HeroCarousel from "@/components/HeroCarousel";
 import VideoCards from "@/components/VideoCards";
 
-const Mission = () => {
+const Technologies = () => {
 
     return (
         <Layout>
-            <HeroCarousel pageKey="leadership" />
-            <ConfigSections page="leadership" />
-            <VideoCards pageKey="leadership" />
+            <HeroCarousel pageKey="technologies" />
+            <ConfigSections page="technologies" />
+            <VideoCards pageKey="technologies" />
         </Layout>
     );
 };
 
-export default Mission;
+export default Technologies;

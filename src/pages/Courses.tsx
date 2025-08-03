@@ -24,6 +24,7 @@ interface Course {
   level?: string;
   targetAudience?: string[];
   fees?: number;
+  isNew?: boolean;
 }
 
 const Courses = () => {
@@ -175,13 +176,23 @@ const Courses = () => {
                       }
                     }}
                   >
-                    {course.imageUrl && (
-                      <img
-                        src={course.imageUrl}
-                        alt={course.title}
-                        className="w-full h-32 object-cover"
-                      />
-                    )}
+                    <div className="relative">
+                      {course.imageUrl && (
+                        <img
+                          src={course.imageUrl}
+                          alt={course.title}
+                          className="w-full h-32 object-cover"
+                        />
+                      )}
+                      {course.isNew && (
+                        <div className="absolute top-0 left-0">
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-800 border border-red-200 shadow-2xl">
+                            <span className="w-1.5 h-1.5 bg-red-500 rounded-full mr-1 animate-pulse"></span>
+                            NEW COURSE
+                          </span>
+                        </div>
+                      )}
+                    </div>
                     <CardHeader className="p-3">
                       <CardTitle className="text-sm font-bold truncate">{course.title}</CardTitle>
                       <CardDescription className="text-xs text-gray-600 line-clamp-3">

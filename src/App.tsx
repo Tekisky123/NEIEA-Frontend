@@ -7,7 +7,7 @@ import Index from "./pages/Index";
 import OurWork from "./pages/OurWork";
 import Stories from "./pages/Stories";
 import Gallery from "./pages/Gallery";
-import Mission from "./pages/Mission";
+import Mission from "./pages/Mission.tsx";
 import Team from "./pages/Team";
 import Values from "./pages/Values";
 import Donate from "./pages/Donate";
@@ -26,6 +26,11 @@ import ApplyCourseInstitution from "./pages/ApplyCourseInstitution";
 import EditCoursePage from "./pages/dashboards/adminDashboard/EditCoursePage";
 import ITSkillsTraining from "./pages/ITSkillsTraining";
 import BlendedLearning from "./pages/BlendedLearning";
+import Technologies from "./pages/Technologies.tsx";
+import AdvisoryBoard from "./pages/AdvisoryBoard.tsx";
+import EOP from "./pages/EOP.tsx";
+import Impact from "./pages/Impact.tsx";
+import Testimonials from "./pages/Testimonials.tsx";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +59,11 @@ const App = () => (
           <Route path="/about/leadership" element={<Team />} />
           <Route path="/about/workshops" element={<OurWork />} />
           <Route path="/about/blended-learning" element={<BlendedLearning />} />
+          <Route path="/about/advisory-board" element={<AdvisoryBoard />} />
+          <Route path="/about/technologies" element={<Technologies />} />
+          <Route path="/about/eop" element={<EOP />} />
+          <Route path="/about/impact" element={<Impact />} />
+          <Route path="/about/testimonials" element={<Testimonials />} />
           <Route path="/values" element={<Values />} />
           {/* Take Action Dropdown */}
           <Route path="/monthly-giving" element={<MonthlyGiving />} />

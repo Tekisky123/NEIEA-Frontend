@@ -231,24 +231,32 @@ const ApplyCourse = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Convenient Time Slot *</label>
-                <div className="flex mt-4 items-center gap-4">
-                  {["9:00 PM - 10:00 PM"].map((slot) => (
-                    <div key={slot} className="flex items-center">
-                      <input
-                        type="radio"
-                        id={slot}
-                        {...register("convenientTimeSlot")}
-                        value={slot}
-                        checked={watch("convenientTimeSlot") === slot}
-                        onChange={() => setValue("convenientTimeSlot", slot)}
-                        className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                      />
-                      <label htmlFor={slot} className="ml-2 block text-sm text-gray-700">
-                        {slot}
-                      </label>
-                    </div>
-                  ))}
-                </div>
+                                 {course.timeSlots && course.timeSlots.length > 0 ? (
+                   <div className="space-y-3 mt-4">
+                     {course.timeSlots.map((slot) => (
+                       <div key={slot} className="flex items-center">
+                         <input
+                           type="radio"
+                           id={slot}
+                           {...register("convenientTimeSlot")}
+                           value={slot}
+                           checked={watch("convenientTimeSlot") === slot}
+                           onChange={() => setValue("convenientTimeSlot", slot)}
+                           className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                         />
+                         <label htmlFor={slot} className="ml-2 block text-sm text-gray-700">
+                           {slot}
+                         </label>
+                       </div>
+                     ))}
+                   </div>
+                ) : (
+                  <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-yellow-800 text-sm">
+                      <strong>Note:</strong> Convenient time slots have not been added for this course yet. Please contact the administrator for scheduling information.
+                    </p>
+                  </div>
+                )}
                 {errors.convenientTimeSlot && <p className="mt-2 text-sm text-red-600">{errors.convenientTimeSlot.message}</p>}
               </div>
             </div>

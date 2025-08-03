@@ -81,6 +81,13 @@ const submenuToUrl: Record<string, string> = {
   "introduction": "/about/introduction",
   "blended-learning": "/about/blended-learning",
   "workshops": "/about/workshops",
+  "vision-mission": "/about/vision-mission",
+  "leadership": "/about/leadership",
+  "advisory-board": "/about/advisory-board",
+  "technologies": "/about/technologies",
+  "eop": "/about/eop",
+  "impact": "/about/impact",
+  "testimonials": "/about/testimonials",
   "it-skills-training": "/it-skills-training",
   // Add more mappings as needed
 };
@@ -1102,8 +1109,16 @@ const WebsiteNavigationSection = () => {
           {(() => {
             switch (activeSubmenu) {
               case "introduction":
+              case "vision-mission":
+              case "leadership":
+              case "advisory-board":
               case "blended-learning":
               case "workshops":
+              case "technologies":
+              case "eop":
+              case "impact":
+              case "testimonials":
+
                 return (
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
                     <TabsList className="grid w-full grid-cols-3">
