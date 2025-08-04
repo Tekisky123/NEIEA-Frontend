@@ -1122,8 +1122,8 @@ const WebsiteNavigationSection = () => {
                 return (
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
                     <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="content">Section Content</TabsTrigger>
                       <TabsTrigger value="carousel">Carousel</TabsTrigger>
+                      <TabsTrigger value="content">Section Content</TabsTrigger>
                       <TabsTrigger value="videos">Videos</TabsTrigger>
                     </TabsList>
                     

@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { statesAndCities } from "@/lib/statesAndCities";
-import { referredByOptions } from "@/lib/referredBy";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -38,6 +37,7 @@ const ApplyCourse = () => {
   const [course, setCourse] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const [cities, setCities] = useState<string[]>([]);
+  const [referredByOptions, setReferredByOptions] = useState([{ _id: "", name: "Choose" }]);
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -52,8 +52,20 @@ const ApplyCourse = () => {
     }
   };
 
+  const fetchReferredByList = async () => {
+    try {
+      const response = await axiosInstance.get("/course/referred-by-list");
+      if (response.data.success) {
+        setReferredByOptions([{ _id: "", name: "Choose" }, ...response.data.data]);
+      }
+    } catch (error) {
+      toast.error("Failed to load referred by list");
+    }
+  };
+
   useEffect(() => {
     fetchCourse();
+    fetchReferredByList();
   }, [id]);
 
   const handleChange = (e) => {
@@ -224,32 +236,32 @@ const ApplyCourse = () => {
                 <label htmlFor="referredBy" className="block text-sm font-medium text-gray-700">Referred By *</label>
                 <select id="referredBy" {...register("referredBy")} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                   {referredByOptions.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                    <option key={option._id} value={option.name}>{option.name}</option>
                   ))}
                 </select>
                 {errors.referredBy && <p className="mt-2 text-sm text-red-600">{errors.referredBy.message}</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700">Convenient Time Slot *</label>
-                                 {course.timeSlots && course.timeSlots.length > 0 ? (
-                   <div className="space-y-3 mt-4">
-                     {course.timeSlots.map((slot) => (
-                       <div key={slot} className="flex items-center">
-                         <input
-                           type="radio"
-                           id={slot}
-                           {...register("convenientTimeSlot")}
-                           value={slot}
-                           checked={watch("convenientTimeSlot") === slot}
-                           onChange={() => setValue("convenientTimeSlot", slot)}
-                           className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-                         />
-                         <label htmlFor={slot} className="ml-2 block text-sm text-gray-700">
-                           {slot}
-                         </label>
-                       </div>
-                     ))}
-                   </div>
+                {course.timeSlots && course.timeSlots.length > 0 ? (
+                  <div className="space-y-3 mt-4">
+                    {course.timeSlots.map((slot) => (
+                      <div key={slot} className="flex items-center">
+                        <input
+                          type="radio"
+                          id={slot}
+                          {...register("convenientTimeSlot")}
+                          value={slot}
+                          checked={watch("convenientTimeSlot") === slot}
+                          onChange={() => setValue("convenientTimeSlot", slot)}
+                          className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+                        />
+                        <label htmlFor={slot} className="ml-2 block text-sm text-gray-700">
+                          {slot}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
                 ) : (
                   <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                     <p className="text-yellow-800 text-sm">

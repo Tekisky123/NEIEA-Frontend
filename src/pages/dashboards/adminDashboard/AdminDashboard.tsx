@@ -22,11 +22,13 @@ import ManageAdmins from "./ManageAdmins";
 import CourseSectionForInstitution from "./CourseSectionForInstitution";
 import WebsiteNavigationSection from "./WebsiteNavigationSection";
 import logoRemovedBg from "@/images/logoRemovedBg.png";
+import ReferredBy from "./ReferredBy";
 
 const sidebarItems = [
   { label: "Dashboard", value: "dashboard", icon: <Menu className="w-5 h-5" /> },
   { label: "Courses", value: "courses", icon: <BookOpen className="w-5 h-5" /> },
   { label: "New Course", value: "new", icon: <PlusCircle className="w-5 h-5" /> },
+  { label: "ReferredBy", value: "referredBy", icon: <PlusCircle className="w-5 h-5" /> },
   { label: "Donors", value: "donors", icon: <Users className="w-5 h-5" /> },
   { label: "Institutions", value: "institutions", icon: <Building2 className="w-5 h-5" /> },
   { label: "Manage Admins", value: "admins", icon: <UserPlus className="w-5 h-5" /> },
@@ -138,6 +140,7 @@ const AdminDashboard = () => {
       <main className="flex-1 overflow-y-auto">
         {activeTab === "courses" && <CoursesSection />}
         {activeTab === "new" && <NewCourse />}
+        {activeTab === "referredBy" && <ReferredBy />}
         {activeTab === "donors" && <DonorsSection />}
         {activeTab === "institutions" && <CourseSectionForInstitution />}
         {activeTab === "admins" && <ManageAdmins />}

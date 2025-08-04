@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import { statesAndCities } from "@/lib/statesAndCities";
-import { referredByOptions } from "@/lib/referredBy";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -60,12 +59,29 @@ const ApplyCourseInstitution = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [cities, setCities] = useState<string[]>([]);
+  const [referredByOptions, setReferredByOptions] = useState([{ _id: "", name: "Select Option" }]);
+
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
   const queryParams = new URLSearchParams(location.search);
   const courseIds = queryParams.getAll("courseIds");
+
+  const fetchReferredByList = async () => {
+    try {
+      const response = await axiosInstance.get("/course/referred-by-list");
+      if (response.data.success) {
+        setReferredByOptions([{ _id: "", name: "Select Option" }, ...response.data.data]);
+      }
+    } catch (error) {
+      toast.error("Failed to load referred by list");
+    }
+  };
+
+  useEffect(() => {
+    fetchReferredByList();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -150,9 +166,8 @@ const ApplyCourseInstitution = () => {
               <div>
                 <label htmlFor="referredBy" className="block text-sm font-medium text-gray-700">Referred By</label>
                 <select id="referredBy" {...register("referredBy")} className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                  <option value="">Select Option</option>
                   {referredByOptions.map((option) => (
-                    <option key={option} value={option}>{option}</option>
+                    <option key={option._id} value={option.name}>{option.name}</option>
                   ))}
                 </select>
                 {errors.referredBy && <p className="mt-2 text-sm text-red-600">{errors.referredBy.message}</p>}
