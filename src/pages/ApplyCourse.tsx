@@ -11,6 +11,8 @@ import { statesAndCities } from "@/lib/statesAndCities";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { CheckCircle2, Loader2 } from "lucide-react";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 const formSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
@@ -38,8 +40,12 @@ const ApplyCourse = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [cities, setCities] = useState<string[]>([]);
   const [referredByOptions, setReferredByOptions] = useState([{ _id: "", name: "Choose" }]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
+
+  const { register, handleSubmit, setValue, reset, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
 
@@ -84,13 +90,102 @@ const ApplyCourse = () => {
     }
   };
 
-  const onSubmit = async (data: FormData) => {
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => {
+        resolve(true);
+      };
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+
+  const initiateRazorpayPayment = async (orderData: any) => {
     try {
-      await axiosInstance.post(`/course/apply/${id}`, data);
-      setShowDialog(true);
+      setPaymentLoading(true);
+      const isLoaded = await loadRazorpayScript();
+      if (!isLoaded) throw new Error('Razorpay SDK failed to load');
+
+      const options = {
+        key: 'rzp_test_HcrOflmaNTnjgB', // Replace with your test key
+        amount: orderData.amount * 100, // Razorpay expects amount in paise
+        currency: 'INR',
+        name: 'NEIEA Course Buying',
+        description: `Course application for ${course.title || 'General'}`,
+        order_id: orderData.razorpayOrderId,
+        handler: async (response: any) => {
+          try {
+            const verificationResponse = await axiosInstance.post('/course/verify-payment', {
+              razorpayOrderId: orderData.razorpayOrderId,
+              razorpayPaymentId: response.razorpay_payment_id,
+              razorpaySignature: response.razorpay_signature,
+              courseData: orderData
+            });
+            console.log("verificationResponse", verificationResponse)
+            if (verificationResponse.data.success) {
+              // Call the apply form API after successful payment verification
+              await axiosInstance.post(`/course/apply/${id}`, orderData);
+              setIsSuccessDialogOpen(true);
+              reset();
+              toast.success("Payment successful! Thank you for your application.");
+            } else {
+              toast.error("Payment verification failed. Please contact support.1");
+            }
+          } catch (error) {
+            toast.error("Payment verification failed. Please contact support.");
+          } finally {
+            setPaymentLoading(false);
+          }
+        },
+        prefill: {
+          name: `${orderData.fullName}`,
+          email: orderData.email,
+          contact: orderData.phone
+        },
+        theme: {
+          color: '#4f46e5' // Your brand color
+        }
+      };
+
+      // @ts-ignore
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error('Payment error:', error);
+      toast.error("Failed to initiate payment. Please try again.");
+      setPaymentLoading(false);
+    }
+  };
+
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    try {
+      if (course.fees > 0) {
+        const payload = { ...data };
+        const orderResponse = await axiosInstance.post('/course/create-order', {
+          amount: course.fees,
+          currency: 'INR',
+          receipt: `course_${Date.now()}`,
+        });
+
+        if (orderResponse.data.success) {
+          await initiateRazorpayPayment({ ...payload, razorpayOrderId: orderResponse.data.orderId });
+        } else {
+          toast.error("Failed to create payment order. Please try again.");
+        }
+      } else {
+        await axiosInstance.post(`/course/apply/${id}`, data);
+        setShowDialog(true);
+      }
     } catch (error) {
       console.error(error);
       toast.error(error.response?.data?.message || "Application submission failed");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -107,6 +202,7 @@ const ApplyCourse = () => {
           <div className="bg-gray-50 p-6 rounded-lg mb-8">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">Course Details</h2>
             <p className="text-gray-600 mb-2"><strong>Duration:</strong> {course.duration}</p>
+            <p className="text-gray-600 mb-2"><strong>Fees:</strong> {course.fees === 0 ? "Free" : `INR ${course.fees}`}</p>
             <p className="text-gray-600 mb-2">
               <strong>Requirements:</strong> Students are expected to commit themselves for serious learning during the whole course by attending every day (Mandatory attendance is 90%), being punctual, and completing the homework on time.
             </p>
@@ -277,11 +373,56 @@ const ApplyCourse = () => {
               <Textarea id="message" {...register("message")} placeholder="Why are you applying for this course?" className="mt-1 block w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
             </div>
             <div className="col-span-1 md:col-span-2">
-              <Button type="submit" className="w-full bg-ngo-color1 hover:bg-ngo-color2 text-white font-medium py-3 px-4 rounded-lg shadow-sm">
-                Submit Application
-              </Button>
+              {
+                course.fees == 0 ? (
+                  <Button type="submit" className="w-full bg-ngo-color1 hover:bg-ngo-color2 text-white font-medium py-3 px-4 rounded-lg shadow-sm">
+                    Submit Application
+                  </Button>
+                ) : (<Button
+                  type="submit"
+                  className="w-full bg-ngo-color4 hover:bg-ngo-color4/90 text-white font-bold py-3 text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                  disabled={isSubmitting || paymentLoading}
+                >
+                  {isSubmitting || paymentLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      {paymentLoading ? "Redirecting to Payment..." : "Processing..."}
+                    </>
+                  ) : (
+                    "Proceed to Payment"
+                  )}
+                </Button>)
+              }
             </div>
           </form>
+          <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
+            <DialogContent className="sm:max-w-[425px] bg-white">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-ngo-color4">
+                <CheckCircle2 className="h-6 w-6 text-white" aria-hidden="true" />
+              </div>
+              <DialogHeader className="text-center">
+                <DialogTitle className="text-2xl font-bold text-ngo-color6">
+                  Thank You for Your Application!
+                </DialogTitle>
+                <DialogDescription className="text-gray-600">
+                  Your application has been successfully processed. A confirmation email has been sent to your email address.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="mt-4 flex justify-center">
+                <Button
+                  onClick={() => {
+                    setIsSuccessDialogOpen(false);
+                    // if (donationData?.donorType) {
+                    //   // Redirect to donor dashboard if applicable
+                    // }
+                  }}
+                  className="bg-ngo-color4 hover:bg-ngo-color4/90"
+                >
+                  Close
+                </Button>
+              </div>
+            </DialogContent>
+          </Dialog>
           <Dialog open={showDialog} onOpenChange={setShowDialog}>
             <DialogContent className="text-center max-w-md">
               <DialogHeader>
