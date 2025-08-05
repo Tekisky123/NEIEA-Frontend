@@ -1102,7 +1102,7 @@ const WebsiteNavigationSection = () => {
         <CardHeader>
           <CardTitle className="text-xl">{currentSubmenu?.label || "Select a section"}</CardTitle>
           <p className="text-muted-foreground">
-            Manage content for this page.
+            Manage content dynamic content for this page.
           </p>
         </CardHeader>
         <CardContent>
@@ -1118,13 +1118,14 @@ const WebsiteNavigationSection = () => {
               case "eop":
               case "impact":
               case "testimonials":
+              case "it-skills-training":
 
                 return (
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
                     <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="carousel">Carousel</TabsTrigger>
-                      <TabsTrigger value="content">Section Content</TabsTrigger>
-                      <TabsTrigger value="videos">Videos</TabsTrigger>
+                      <TabsTrigger value="carousel">Top Images Section (Carousel)</TabsTrigger>
+                      <TabsTrigger value="content">Middle Section Content</TabsTrigger>
+                      <TabsTrigger value="videos">Bottom Video Cards Section</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="content">
@@ -1646,7 +1647,7 @@ const WebsiteNavigationSection = () => {
                     </TabsContent>
                   </Tabs>
                 );
-              case "it-skills-training":
+              case "it-skills-training-old":
                 return (
                   <div className="space-y-10">
                     {/* Carousel Images CRUD */}

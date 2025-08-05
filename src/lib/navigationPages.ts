@@ -24,6 +24,11 @@ export const navigationPages = [
       {label: "Cluster Education", key: "cluster-education"},
       {label: "Teachers Training", key: "teachers-training"},
       {label: "Slum Children Education", key: "slum-children"},
+      {label: "Out Of School Children Education", key: "out-of-school-children-education"},
+      {label: "Girls Education", key: "girls-education"},
+      {label: "Pedagogy Training", key: "pedagogy-training"},
+      {label: "Madarsa Education", key: "madarsa-education"},
+      {label: "Public (Government) School Education", key: "public-school-education"},
     ],
   },
   // Add more main pages here as needed
