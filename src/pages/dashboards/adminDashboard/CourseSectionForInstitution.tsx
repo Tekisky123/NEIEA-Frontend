@@ -98,13 +98,17 @@ const CourseSectionForInstitution = ({ searchQuery = "" }) => {
     const data = filteredInstitutions.map((inst) => ({
       "Institution Name": inst.institutionName || "",
       "Coordinator Name": inst.coordinatorName || "",
-      "Email Address": inst.email || "",
-      "Phone Number": inst.phone || "",
-      "Address": inst.address || "",
+      "Coordinator Email": inst.coordinatorEmail || "",
+      "Coordinator Contact": inst.coordinatorContactNumber1 || "",
       "Number Of Students": inst.numberOfStudents || 0,
       "Start Month": inst.startMonth || "",
       "Suitable Time Slot": inst.suitableTimeSlot || "",
+      "How Find Us": inst.howDidYouFindUs || "",
+      "Referred By": inst.referredBy || "",
       "Applied Courses": inst.appliedCourses?.length || 0,
+      "State": inst.state || "",
+      "City": inst.state || "",
+      "Address": inst.state || "",
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(data);
