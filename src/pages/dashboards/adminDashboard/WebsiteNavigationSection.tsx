@@ -144,7 +144,7 @@ const WebsiteNavigationSection = () => {
   });
   const [loadingSectionContent, setLoadingSectionContent] = useState(false);
   const [savedSections, setSavedSections] = useState<SectionContent[]>([]);
-  const [formErrors, setFormErrors] = useState<{[key: string]: string}>({});
+  const [formErrors, setFormErrors] = useState<{ [key: string]: string }>({});
   const [sectionImageFile, setSectionImageFile] = useState<File | null>(null);
   const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
   const contentImageRef = useRef<HTMLInputElement | null>(null);
@@ -229,12 +229,12 @@ const WebsiteNavigationSection = () => {
 
     setSectionImageFile(file);
     setSectionContent((prev) => ({ ...prev, imageUrl: URL.createObjectURL(file) }));
-    
+
     // Clear image error when user selects a file
     if (formErrors.image) {
       setFormErrors(prev => ({ ...prev, image: "" }));
     }
-    
+
     if (contentImageRef.current) contentImageRef.current.value = "";
   };
 
@@ -246,7 +246,7 @@ const WebsiteNavigationSection = () => {
   const handleSectionContentInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setSectionContent((prev) => ({ ...prev, [name]: value }));
-    
+
     // Clear error when user starts typing
     if (formErrors[name]) {
       setFormErrors(prev => ({ ...prev, [name]: "" }));
@@ -254,20 +254,20 @@ const WebsiteNavigationSection = () => {
   };
 
   const validateSectionContent = () => {
-    const errors: {[key: string]: string} = {};
-    
+    const errors: { [key: string]: string } = {};
+
     if (!sectionContent.heading?.trim()) {
       errors.heading = "Heading is required";
     } else if (sectionContent.heading.trim().length < 3) {
       errors.heading = "Heading must be at least 3 characters";
     }
-    
+
     if (!sectionContent.subHeading?.trim()) {
       errors.subHeading = "Subheading is required";
     } else if (sectionContent.subHeading.trim().length < 5) {
       errors.subHeading = "Subheading must be at least 5 characters";
     }
-    
+
     if (!sectionContent.body?.trim()) {
       errors.body = "Body content is required";
     } else if (sectionContent.body.trim().length < 10) {
@@ -277,7 +277,7 @@ const WebsiteNavigationSection = () => {
     if (!sectionContent.imageUrl) {
       errors.image = "Section image is required";
     }
-    
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -389,7 +389,7 @@ const WebsiteNavigationSection = () => {
       console.warn("No active submenu selected for fetching sections");
       return;
     }
-    
+
     setLoadingSectionContent(true);
     try {
       const res = await axiosInstance.get(`/sections/${activeSubmenu}`);
@@ -418,12 +418,12 @@ const WebsiteNavigationSection = () => {
     } catch (err: any) {
       console.error("Failed to fetch section content:", err);
       const errorMessage = err?.response?.data?.message || err?.message || "Failed to fetch sections.";
-      
+
       // Only show error toast for non-404 errors (404 means no sections exist yet)
       if (err?.response?.status !== 404) {
         toast.error(errorMessage);
       }
-      
+
       setSavedSections([]);
     } finally {
       setLoadingSectionContent(false);
@@ -450,12 +450,12 @@ const WebsiteNavigationSection = () => {
       formData.append("subHeading", sectionContent.subHeading.trim());
       formData.append("body", sectionContent.body.trim());
       formData.append("orientation", sectionContent.orientation || 'left');
-      
+
       // Add image file if exists
       if (sectionImageFile) {
         formData.append("image", sectionImageFile);
       }
-      
+
       const res = await axiosInstance.post(`/admin/sections`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -511,12 +511,12 @@ const WebsiteNavigationSection = () => {
       formData.append("subHeading", content.subHeading.trim());
       formData.append("body", content.body.trim());
       formData.append("orientation", content.orientation || 'left');
-      
+
       // Add image file if exists
       if (sectionImageFile) {
         formData.append("image", sectionImageFile);
       }
-      
+
       const res = await axiosInstance.put(`/admin/sections/${sectionId}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
@@ -557,7 +557,7 @@ const WebsiteNavigationSection = () => {
 
   const deleteSectionContent = async (sectionId: string) => {
     if (!confirm("Are you sure you want to delete this section?")) return;
-    
+
     try {
       const res = await axiosInstance.delete(`/admin/sections/${sectionId}`);
       if (res.data.success) {
@@ -753,20 +753,20 @@ const WebsiteNavigationSection = () => {
   // Add or update video card
   const handleVideoCardSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate required fields
-    if (!videoCardForm.title?.trim() || !videoCardForm.description?.trim() || 
-        !videoCardForm.thumbnail?.trim() || !videoCardForm.duration?.trim() || 
-        !videoCardForm.videoUrl?.trim()) {
+    if (!videoCardForm.title?.trim() || !videoCardForm.description?.trim() ||
+      !videoCardForm.thumbnail?.trim() || !videoCardForm.duration?.trim() ||
+      !videoCardForm.videoUrl?.trim()) {
       toast.error("Please fill in all required fields.");
       return;
     }
-    
+
     if (!activeSubmenu) {
       toast.error("No active submenu selected.");
       return;
     }
-    
+
     setVideoCardUploading(true);
     try {
       // Filter out undefined values
@@ -778,7 +778,7 @@ const WebsiteNavigationSection = () => {
         videoUrl: videoCardForm.videoUrl.trim(),
         page: activeSubmenu,
       };
-      
+
       if (editingVideoCardId) {
         // Update
         await axiosInstance.put(`/admin/video-cards/${editingVideoCardId}`, payload);
@@ -824,18 +824,18 @@ const WebsiteNavigationSection = () => {
 
   const handleHeroSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate required fields
     if (!heroForm.h1?.trim() || !heroForm.h2?.trim()) {
       toast.error("Please fill in all required fields.");
       return;
     }
-    
+
     if (!activeSubmenu) {
       toast.error("No active submenu selected.");
       return;
     }
-    
+
     setHeroUploading(true);
     try {
       // Filter out undefined values
@@ -844,7 +844,7 @@ const WebsiteNavigationSection = () => {
         h2: heroForm.h2.trim(),
         page: activeSubmenu,
       };
-      
+
       if (heroSection) {
         // Update
         await axiosInstance.put(`/admin/hero-section/${heroSection._id}`, payload);
@@ -869,24 +869,24 @@ const WebsiteNavigationSection = () => {
 
   const handleBulletPointSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate required fields
     if (!bulletPointForm.trim()) {
       toast.error("Please enter bullet point text.");
       return;
     }
-    
+
     if (!activeSubmenu) {
       toast.error("No active submenu selected.");
       return;
     }
-    
+
     setBulletPointUploading(true);
     try {
       // Get current points or create new array
       const currentPoints = bulletPoints?.points || [];
       let newPoints: string[];
-      
+
       if (editingBulletIndex !== null) {
         // Update existing bullet point
         newPoints = [...currentPoints];
@@ -895,12 +895,12 @@ const WebsiteNavigationSection = () => {
         // Add new bullet point
         newPoints = [...currentPoints, bulletPointForm.trim()];
       }
-      
+
       const payload = {
         points: newPoints,
         page: activeSubmenu,
       };
-      
+
       if (bulletPoints) {
         // Update existing
         await axiosInstance.put(`/admin/bullet-points/${bulletPoints._id}`, payload);
@@ -929,16 +929,16 @@ const WebsiteNavigationSection = () => {
 
   const handleDeleteBulletPoint = async (index: number) => {
     if (!bulletPoints) return;
-    
+
     if (!confirm("Are you sure you want to delete this bullet point?")) return;
-    
+
     try {
       const newPoints = bulletPoints.points.filter((_, i) => i !== index);
       const payload = {
         points: newPoints,
         page: activeSubmenu,
       };
-      
+
       await axiosInstance.put(`/admin/bullet-points/${bulletPoints._id}`, payload);
       toast.success("Bullet point deleted!");
       fetchBulletPoints();
@@ -954,18 +954,18 @@ const WebsiteNavigationSection = () => {
 
   const handleTestimonialSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate required fields
     if (!testimonialForm.name?.trim() || !testimonialForm.message?.trim()) {
       toast.error("Please fill in all required fields.");
       return;
     }
-    
+
     if (!activeSubmenu) {
       toast.error("No active submenu selected.");
       return;
     }
-    
+
     setTestimonialUploading(true);
     try {
       // Filter out undefined values
@@ -974,7 +974,7 @@ const WebsiteNavigationSection = () => {
         message: testimonialForm.message.trim(),
         page: activeSubmenu,
       };
-      
+
       if (editingTestimonialId) {
         // Update
         await axiosInstance.put(`/admin/testimonials/${editingTestimonialId}`, payload);
@@ -1064,9 +1064,8 @@ const WebsiteNavigationSection = () => {
             onMouseLeave={() => setSubmenuOpen(null)}
           >
             <button
-              className={`px-4 py-2 font-semibold text-base transition rounded-t-md focus:outline-none ${
-                activePage === page.key ? "bg-ngo-color6 text-ngo-color1" : "hover:bg-ngo-color2/20 text-ngo-color1"
-              }`}
+              className={`px-4 py-2 font-semibold text-base transition rounded-t-md focus:outline-none ${activePage === page.key ? "bg-ngo-color6 text-ngo-color1" : "hover:bg-ngo-color2/20 text-ngo-color1"
+                }`}
               onClick={() => {
                 setActivePage(page.key);
                 setActiveSubmenu(page.submenus[0]?.key);
@@ -1080,9 +1079,8 @@ const WebsiteNavigationSection = () => {
                 {page.submenus.map((submenu) => (
                   <button
                     key={submenu.key}
-                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-ngo-color6/10 ${
-                      activeSubmenu === submenu.key ? "bg-ngo-color6/20 font-semibold" : ""
-                    }`}
+                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-ngo-color6/10 ${activeSubmenu === submenu.key ? "bg-ngo-color6/20 font-semibold" : ""
+                      }`}
                     onClick={() => {
                       setActivePage(page.key);
                       setActiveSubmenu(submenu.key);
@@ -1127,7 +1125,7 @@ const WebsiteNavigationSection = () => {
                       <TabsTrigger value="content">Middle Section Content</TabsTrigger>
                       <TabsTrigger value="videos">Bottom Video Cards Section</TabsTrigger>
                     </TabsList>
-                    
+
                     <TabsContent value="content">
                       <Card>
                         <CardHeader>
@@ -1269,7 +1267,7 @@ const WebsiteNavigationSection = () => {
                               )}
                             </div>
                           </div>
-                          
+
                           {/* Display Created Sections */}
                           {savedSections.length > 0 && (
                             <div className="mt-8">
@@ -1290,7 +1288,7 @@ const WebsiteNavigationSection = () => {
                                         >
                                           ×
                                         </button>
-                                        
+
                                         <div className="flex justify-between items-start mb-3 pr-8">
                                           <h4 className="font-semibold text-lg">Section {savedSections.length - index}</h4>
                                           <Button
@@ -1308,7 +1306,7 @@ const WebsiteNavigationSection = () => {
                                             Edit
                                           </Button>
                                         </div>
-                                        
+
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                           <div>
                                             <h5 className="font-medium text-gray-700 mb-2">Content Preview:</h5>
@@ -1357,7 +1355,7 @@ const WebsiteNavigationSection = () => {
                         </CardContent>
                       </Card>
                     </TabsContent>
-                    
+
                     <TabsContent value="carousel">
                       <Card>
                         <CardHeader>
@@ -1448,6 +1446,16 @@ const WebsiteNavigationSection = () => {
                                 <div className="text-xs text-gray-500">
                                   Max {MAX_IMAGES} images, {MAX_SIZE_MB}MB each. Current: {carouselImages.length}/{MAX_IMAGES}
                                 </div>
+                                <div className="text-xs text-gray-500">
+                                  <span className="font-bold">Note for Carousel Image Upload:</span>
+                                  <ul className="list-disc pl-4">
+                                    <li>You can upload up to 3 images for the carousel section.</li>
+                                    <li>You may add 1, 2, or all 3 images at once during the first upload.</li>
+                                    <li>If you want to update the carousel images later, you must re-upload all 3 images together.</li>
+                                    <li>Even if you want to change only 1 or 2 images, you still need to upload the remaining existing images again.</li>
+                                    <li>If you upload only 1 or 2 images during update, the previous images will be replaced and only the newly uploaded ones will be shown.</li>
+                                  </ul>
+                                </div>
                               </div>
                               {carouselImages.length > 0 && (
                                 <div className="space-y-2">
@@ -1492,7 +1500,7 @@ const WebsiteNavigationSection = () => {
                         </CardContent>
                       </Card>
                     </TabsContent>
-                    
+
                     <TabsContent value="videos">
                       <Card>
                         <CardHeader>
@@ -1653,7 +1661,7 @@ const WebsiteNavigationSection = () => {
                     {/* Carousel Images CRUD */}
                     <section>
                       <h2 className="text-lg font-semibold mb-4">Carousel Images</h2>
-                      
+
                       {/* Existing Carousel Preview */}
                       {loadingCarousel ? (
                         <div className="flex items-center justify-center py-8">
@@ -1730,7 +1738,7 @@ const WebsiteNavigationSection = () => {
                             Recommended size: <span className="font-medium">23:9 aspect ratio, at least 1840x720px</span> for best results in the homepage carousel.
                           </div>
                           <div className="text-xs text-gray-400 mt-1 italic">
-                            Example prompt for AI image generation:<br/>
+                            Example prompt for AI image generation:<br />
                             <span className="text-gray-600">"A beautiful, inspiring education scene in India, children learning together, bright and positive, 23:9 aspect ratio, 1840x720px"</span>
                           </div>
                           <div className="flex gap-4 flex-wrap">
@@ -1756,8 +1764,8 @@ const WebsiteNavigationSection = () => {
                             You can upload up to 3 images. Only image files (max 1MB each).
                             {existingCarousel && ` Current: ${existingCarousel.images?.length || 0}/3`}
                           </div>
-                          <Button 
-                            type="submit" 
+                          <Button
+                            type="submit"
                             disabled={uploading || carouselImages.length === 0}
                             className="bg-ngo-color6 hover:bg-ngo-color5"
                           >
@@ -1840,9 +1848,9 @@ const WebsiteNavigationSection = () => {
                             <Button
                               type="button"
                               variant="outline"
-                              onClick={() => { 
-                                setBulletPointForm(""); 
-                                setEditingBulletIndex(null); 
+                              onClick={() => {
+                                setBulletPointForm("");
+                                setEditingBulletIndex(null);
                               }}
                             >
                               Cancel
@@ -2038,8 +2046,8 @@ const WebsiteNavigationSection = () => {
                     {/* <section>
                       <h2 className="text-lg font-semibold mb-4">Section Content</h2>
                       <div className="border border-dashed border-gray-300 rounded p-6"> */}
-                        {/* Section Content Form */}
-                        {/* <form onSubmit={handleSaveOrUpdateSection} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    {/* Section Content Form */}
+                    {/* <form onSubmit={handleSaveOrUpdateSection} encType="multipart/form-data" className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                           <input
                             type="text"
                             name="heading"
@@ -2117,8 +2125,8 @@ const WebsiteNavigationSection = () => {
                           </div>
                         </form> */}
 
-                        {/* Section Content Preview */}
-                        {/* <div className="mt-6 p-4 border border-gray-200 rounded-lg">
+                    {/* Section Content Preview */}
+                    {/* <div className="mt-6 p-4 border border-gray-200 rounded-lg">
                           <h3 className="text-md font-medium mb-3 text-gray-700">Preview</h3>
                           <div className="prose dark:prose-invert" dangerouslySetInnerHTML={{ __html: `
                             <h1>${sectionContent.heading || ''}</h1>
@@ -2127,7 +2135,7 @@ const WebsiteNavigationSection = () => {
                                                          ${sectionContent.imageUrl ? `<img src="${sectionContent.imageUrl}" alt="Section Image" class="max-w-full h-auto" />` : ''}
                           `}} />
                         </div> */}
-                      {/* </div>
+                    {/* </div>
                     </section> */}
                   </div>
                 );
