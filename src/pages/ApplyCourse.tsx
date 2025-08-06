@@ -128,23 +128,15 @@ const ApplyCourse = () => {
             console.log("verificationResponse", verificationResponse)
             if (verificationResponse.data.success) {
               // Call the apply form API after successful payment verification
-              await axiosInstance.post(`/course/apply/${id}`, orderData);
+              // await axiosInstance.post(`/course/apply/${id}`, orderData);
               setIsSuccessDialogOpen(true);
               reset();
               toast.success("Payment successful! Thank you for your application.");
             } else {
-              // toast.error("Payment verification failed. Please contact support.1");
-              toast.success("Payment successful! Thank you for your application.");
-              await axiosInstance.post(`/course/apply/${id}`, orderData);
-              setIsSuccessDialogOpen(true);
-              reset();
+              toast.error("Payment verification failed. Please contact support.1");
             }
           } catch (error) {
             toast.error("Payment verification failed. Please contact support.");
-            toast.success("Payment successful! Thank you for your application.");
-              await axiosInstance.post(`/course/apply/${id}`, orderData);
-              setIsSuccessDialogOpen(true);
-              reset();
           } finally {
             setPaymentLoading(false);
           }
@@ -173,17 +165,22 @@ const ApplyCourse = () => {
     setIsSubmitting(true);
     try {
       if (course.fees > 0) {
-        const payload = { ...data };
-        const orderResponse = await axiosInstance.post('/course/create-order', {
-          amount: course.fees,
-          currency: 'INR',
-          receipt: `course_${Date.now()}`,
-        });
-
-        if (orderResponse.data.success) {
-          await initiateRazorpayPayment({ ...payload, razorpayOrderId: orderResponse.data.orderId });
-        } else {
-          toast.error("Failed to create payment order. Please try again.");
+        const resp = await axiosInstance.post(`/course/verify-apply-course/${id}`, data);
+        if(resp.data.success == true){
+          const payload = { ...data,course: course?._id };
+          const orderResponse = await axiosInstance.post('/course/create-order', {
+            amount: course.fees,
+            currency: 'INR',
+            receipt: `course_${Date.now()}`,
+          });
+  
+          if (orderResponse.data.success) {
+            await initiateRazorpayPayment({ ...payload, razorpayOrderId: orderResponse.data.orderId });
+          } else {
+            toast.error("Failed to create payment order. Please try again.");
+          }
+        }else{
+          toast.error("Somthing went wrong!. Please try again.");
         }
       } else {
         await axiosInstance.post(`/course/apply/${id}`, data);

@@ -503,6 +503,7 @@ const CoursesSection = ({ searchQuery = "" }) => {
                     <TableHead className="hidden 2xl:table-cell">Time Slot</TableHead>
                     <TableHead className="hidden 2xl:table-cell">Referral</TableHead>
                     <TableHead>Applied On</TableHead>
+                    <TableHead>Payment</TableHead>
                     <TableHead className="w-32">Message</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -604,11 +605,24 @@ const CoursesSection = ({ searchQuery = "" }) => {
                           <span className="text-xs text-gray-400">N/A</span>
                         )}
                       </TableCell>
+                      
                       <TableCell>
                         <div className="flex items-center gap-1 text-xs">
                           <Calendar className="w-3 h-3 text-gray-400" />
                           <span className="text-gray-600">
                             {applicant.appliedAt ? new Date(applicant.appliedAt).toLocaleDateString() : "N/A"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-1 text-xs">
+                          <Calendar className="w-3 h-3 text-gray-400" />
+                          <span className="text-gray-600">
+                            {applicant.isVerified ? (
+                              <Badge className="ml-1 bg-green-100 text-green-800 border-green-200 text-xs px-1 py-0">
+                               Success
+                             </Badge>
+                            ) : "N/A"}
                           </span>
                         </div>
                       </TableCell>
