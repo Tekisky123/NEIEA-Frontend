@@ -420,7 +420,7 @@ const ApplyCourse = () => {
                     // if (donationData?.donorType) {
                     //   // Redirect to donor dashboard if applicable
                     // }
-                    navigate('/courses')
+                    setShowDialog(true)
                   }}
                   className="bg-ngo-color4 hover:bg-ngo-color4/90"
                 >
