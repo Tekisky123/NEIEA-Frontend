@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Shield, Key, Lock } from "lucide-react";
+import DatabaseBackup from "./DatabaseBackup";
 
 const passwordSchema = z.object({
   currentPassword: z.string().min(8, "Password must be at least 8 characters"),
@@ -162,6 +163,8 @@ const SecuritySection = () => {
           </div>
         </CardContent>
       </Card>
+
+      <DatabaseBackup/>
     </div>
   );
 };
