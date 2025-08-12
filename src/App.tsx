@@ -31,13 +31,21 @@ import AdvisoryBoard from "./pages/AdvisoryBoard.tsx";
 import EOP from "./pages/EOP.tsx";
 import Impact from "./pages/Impact.tsx";
 import Testimonials from "./pages/Testimonials.tsx";
+import ClusterEducation from "./pages/our-projects/ClusterEducation.tsx";
+import GirlsEducation from "./pages/our-projects/GirlsEducation.tsx";
+import TeachersTraining from "./pages/our-projects/TeachersTraining.tsx";
+import OutOfSchoolChildrenEducation from "./pages/our-projects/OutOfSchoolChildrenEducation.tsx";
+import PedagogyTraining from "./pages/our-projects/PedagogyTraining.tsx";
+import MadarsaEducation from "./pages/our-projects/MadarsaEducation.tsx";
+import SlumChildrenEducation from "./pages/our-projects/SlumChildrenEducation.tsx";
+import PublicGovernmentSchoolEducation from "./pages/our-projects/PublicGovernmentSchoolEducation.tsx";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster  />
+      <Toaster />
       <Sonner richColors position="top-center" />
       <BrowserRouter>
         <Routes>
@@ -64,6 +72,20 @@ const App = () => (
           <Route path="/about/eop" element={<EOP />} />
           <Route path="/about/impact" element={<Impact />} />
           <Route path="/about/testimonials" element={<Testimonials />} />
+
+          {/* Our Projects Dropdown */}
+          <Route path="/our-projects/it-skills-training" element={<ITSkillsTraining />} />
+          <Route path="/our-projects/cluster-education" element={<ClusterEducation />} />
+          <Route path="/our-projects/teachers-training" element={<TeachersTraining />} />
+          <Route path="/our-projects/out-of-school" element={<OutOfSchoolChildrenEducation />} />
+          <Route path="/our-projects/slum-children" element={<SlumChildrenEducation />} />
+          <Route path="/our-projects/girls-education" element={<GirlsEducation />} />
+          <Route path="/our-projects/pedagogy-training" element={<PedagogyTraining />} />
+          <Route path="/our-projects/madarsa-education" element={<MadarsaEducation />} />
+          <Route path="/our-projects/social-financial" element={<EOP />} />
+          <Route path="/our-projects/adult-education" element={<Impact />} />
+          <Route path="/our-projects/public-schools" element={<PublicGovernmentSchoolEducation />} />
+
           <Route path="/values" element={<Values />} />
           {/* Take Action Dropdown */}
           <Route path="/monthly-giving" element={<MonthlyGiving />} />
@@ -81,7 +103,6 @@ const App = () => (
           <Route path="/donor/dashboard" element={<DonorDashboard />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/dashboard/course/edit/:id" element={<EditCoursePage />} />
-          <Route path="/it-skills-training" element={<ITSkillsTraining />} />
           {/* Additional Pages */}
           <Route
             path="/events"

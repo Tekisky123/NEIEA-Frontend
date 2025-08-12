@@ -84,7 +84,17 @@ const submenuToUrl: Record<string, string> = {
   "eop": "/about/eop",
   "impact": "/about/impact",
   "testimonials": "/about/testimonials",
-  "it-skills-training": "/it-skills-training",
+  "it-skills-training": "/our-projects/it-skills-training",
+  "cluster-education": "/our-projects/cluster-education",
+  "teachers-training": "/our-projects/teachers-training",
+  "slum-children": "/our-projects/slum-children",
+  "out-of-school": "/our-projects/out-of-school",
+  "girls-education": "/our-projects/girls-education",
+  "pedagogy-training": "/our-projects/pedagogy-training",
+  "madarsa-education": "/our-projects/madarsa-education",
+  "social-financial": "/our-projects/social-financial",
+  "adult-education": "/our-projects/adult-education",
+  "public-schools": "/our-projects/public-schools"
 };
 
 const WebsiteNavigationSection = () => {
@@ -1043,6 +1053,16 @@ const handleVideoCardSubmit = async (e: React.FormEvent) => {
               case "impact":
               case "testimonials":
               case "it-skills-training":
+              case "cluster-education":
+              case "teachers-training":
+              case "slum-children":
+              case "out-of-school":
+              case "girls-education":
+              case "pedagogy-training":
+              case "madarsa-education":
+              case "social-financial":
+              case "adult-education":
+              case "public-schools":
                 return (
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
                     <TabsList className="grid w-full grid-cols-3">
