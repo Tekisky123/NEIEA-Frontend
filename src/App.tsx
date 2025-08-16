@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import IndexNew from "./pages/IndexNew";
+import StoriesNew from "./pages/StoriesNew";
 import OurWork from "./pages/OurWork";
 import Stories from "./pages/Stories";
 import Gallery from "./pages/Gallery";
@@ -40,6 +41,13 @@ import PedagogyTraining from "./pages/our-projects/PedagogyTraining.tsx";
 import MadarsaEducation from "./pages/our-projects/MadarsaEducation.tsx";
 import SlumChildrenEducation from "./pages/our-projects/SlumChildrenEducation.tsx";
 import PublicGovernmentSchoolEducation from "./pages/our-projects/PublicGovernmentSchoolEducation.tsx";
+import GalleryNew from "./pages/GalleryNew.tsx";
+import Neiusa from "./pages/Neiusa";
+import ContactUs from "./pages/ContactUs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import ShippingDelivery from "./pages/ShippingDelivery";
+import PricingInr from "./pages/PricingInr";
+import RefundCancellations from "./pages/RefundCancellations";
 
 const queryClient = new QueryClient();
 
@@ -54,7 +62,11 @@ const App = () => (
           <Route path="/" element={<IndexNew />} />
           {/* Our Work Dropdown */}
           <Route path="/our-work" element={<OurWork />} />
-          <Route path="/stories" element={<Stories />} />
+          {/* <Route path="/stories" element={<Stories />} /> */}
+          <Route path="/stories" element={<StoriesNew />} />
+          <Route path="/gallery" element={<GalleryNew />} />
+          <Route path="/nei-usa" element={<Neiusa />} />
+          <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/about/introduction" element={<Gallery />} />
           <Route
             path="/reports"
@@ -131,6 +143,10 @@ const App = () => (
             }
           />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/shipping-delivery" element={<ShippingDelivery />} />
+          <Route path="/pricing-inr" element={<PricingInr />} />
+          <Route path="/refund-cancellations" element={<RefundCancellations />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <ScrollToTop />

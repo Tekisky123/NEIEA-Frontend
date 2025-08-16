@@ -1,746 +1,1047 @@
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Users,
-  Heart,
-  Clock,
-  MapPin,
-  GraduationCap,
-  Laptop,
-  BookOpen,
-  Globe,
-  ArrowRight,
-  CheckCircle,
-  Star,
-  Calendar,
-  Target,
-  Award,
-  Briefcase,
-  Phone,
-  Mail,
-} from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance";
+import { useNavigate } from "react-router-dom";
+import { BookOpen, Heart, Users } from "lucide-react";
 
-const Volunteer = () => {
-  const [formData, setFormData] = useState({
+type LanguageProficiency = {
+  speaking: boolean;
+  writing: boolean;
+  reading: boolean;
+  none: boolean;
+};
+
+type Address = {
+  city: string;
+  state: string;
+  country: string;
+};
+
+type SocialMedia = {
+  facebook: string;
+  linkedIn: string;
+  instagram: string;
+  twitter: string;
+  youTube: string;
+};
+
+type ContentCreation = {
+  hasExperience: boolean;
+  createdBefore: string[];
+  toolsUsed: string[];
+};
+
+type Outreach = {
+  hasOutreachExperience: boolean;
+  outreachActivities: string[];
+};
+
+type Fundraising = {
+  hasFundraisingExperience: boolean;
+  fundraisingTypes: string[];
+};
+
+type FormData = {
+  firstName: string;
+  lastName: string;
+  dob: string;
+  gender: string;
+  phone: string;
+  emergencyPhone: string;
+  email: string;
+  address: Address;
+  languageProficiency: {
+    english: LanguageProficiency;
+    hindi: LanguageProficiency;
+    urdu: LanguageProficiency;
+    bengali: LanguageProficiency;
+    telugu: LanguageProficiency;
+    kannada: LanguageProficiency;
+    marathi: LanguageProficiency;
+    otherLanguage: string;
+  };
+  dailyCommitment: string;
+  availability: string[];
+  volunteerField: string;
+  socialMedia?: SocialMedia;
+  contentCreation?: ContentCreation;
+  outreach?: Outreach;
+  fundraising?: Fundraising;
+  teachingExperience?: string;
+  onlineTeachingYears?: string;
+  ageGroups?: string[];
+  confidentSubjects?: string[];
+  relevantExperience: string;
+  motivation: string;
+  commitmentDuration: string;
+  dateOfJoining: string;
+};
+
+type Errors = {
+  [key: string]: string;
+};
+
+const VolunteerForm = () => {
+  const [step, setStep] = useState<number>(1);
+  const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
-    email: "",
+    dob: "",
+    gender: "",
     phone: "",
-    location: "",
-    skills: "",
-    availability: "",
-    interests: [],
-    experience: "",
+    emergencyPhone: "",
+    email: "",
+    address: {
+      city: "",
+      state: "",
+      country: "",
+    },
+    languageProficiency: {
+      english: { speaking: false, writing: false, reading: false, none: false },
+      hindi: { speaking: false, writing: false, reading: false, none: false },
+      urdu: { speaking: false, writing: false, reading: false, none: false },
+      bengali: { speaking: false, writing: false, reading: false, none: false },
+      telugu: { speaking: false, writing: false, reading: false, none: false },
+      kannada: { speaking: false, writing: false, reading: false, none: false },
+      marathi: { speaking: false, writing: false, reading: false, none: false },
+      otherLanguage: "",
+    },
+    dailyCommitment: "",
+    availability: [],
+    volunteerField: "",
+    socialMedia: {
+      facebook: "",
+      linkedIn: "",
+      instagram: "",
+      twitter: "",
+      youTube: "",
+    },
+    contentCreation: {
+      hasExperience: false,
+      createdBefore: [],
+      toolsUsed: [],
+    },
+    outreach: {
+      hasOutreachExperience: false,
+      outreachActivities: [],
+    },
+    fundraising: {
+      hasFundraisingExperience: false,
+      fundraisingTypes: [],
+    },
+    teachingExperience: "",
+    onlineTeachingYears: "",
+    ageGroups: [],
+    confidentSubjects: [],
+    relevantExperience: "",
     motivation: "",
+    commitmentDuration: "",
+    dateOfJoining: "",
   });
 
-  const volunteerStats = [
-    {
-      value: "1,200+",
-      label: "Active Volunteers",
-      icon: <Users className="w-6 h-6" />,
-    },
-    {
-      value: "25",
-      label: "Countries",
-      icon: <Globe className="w-6 h-6" />,
-    },
-    {
-      value: "50,000+",
-      label: "Volunteer Hours",
-      icon: <Clock className="w-6 h-6" />,
-    },
-    {
-      value: "15,000+",
-      label: "Students Impacted",
-      icon: <GraduationCap className="w-6 h-6" />,
-    },
-  ];
+  const [errors, setErrors] = useState<Errors>({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const volunteerOpportunities = [
-    {
-      id: 1,
-      title: "Digital Literacy Trainer",
-      category: "Teaching",
-      location: "Remote/On-site",
-      commitment: "10 hours/week",
-      duration: "6 months",
-      skills: ["Computer Skills", "Teaching", "Patience"],
-      description:
-        "Teach basic computer skills and digital literacy to students in rural communities through our learning centers.",
-      requirements: [
-        "Proficiency in computers and internet",
-        "Basic teaching or training experience",
-        "Good communication skills",
-        "Patience with beginner learners",
-      ],
-      impact: "Train 50+ students per batch",
-      openings: 15,
-      featured: true,
-    },
-    {
-      id: 2,
-      title: "Curriculum Developer",
-      category: "Content Creation",
-      location: "Remote",
-      commitment: "15 hours/week",
-      duration: "3-12 months",
-      skills: ["Curriculum Design", "Education", "Research"],
-      description:
-        "Design and develop educational content and curricula for various skill development programs.",
-      requirements: [
-        "Education background preferred",
-        "Curriculum development experience",
-        "Research and writing skills",
-        "Knowledge of modern pedagogy",
-      ],
-      impact: "Courses reaching 1000+ students",
-      openings: 8,
-      featured: true,
-    },
-    {
-      id: 3,
-      title: "Youth Mentor",
-      category: "Mentoring",
-      location: "Remote/Flexible",
-      commitment: "5 hours/week",
-      duration: "6-12 months",
-      skills: ["Mentoring", "Communication", "Empathy"],
-      description:
-        "Provide guidance and support to young learners in their educational and career development journey.",
-      requirements: [
-        "Professional or educational experience",
-        "Strong communication skills",
-        "Empathy and patience",
-        "Commitment to mentoring relationship",
-      ],
-      impact: "Mentor 3-5 students directly",
-      openings: 25,
-      featured: false,
-    },
-    {
-      id: 4,
-      title: "Marketing & Communications",
-      category: "Marketing",
-      location: "Remote",
-      commitment: "8 hours/week",
-      duration: "6 months",
-      skills: ["Digital Marketing", "Content Creation", "Social Media"],
-      description:
-        "Help promote NEIEA's programs through social media, content creation, and digital marketing initiatives.",
-      requirements: [
-        "Digital marketing experience",
-        "Content creation skills",
-        "Social media proficiency",
-        "Creative thinking",
-      ],
-      impact: "Reach 10,000+ potential beneficiaries",
-      openings: 10,
-      featured: false,
-    },
-    {
-      id: 5,
-      title: "Field Coordinator",
-      category: "Operations",
-      location: "On-site (Various)",
-      commitment: "20 hours/week",
-      duration: "12 months",
-      skills: ["Project Management", "Local Languages", "Leadership"],
-      description:
-        "Coordinate field operations, manage local partnerships, and ensure smooth implementation of programs.",
-      requirements: [
-        "Local area knowledge",
-        "Project management skills",
-        "Leadership experience",
-        "Cultural sensitivity",
-      ],
-      impact: "Coordinate programs for 500+ students",
-      openings: 5,
-      featured: false,
-    },
-    {
-      id: 6,
-      title: "Technology Support",
-      category: "Technical",
-      location: "Remote",
-      commitment: "10 hours/week",
-      duration: "Ongoing",
-      skills: ["IT Support", "Troubleshooting", "Training"],
-      description:
-        "Provide technical support for learning centers, troubleshoot issues, and train staff on technology use.",
-      requirements: [
-        "IT/Computer science background",
-        "Troubleshooting skills",
-        "Remote support experience",
-        "Training ability",
-      ],
-      impact: "Support 50+ learning centers",
-      openings: 12,
-      featured: false,
-    },
-  ];
+  const validateStep1 = (): boolean => {
+    const newErrors: Errors = {};
+    if (!formData.firstName) newErrors.firstName = "First name is required";
+    if (!formData.lastName) newErrors.lastName = "Last name is required";
+    if (!formData.dob) newErrors.dob = "Date of birth is required";
+    if (!formData.gender) newErrors.gender = "Gender is required";
+    if (!formData.phone) newErrors.phone = "Phone number is required";
+    if (!formData.email) newErrors.email = "Email is required";
+    if (!formData.address.city) newErrors.city = "City is required";
+    if (!formData.address.state) newErrors.state = "State is required";
+    if (!formData.address.country) newErrors.country = "Country is required";
+    if (!formData.dailyCommitment) newErrors.dailyCommitment = "Daily commitment is required";
+    if (formData.availability.length === 0) newErrors.availability = "Availability is required";
+    if (!formData.volunteerField) newErrors.volunteerField = "Volunteer field is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  const volunteerTestimonials = [
-    {
-      name: "Sarah Chen",
-      role: "Digital Literacy Trainer",
-      duration: "2 years",
-      story:
-        "Volunteering with NEIEA has been incredibly rewarding. Seeing students go from never touching a computer to creating their own projects is magical.",
-      image: "/placeholder.svg",
-      location: "Remote Volunteer",
-      impact: "Trained 200+ students",
-    },
-    {
-      name: "Dr. Michael Okafor",
-      role: "Curriculum Developer",
-      duration: "1.5 years",
-      story:
-        "Contributing to curriculum development allows me to impact thousands of students worldwide. The team's dedication is inspiring.",
-      image: "/placeholder.svg",
-      location: "Nigeria",
-      impact: "Developed 8 course modules",
-    },
-  ];
+  const validateStep2 = (): boolean => {
+    const newErrors: Errors = {};
+    if (formData.volunteerField === "Teaching") {
+      if (!formData.teachingExperience) newErrors.teachingExperience = "Teaching experience is required";
+      if (!formData.onlineTeachingYears) newErrors.onlineTeachingYears = "Online teaching years is required";
+      if (!formData.ageGroups || formData.ageGroups.length === 0) newErrors.ageGroups = "Age groups are required";
+      if (!formData.confidentSubjects || formData.confidentSubjects.length === 0) newErrors.confidentSubjects = "Subjects are required";
+    }
+    if (formData.volunteerField === "Social Media Management") {
+      if (!formData.socialMedia) newErrors.socialMedia = "Social media details are required";
+      else {
+        if (!formData.socialMedia.facebook) newErrors.facebook = "Facebook experience is required";
+        if (!formData.socialMedia.linkedIn) newErrors.linkedIn = "LinkedIn experience is required";
+        if (!formData.socialMedia.instagram) newErrors.instagram = "Instagram experience is required";
+        if (!formData.socialMedia.twitter) newErrors.twitter = "Twitter experience is required";
+        if (!formData.socialMedia.youTube) newErrors.youTube = "YouTube experience is required";
+      }
+    }
+    else if (formData.volunteerField === "Content Creation") {
+      if (!formData.contentCreation) newErrors.contentCreation = "Content creation details are required";
+      else {
+        if (formData.contentCreation.hasExperience === undefined) newErrors.hasExperience = "Experience status is required";
+        if (!formData.contentCreation.createdBefore || formData.contentCreation.createdBefore.length === 0)
+          newErrors.createdBefore = "Created before details are required";
+        if (!formData.contentCreation.toolsUsed || formData.contentCreation.toolsUsed.length === 0)
+          newErrors.toolsUsed = "Tools used details are required";
+      }
+    }
+    else if (formData.volunteerField === "Outreach") {
+      if (!formData.outreach) newErrors.outreach = "Outreach details are required";
+      else {
+        if (formData.outreach.hasOutreachExperience === undefined) newErrors.hasOutreachExperience = "Outreach experience status is required";
+        if (!formData.outreach.outreachActivities || formData.outreach.outreachActivities.length === 0)
+          newErrors.outreachActivities = "Outreach activities are required";
+      }
+    }
+    else if (formData.volunteerField === "Fundraising") {
+      if (!formData.fundraising) newErrors.fundraising = "Fundraising details are required";
+      else {
+        if (formData.fundraising.hasFundraisingExperience === undefined) newErrors.hasFundraisingExperience = "Fundraising experience status is required";
+        if (!formData.fundraising.fundraisingTypes || formData.fundraising.fundraisingTypes.length === 0)
+          newErrors.fundraisingTypes = "Fundraising types are required";
+      }
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  const volunteerBenefits = [
-    {
-      icon: <Award className="w-6 h-6" />,
-      title: "Skill Development",
-      description:
-        "Gain new skills and enhance existing ones through training and hands-on experience",
-    },
-    {
-      icon: <Users className="w-6 h-6" />,
-      title: "Global Network",
-      description:
-        "Connect with like-minded individuals and professionals from around the world",
-    },
-    {
-      icon: <Target className="w-6 h-6" />,
-      title: "Meaningful Impact",
-      description:
-        "See direct results of your contributions in transforming lives through education",
-    },
-    {
-      icon: <Briefcase className="w-6 h-6" />,
-      title: "Career Growth",
-      description:
-        "Build professional experience and references while making a difference",
-    },
-  ];
+  const validateStep3 = (): boolean => {
+    const newErrors: Errors = {};
+    if (!formData.relevantExperience) newErrors.relevantExperience = "Relevant experience is required";
+    if (!formData.motivation) newErrors.motivation = "Motivation is required";
+    if (!formData.commitmentDuration) newErrors.commitmentDuration = "Commitment duration is required";
+    if (!formData.dateOfJoining) newErrors.dateOfJoining = "Date of joining is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleNext = () => {
+    if (step === 1 && validateStep1()) {
+      if (formData.volunteerField === "Other") {
+        setStep(3);
+      } else {
+        setStep(2);
+      }
+    }
+    else if (step === 2 && validateStep2()) setStep(3);
+  };
+
+  const handleBack = () => setStep(step - 1);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validateStep3()) {
+      setIsSubmitting(true);
+      try {
+        const payload = { ...formData };
+        if (payload.volunteerField !== "Social Media Management") {
+          delete payload.socialMedia; // Remove socialMedia if not needed
+        }
+        const response = await axiosInstance.post("/volunteer", payload);
+        console.log("Form submitted:", response.data);
+        alert("Thanks for contacting us! We will get in touch with you shortly.");
+        navigate('/volunteer');
+      } catch (error) {
+        console.error("Error submitting form:", error);
+        alert("An error occurred. Please try again.");
+      } finally {
+        setIsSubmitting(false);
+      }
+    }
+  };
+
+  const handleChange = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Volunteer application:", formData);
+  const handleNestedChange = (field: keyof Address, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      address: { ...prev.address, [field]: value },
+    }));
   };
+
+  const handleArrayChange = (field: keyof FormData, value: string) => {
+    setFormData((prev) => {
+      const currentArray = prev[field] as string[];
+      return {
+        ...prev,
+        [field]: currentArray.includes(value)
+          ? currentArray.filter((item) => item !== value)
+          : [...currentArray, value],
+      };
+    });
+  };
+
+  const handleLanguageChange = (
+    lang: keyof FormData["languageProficiency"],
+    skill: keyof LanguageProficiency,
+    checked: boolean
+  ) => {
+    // Skip if it's "otherLanguage", since that's a string, not an object
+    if (lang === "otherLanguage") {
+      return; // or handle it separately if needed
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      languageProficiency: {
+        ...prev.languageProficiency,
+        [lang]: {
+          ...prev.languageProficiency[lang],
+          [skill]: checked,
+        },
+      },
+    }));
+  };
+
+  const handleSocialMediaChange = (platform: keyof SocialMedia, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      socialMedia: {
+        ...prev.socialMedia,
+        [platform]: value,
+      },
+    }));
+  };
+
+  const handleContentCreationChange = (field: keyof ContentCreation, value: boolean | string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      contentCreation: {
+        ...prev.contentCreation,
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleOutreachChange = (field: keyof Outreach, value: boolean | string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      outreach: {
+        ...prev.outreach,
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleFundraisingChange = (field: keyof Fundraising, value: boolean | string[]) => {
+    setFormData((prev) => ({
+      ...prev,
+      fundraising: {
+        ...prev.fundraising,
+        [field]: value,
+      },
+    }));
+  };
+
+  const volunteerBenefits = [
+    {
+      icon: <Heart className="w-6 h-6" />,
+      title: "Transform Lives",
+      description: "Teach and mentor students who need guidance",
+    },
+    {
+      icon: <Users className="w-6 h-6" />,
+      title: "Strengthen Communities",
+      description: "Support programs that uplift marginalized groups.",
+    },
+    {
+      icon: <BookOpen className="w-6 h-6" />,
+      title: "Enhance Your Skills",
+      description: "Gain hands-on experience in various roles.",
+    },
+    {
+      icon: <Users className="w-6 h-6" />,
+      title: "Be Part of a Movement",
+      description: "Work with like-minded individuals passionate about change.",
+    },
+  ];
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="py-24 bg-gradient-to-br from-ngo-color2 to-ngo-color5 text-white">
+      <section className="py-16 bg-gradient-to-br from-ngo-color2 to-ngo-color5 text-white">
+
         <div className="container mx-auto px-4">
+
           <div className="text-center max-w-4xl mx-auto">
-            <Badge className="bg-ngo-color4 text-white mb-6 text-lg px-6 py-2 rounded-full">
-              Make a Difference
-            </Badge>
+
             <h1 className="text-5xl lg:text-7xl font-heading font-bold mb-8 leading-tight">
+
               Volunteer for
-              <span className="text-ngo-color4 block">
-                Educational Change
-              </span>
+              <span className="text-ngo-color4 block"> Educational Change </span>
             </h1>
             <p className="text-xl lg:text-2xl leading-relaxed mb-12">
-              Join our global community of volunteers working to create
-              equitable educational opportunities. Share your skills, gain
-              experience, and help transform lives through innovative education
-              programs.
-            </p>
 
-            {/* Volunteer Statistics */}
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {volunteerStats.map((stat, index) => (
-                <div
-                  key={index}
-                  className="text-center bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
-                >
-                  <div className="text-ngo-color4 mb-2 flex justify-center">
-                    {stat.icon}
-                  </div>
-                  <div className="text-3xl lg:text-4xl font-bold mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm lg:text-base text-gray-200">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
+              Join NEIEA as a Volunteer and Make a Difference!
+            </p>
+            <a href="#volunteer-form">
+
+              <Button className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-8 py-4 text-lg">
+
+                Join Now
+              </Button>
+            </a>
+
+          </div>
+        </div>
+      </section>
+      {
+  /* Why Volunteer Section */
+}
+<section className="py-24 bg-white">
+  
+  <div className="container mx-auto px-4">
+    
+    <div className="text-center mb-16">
+      
+      <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
+        
+        Why Volunteer With NEIEA?
+      </h2>
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        
+        NEIEA is a dedicated NGO committed to empowering underserved communities
+        through education and skill development. We believe in the power of
+        collective efforts to bring meaningful change, and we are looking for
+        passionate individuals to join us as volunteers. If you have the drive
+        to make an impact, we need you!
+      </p>
+    </div>
+    <div className="text-center mb-16">
+      
+      <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
+        
+        Who Can Volunteer?
+      </h2>
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        
+        Anyone passionate about making a difference! Whether you are a student,
+        working professional, or retiree, your time and skills can change lives.
+        By becoming a volunteer, you will:
+      </p>
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      
+      {volunteerBenefits.map((benefit, index) => (
+        <Card
+          key={index}
+          className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow"
+        >
+          
+          <CardContent className="p-8">
+            
+            <div className="w-16 h-16 bg-ngo-color4/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              
+              <div className="text-ngo-color4">{benefit.icon}</div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Why Volunteer Section */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
-              Why Volunteer With NEIEA?
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Volunteering with us is more than giving back – it's about growing
-              personally and professionally while creating lasting impact.
+            <h3 className="text-xl font-heading font-bold text-ngo-color6 mb-4">
+              
+              {benefit.title}
+            </h3>
+            <p className="text-gray-600 leading-relaxed">
+              
+              {benefit.description}
             </p>
-          </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  </div>
+</section>;
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {volunteerBenefits.map((benefit, index) => (
-              <Card
-                key={index}
-                className="text-center border-0 shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 bg-ngo-color4/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <div className="text-ngo-color4">{benefit.icon}</div>
-                  </div>
-                  <h3 className="text-xl font-heading font-bold text-ngo-color6 mb-4">
-                    {benefit.title}
-                  </h3>
-                  <p className="text-gray-600 leading-relaxed">
-                    {benefit.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Volunteer Opportunities */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <Badge className="bg-ngo-color6 text-white mb-6 text-lg px-6 py-2">
-              Current Openings
-            </Badge>
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
-              Volunteer Opportunities
-            </h2>
-            <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-              Find the perfect volunteer role that matches your skills,
-              interests, and availability. All our positions offer flexible
-              scheduling and comprehensive support.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {volunteerOpportunities.map((opportunity) => (
-              <Card
-                key={opportunity.id}
-                className={`border-0 shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                  opportunity.featured ? "ring-2 ring-ngo-color4" : ""
-                }`}
-              >
-                {opportunity.featured && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <Badge className="bg-ngo-color4 text-white px-4 py-1">
-                      High Priority
-                    </Badge>
-                  </div>
-                )}
-
-                <CardContent className="p-8">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-2">
-                        {opportunity.title}
-                      </h3>
-                      <Badge className="bg-ngo-color2 text-white mb-2">
-                        {opportunity.category}
-                      </Badge>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-gray-600">
-                        {opportunity.openings} openings
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="text-gray-700 mb-6 leading-relaxed">
-                    {opportunity.description}
-                  </p>
-
-                  <div className="grid grid-cols-2 gap-4 mb-6 text-sm">
-                    <div className="flex items-center">
-                      <MapPin className="w-4 h-4 mr-2 text-ngo-color4" />
-                      <span className="text-gray-600">
-                        {opportunity.location}
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock className="w-4 h-4 mr-2 text-ngo-color4" />
-                      <span className="text-gray-600">
-                        {opportunity.commitment}
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-2 text-ngo-color4" />
-                      <span className="text-gray-600">
-                        {opportunity.duration}
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <Target className="w-4 h-4 mr-2 text-ngo-color4" />
-                      <span className="text-gray-600">
-                        {opportunity.impact}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-ngo-color6 mb-3">
-                      Required Skills:
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {opportunity.skills.map((skill, index) => (
-                        <Badge
-                          key={index}
-                          variant="outline"
-                          className="border-ngo-color4 text-ngo-color4"
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-ngo-color6 mb-3">
-                      Requirements:
-                    </h4>
-                    <ul className="space-y-2">
-                      {opportunity.requirements
-                        .slice(0, 3)
-                        .map((req, index) => (
-                          <li
-                            key={index}
-                            className="flex items-start text-sm text-gray-600"
-                          >
-                            <CheckCircle className="w-4 h-4 mr-2 text-ngo-color4 mt-0.5 flex-shrink-0" />
-                            {req}
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-
-                  <Button className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white font-semibold rounded-full">
-                    Apply for This Role
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Volunteer Application Form */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
-                Apply to Volunteer
-              </h2>
-              <p className="text-xl text-gray-600">
-                Ready to make a difference? Fill out our volunteer application
-                and we'll match you with opportunities that fit your skills and
-                interests.
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-ngo-color6 mb-4">Volunteer Registration</h2>
+              <div className="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                <div
+                  className="bg-ngo-color4 h-2.5 rounded-full"
+                  style={{ width: `${(step - 1) * 33.33}%` }}
+                ></div>
+              </div>
+              <p className="text-lg text-gray-600">
+                Step {step} of 3 ({Math.round(((step - 1) / 3) * 100)}% complete)
               </p>
             </div>
 
             <Card className="border-0 shadow-2xl">
-              <CardContent className="p-8 lg:p-12">
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  {/* Personal Information */}
-                  <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
-                      Personal Information
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          First Name *
-                        </label>
-                        <Input
-                          required
-                          value={formData.firstName}
-                          onChange={(e) =>
-                            handleInputChange("firstName", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                        />
+              <CardContent className="p-8">
+                <form id="volunteer-form" onSubmit={handleSubmit}>
+                  {/* Step 1: Personal Information */}
+                  {step === 1 && (
+                    <>
+                      <h3 className="text-2xl font-bold text-ngo-color6 mb-6">Personal Information</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                          <Label>First Name *</Label>
+                          <Input
+                            value={formData.firstName}
+                            onChange={(e) => handleChange("firstName", e.target.value)}
+                            className={errors.firstName ? "border-red-500" : ""}
+                          />
+                          {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
+                        </div>
+                        <div>
+                          <Label>Last Name *</Label>
+                          <Input
+                            value={formData.lastName}
+                            onChange={(e) => handleChange("lastName", e.target.value)}
+                            className={errors.lastName ? "border-red-500" : ""}
+                          />
+                          {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+                        </div>
+                        <div>
+                          <Label>Date of Birth *</Label>
+                          <Input
+                            type="date"
+                            value={formData.dob}
+                            onChange={(e) => handleChange("dob", e.target.value)}
+                            className={errors.dob ? "border-red-500" : ""}
+                          />
+                          {errors.dob && <p className="text-red-500 text-sm">{errors.dob}</p>}
+                        </div>
+                        <div>
+                          <Label>Gender *</Label>
+                          <RadioGroup
+                            value={formData.gender}
+                            onValueChange={(value) => handleChange("gender", value)}
+                            className={errors.gender ? "border-red-500" : ""}
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Male" id="male" />
+                              <Label htmlFor="male">Male</Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="Female" id="female" />
+                              <Label htmlFor="female">Female</Label>
+                            </div>
+                          </RadioGroup>
+                          {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
+                        </div>
+                        <div>
+                          <Label>Phone *</Label>
+                          <Input
+                            value={formData.phone}
+                            onChange={(e) => handleChange("phone", e.target.value)}
+                            className={errors.phone ? "border-red-500" : ""}
+                          />
+                          {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+                        </div>
+                        <div>
+                          <Label>Emergency Contact Number</Label>
+                          <Input
+                            value={formData.emergencyPhone}
+                            onChange={(e) => handleChange("emergencyPhone", e.target.value)}
+                          />
+                        </div>
+                        <div>
+                          <Label>Email *</Label>
+                          <Input
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => handleChange("email", e.target.value)}
+                            className={errors.email ? "border-red-500" : ""}
+                          />
+                          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+                        </div>
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Last Name *
-                        </label>
-                        <Input
-                          required
-                          value={formData.lastName}
-                          onChange={(e) =>
-                            handleInputChange("lastName", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Email Address *
-                        </label>
-                        <Input
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={(e) =>
-                            handleInputChange("email", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Phone Number
-                        </label>
-                        <Input
-                          value={formData.phone}
-                          onChange={(e) =>
-                            handleInputChange("phone", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                        />
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Location & Availability */}
-                  <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
-                      Location & Availability
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Location/City *
-                        </label>
-                        <Input
-                          required
-                          value={formData.location}
-                          onChange={(e) =>
-                            handleInputChange("location", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                        />
+                      <h4 className="text-lg font-semibold mb-4">Address *</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div>
+                          <Label>City *</Label>
+                          <Input
+                            value={formData.address.city}
+                            onChange={(e) => handleNestedChange("city", e.target.value)}
+                            className={errors.city ? "border-red-500" : ""}
+                          />
+                          {errors.city && <p className="text-red-500 text-sm">{errors.city}</p>}
+                        </div>
+                        <div>
+                          <Label>State *</Label>
+                          <Input
+                            value={formData.address.state}
+                            onChange={(e) => handleNestedChange("state", e.target.value)}
+                            className={errors.state ? "border-red-500" : ""}
+                          />
+                          {errors.state && <p className="text-red-500 text-sm">{errors.state}</p>}
+                        </div>
+                        <div>
+                          <Label>Country *</Label>
+                          <Input
+                            value={formData.address.country}
+                            onChange={(e) => handleNestedChange("country", e.target.value)}
+                            className={errors.country ? "border-red-500" : ""}
+                          />
+                          {errors.country && <p className="text-red-500 text-sm">{errors.country}</p>}
+                        </div>
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Availability (hours/week) *
-                        </label>
-                        <Input
-                          required
-                          placeholder="e.g., 10 hours/week"
-                          value={formData.availability}
-                          onChange={(e) =>
-                            handleInputChange("availability", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                        />
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Skills & Experience */}
-                  <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
-                      Skills & Experience
-                    </h3>
-                    <div className="space-y-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Relevant Skills *
-                        </label>
+                      <h4 className="text-lg font-semibold mb-4">Language Proficiency *</h4>
+                      {(Object.keys(formData.languageProficiency) as Array<keyof FormData["languageProficiency"]>)
+                        .filter((lang) => lang !== "otherLanguage")
+                        .map((lang) => (
+                          <div key={lang} className="mb-4">
+                            <Label className="capitalize">{lang}</Label>
+                            <div className="flex space-x-4">
+                              {(Object.keys(formData.languageProficiency[lang]) as Array<keyof LanguageProficiency>).map((skill) => (
+                                <div key={skill} className="flex items-center space-x-2">
+                                  <Checkbox
+                                    checked={formData.languageProficiency[lang][skill]}
+                                    onCheckedChange={(checked) => handleLanguageChange(lang, skill, !!checked)}
+                                  />
+                                  <Label className="capitalize">{skill}</Label>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+
+                      <div className="mb-6">
+                        <Label>Other Language</Label>
+                        <Input
+                          value={formData.languageProficiency.otherLanguage}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              languageProficiency: {
+                                ...prev.languageProficiency,
+                                otherLanguage: e.target.value,
+                              },
+                            }))
+                          }
+                        />
+                      </div>
+
+                      <div className="mb-6">
+                        <Label>Daily Commitment *</Label>
+                        <Select
+                          value={formData.dailyCommitment}
+                          onValueChange={(value) => handleChange("dailyCommitment", value)}
+                        >
+                          <SelectTrigger className={errors.dailyCommitment ? "border-red-500" : ""}>
+                            <SelectValue placeholder="Select hours" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1-2 hours">1-2 hours</SelectItem>
+                            <SelectItem value="2-3 hours">2-3 hours</SelectItem>
+                            <SelectItem value="3-4 hours">3-4 hours</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {errors.dailyCommitment && <p className="text-red-500 text-sm">{errors.dailyCommitment}</p>}
+                      </div>
+
+                      <div className="mb-6">
+                        <Label>Availability *</Label>
+                        {["Early Morning (6:00 AM - 9:00 AM)", "Late Morning (9:00 AM - 12:00 PM)", "Afternoon (12:00 PM - 4:00 PM)", "Evening (4:00 PM - 8:00 PM)", "Late Evening (8:00 PM - 11:00 PM)"].map((time) => (
+                          <div key={time} className="flex items-center space-x-2">
+                            <Checkbox
+                              checked={formData.availability.includes(time)}
+                              onCheckedChange={() => handleArrayChange("availability", time)}
+                            />
+                            <Label>{time}</Label>
+                          </div>
+                        ))}
+                        {errors.availability && <p className="text-red-500 text-sm">{errors.availability}</p>}
+                      </div>
+
+                      <div className="mb-6">
+                        <Label>Volunteer Field *</Label>
+                        <Select
+                          value={formData.volunteerField}
+                          onValueChange={(value) => handleChange("volunteerField", value)}
+                        >
+                          <SelectTrigger className={errors.volunteerField ? "border-red-500" : ""}>
+                            <SelectValue placeholder="Select field" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Teaching">Teaching</SelectItem>
+                            <SelectItem value="Social Media Management">Social Media Management</SelectItem>
+                            <SelectItem value="Content Creation">Content Creation</SelectItem>
+                            <SelectItem value="Outreach">Outreach</SelectItem>
+                            <SelectItem value="Fundraising">Fundraising</SelectItem>
+                            <SelectItem value="Other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {errors.volunteerField && <p className="text-red-500 text-sm">{errors.volunteerField}</p>}
+                      </div>
+                    </>
+                  )}
+
+                  {/* Step 2: Dynamic Fields Based on Volunteer Role */}
+                  {step === 2 && (
+                    <>
+                      <h3 className="text-2xl font-bold text-ngo-color6 mb-6">
+                        {formData.volunteerField === "Social Media Management" ? "Social Media Experience" :
+                          formData.volunteerField === "Content Creation" ? "Content Creation Experience" :
+                            formData.volunteerField === "Outreach" ? "Outreach Experience" :
+                              formData.volunteerField === "Fundraising" ? "Fundraising Experience" :
+                                formData.volunteerField === "Teaching" ? "Teaching Experience" :
+                                  "Additional Information"}
+                      </h3>
+
+                      {/* Teaching */}
+                      {formData.volunteerField === "Teaching" && (
+                        <>
+                          <div className="mb-6">
+                            <Label>Do you have formal teaching experience? *</Label>
+                            <RadioGroup
+                              value={formData.teachingExperience || ""}
+                              onValueChange={(value) => handleChange("teachingExperience", value)}
+                              className={errors.teachingExperience ? "border-red-500" : ""}
+                            >
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="Yes" id="teaching-yes" />
+                                <Label htmlFor="teaching-yes">Yes</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="No" id="teaching-no" />
+                                <Label htmlFor="teaching-no">No</Label>
+                              </div>
+                            </RadioGroup>
+                            {errors.teachingExperience && <p className="text-red-500 text-sm">{errors.teachingExperience}</p>}
+                          </div>
+
+                          <div className="mb-6">
+                            <Label>How many years of online teaching experience do you have? *</Label>
+                            <Select
+                              value={formData.onlineTeachingYears || ""}
+                              onValueChange={(value) => handleChange("onlineTeachingYears", value)}
+                              className={errors.onlineTeachingYears ? "border-red-500" : ""}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select years" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="No Experience">No Experience</SelectItem>
+                                <SelectItem value="Less than 1 year">Less than 1 year</SelectItem>
+                                <SelectItem value="1-3 years">1-3 years</SelectItem>
+                                <SelectItem value="4-6 years">4-6 years</SelectItem>
+                                <SelectItem value="More than 6 years">More than 6 years</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            {errors.onlineTeachingYears && <p className="text-red-500 text-sm">{errors.onlineTeachingYears}</p>}
+                          </div>
+
+                          <div className="mb-6">
+                            <Label>What age groups have you taught? *</Label>
+                            {[
+                              "Early Childhood (Preschool to Kindergarten)",
+                              "Primary School (Grades 1-5)",
+                              "Middle School (Grades 6-8)",
+                              "High School (Grades 9-12)",
+                              "College/University",
+                              "Adult Learners",
+                              "Fresher"
+                            ].map((group) => (
+                              <div key={group} className="flex items-center space-x-2">
+                                <Checkbox
+                                  checked={formData.ageGroups?.includes(group)}
+                                  onCheckedChange={(checked) => {
+                                    const updated = formData.ageGroups || [];
+                                    handleArrayChange(
+                                      "ageGroups",
+                                      checked ? group : ""
+                                    );
+                                  }}
+                                />
+                                <Label>{group}</Label>
+                              </div>
+                            ))}
+                            {errors.ageGroups && <p className="text-red-500 text-sm">{errors.ageGroups}</p>}
+                          </div>
+
+                          <div className="mb-6">
+                            <Label>What subjects are you most confident teaching? *</Label>
+                            {["Mathematics", "Science", "English", "Computers", "Other"].map((subject) => (
+                              <div key={subject} className="flex items-center space-x-2">
+                                <Checkbox
+                                  checked={formData.confidentSubjects?.includes(subject)}
+                                  onCheckedChange={(checked) => {
+                                    const updated = formData.confidentSubjects || [];
+                                    handleArrayChange(
+                                      "confidentSubjects",
+                                      checked ? subject : ""
+                                    );
+                                  }}
+                                />
+                                <Label>{subject}</Label>
+                              </div>
+                            ))}
+                            {errors.confidentSubjects && <p className="text-red-500 text-sm">{errors.confidentSubjects}</p>}
+                          </div>
+                        </>
+                      )}
+
+                      {/* Social Media Management */}
+                      {formData.volunteerField === "Social Media Management" && (
+                        <>
+                          {(["facebook", "linkedIn", "instagram", "twitter", "youTube"] as const).map((platform) => (
+                            <div key={platform} className="mb-6">
+                              <Label className="capitalize">{platform}</Label>
+                              <Select
+                                value={formData.socialMedia?.[platform] || ""}
+                                onValueChange={(value) => handleSocialMediaChange(platform, value)}
+                              >
+                                <SelectTrigger className={errors[platform] ? "border-red-500" : ""}>
+                                  <SelectValue placeholder="Select experience" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="Expert">Expert</SelectItem>
+                                  <SelectItem value="Intermediate">Intermediate</SelectItem>
+                                  <SelectItem value="Beginner">Beginner</SelectItem>
+                                  <SelectItem value="No Experience">No Experience</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              {errors[platform] && <p className="text-red-500 text-sm">{errors[platform]}</p>}
+                            </div>
+                          ))}
+                        </>
+                      )}
+
+                      {/* Content Creation */}
+                      {formData.volunteerField === "Content Creation" && (
+                        <>
+                          <div className="mb-6">
+                            <Label>Do you have experience creating PowerPoint presentations, flyers, or social media posts?</Label>
+                            <RadioGroup
+                              value={formData.contentCreation?.hasExperience ? "Yes" : "No"}
+                              onValueChange={(value) => handleContentCreationChange("hasExperience", value === "Yes")}
+                            >
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="Yes" id="content-creation-yes" />
+                                <Label htmlFor="content-creation-yes">Yes</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="No" id="content-creation-no" />
+                                <Label htmlFor="content-creation-no">No</Label>
+                              </div>
+                            </RadioGroup>
+                          </div>
+
+                          <div className="mb-6">
+                            <Label>Which of the following have you created before?</Label>
+                            {["PowerPoint Presentations (PPT)", "Flyers (Printed or Digital)", "Social Media Posts (Instagram, Facebook, Twitter, etc.)", "Posters", "Brochures"].map((item) => (
+                              <div key={item} className="flex items-center space-x-2">
+                                <Checkbox
+                                  checked={formData.contentCreation?.createdBefore?.includes(item)}
+                                  onCheckedChange={(checked) => {
+                                    const updated = formData.contentCreation?.createdBefore || [];
+                                    handleContentCreationChange(
+                                      "createdBefore",
+                                      checked ? [...updated, item] : updated.filter((i) => i !== item)
+                                    );
+                                  }}
+                                />
+                                <Label>{item}</Label>
+                              </div>
+                            ))}
+                          </div>
+
+                          <div className="mb-6">
+                            <Label>Which tools or software do you use for designing?</Label>
+                            {["Microsoft PowerPoint", "Canva", "Adobe Photoshop", "Adobe Illustrator", "Google Slides", "Other"].map((tool) => (
+                              <div key={tool} className="flex items-center space-x-2">
+                                <Checkbox
+                                  checked={formData.contentCreation?.toolsUsed?.includes(tool)}
+                                  onCheckedChange={(checked) => {
+                                    const updated = formData.contentCreation?.toolsUsed || [];
+                                    handleContentCreationChange(
+                                      "toolsUsed",
+                                      checked ? [...updated, tool] : updated.filter((i) => i !== tool)
+                                    );
+                                  }}
+                                />
+                                <Label>{tool}</Label>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+
+                      {/* Outreach */}
+                      {formData.volunteerField === "Outreach" && (
+                        <>
+                          <div className="mb-6">
+                            <Label>Have you been involved in any outreach activities before?</Label>
+                            <RadioGroup
+                              value={formData.outreach?.hasOutreachExperience ? "Yes" : "No"}
+                              onValueChange={(value) => handleOutreachChange("hasOutreachExperience", value === "Yes")}
+                            >
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="Yes" id="outreach-yes" />
+                                <Label htmlFor="outreach-yes">Yes</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="No" id="outreach-no" />
+                                <Label htmlFor="outreach-no">No</Label>
+                              </div>
+                            </RadioGroup>
+                          </div>
+
+                          <div className="mb-6">
+                            <Label>What type of outreach activities would you like to help with?</Label>
+                            {[
+                              "Community Outreach", "Educational Outreach", "Social Media Outreach",
+                              "Fundraising Campaigns", "Corporate Partnerships", "Volunteer Recruitment",
+                              "Event Promotion", "Advocacy Campaigns", "Other"
+                            ].map((activity) => (
+                              <div key={activity} className="flex items-center space-x-2">
+                                <Checkbox
+                                  checked={formData.outreach?.outreachActivities?.includes(activity)}
+                                  onCheckedChange={(checked) => {
+                                    const updated = formData.outreach?.outreachActivities || [];
+                                    handleOutreachChange(
+                                      "outreachActivities",
+                                      checked ? [...updated, activity] : updated.filter((i) => i !== activity)
+                                    );
+                                  }}
+                                />
+                                <Label>{activity}</Label>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+
+                      {/* Fundraising */}
+                      {formData.volunteerField === "Fundraising" && (
+                        <>
+                          <div className="mb-6">
+                            <Label>Have you been involved in fundraising before?</Label>
+                            <RadioGroup
+                              value={formData.fundraising?.hasFundraisingExperience ? "Yes" : "No"}
+                              onValueChange={(value) => handleFundraisingChange("hasFundraisingExperience", value === "Yes")}
+                            >
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="Yes" id="fundraising-yes" />
+                                <Label htmlFor="fundraising-yes">Yes</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="No" id="fundraising-no" />
+                                <Label htmlFor="fundraising-no">No</Label>
+                              </div>
+                            </RadioGroup>
+                          </div>
+
+                          <div className="mb-6">
+                            <Label>Which types of fundraising have you done?</Label>
+                            {[
+                              "Event organization", "Corporate sponsorship", "Individual donor outreach",
+                              "Crowdfunding", "Grant writing", "Online fundraising", "Charity auctions", "None"
+                            ].map((type) => (
+                              <div key={type} className="flex items-center space-x-2">
+                                <Checkbox
+                                  checked={formData.fundraising?.fundraisingTypes?.includes(type)}
+                                  onCheckedChange={(checked) => {
+                                    const updated = formData.fundraising?.fundraisingTypes || [];
+                                    handleFundraisingChange(
+                                      "fundraisingTypes",
+                                      checked ? [...updated, type] : updated.filter((i) => i !== type)
+                                    );
+                                  }}
+                                />
+                                <Label>{type}</Label>
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
+
+
+                  {/* Step 3: Experience & Motivation */}
+                  {step === 3 && (
+                    <>
+                      <h3 className="text-2xl font-bold text-ngo-color6 mb-6">Experience & Motivation</h3>
+                      <div className="mb-6">
+                        <Label>Relevant Experience *</Label>
                         <Textarea
-                          required
-                          placeholder="List your relevant skills, qualifications, and expertise..."
-                          value={formData.skills}
-                          onChange={(e) =>
-                            handleInputChange("skills", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                          rows={4}
+                          value={formData.relevantExperience}
+                          onChange={(e) => handleChange("relevantExperience", e.target.value)}
+                          className={errors.relevantExperience ? "border-red-500" : ""}
                         />
+                        {errors.relevantExperience && <p className="text-red-500 text-sm">{errors.relevantExperience}</p>}
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Previous Experience
-                        </label>
+
+                      <div className="mb-6">
+                        <Label>Why do you want to volunteer with NEIEA? *</Label>
                         <Textarea
-                          placeholder="Describe any relevant volunteer or professional experience..."
-                          value={formData.experience}
-                          onChange={(e) =>
-                            handleInputChange("experience", e.target.value)
-                          }
-                          className="border-ngo-color4/30 focus:border-ngo-color4"
-                          rows={4}
+                          value={formData.motivation}
+                          onChange={(e) => handleChange("motivation", e.target.value)}
+                          className={errors.motivation ? "border-red-500" : ""}
                         />
+                        {errors.motivation && <p className="text-red-500 text-sm">{errors.motivation}</p>}
                       </div>
-                    </div>
-                  </div>
 
-                  {/* Motivation */}
-                  <div>
-                    <h3 className="text-2xl font-heading font-bold text-ngo-color6 mb-6">
-                      Motivation
-                    </h3>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Why do you want to volunteer with NEIEA? *
-                      </label>
-                      <Textarea
-                        required
-                        placeholder="Tell us about your motivation and what you hope to achieve..."
-                        value={formData.motivation}
-                        onChange={(e) =>
-                          handleInputChange("motivation", e.target.value)
-                        }
-                        className="border-ngo-color4/30 focus:border-ngo-color4"
-                        rows={4}
-                      />
-                    </div>
-                  </div>
+                      <div className="mb-6">
+                        <Label>Commitment Duration *</Label>
+                        <RadioGroup
+                          value={formData.commitmentDuration}
+                          onValueChange={(value) => handleChange("commitmentDuration", value)}
+                          className={errors.commitmentDuration ? "border-red-500" : ""}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="3 months" id="3-months" />
+                            <Label htmlFor="3-months">At least 3 months</Label>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="6 months" id="6-months" />
+                            <Label htmlFor="6-months">At least 6 months</Label>
+                          </div>
+                        </RadioGroup>
+                        {errors.commitmentDuration && <p className="text-red-500 text-sm">{errors.commitmentDuration}</p>}
+                      </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white font-bold py-4 text-xl rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300"
-                  >
-                    Submit Volunteer Application
-                    <Heart className="ml-3 w-6 h-6" />
-                  </Button>
+                      <div className="mb-6">
+                        <Label>Date of Joining *</Label>
+                        <Input
+                          type="date"
+                          value={formData.dateOfJoining}
+                          onChange={(e) => handleChange("dateOfJoining", e.target.value)}
+                          className={errors.dateOfJoining ? "border-red-500" : ""}
+                        />
+                        {errors.dateOfJoining && <p className="text-red-500 text-sm">{errors.dateOfJoining}</p>}
+                      </div>
+                    </>
+                  )}
+
+                  <div className="flex justify-between mt-8">
+                    {step > 1 && (
+                      <Button type="button" onClick={handleBack} variant="outline">
+                        Back
+                      </Button>
+                    )}
+                    {step < 3 ? (
+                      <Button type="button" onClick={handleNext}>
+                        Next
+                      </Button>
+                    ) : (
+                      <Button type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                      </Button>
+                    )}
+                  </div>
                 </form>
               </CardContent>
             </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Volunteer Testimonials */}
-      <section className="py-24 bg-ngo-color8/20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-heading font-bold text-ngo-color6 mb-8">
-              Volunteer Stories
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Hear from our dedicated volunteers about their experiences and the
-              impact they've made through their contributions to NEIEA.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {volunteerTestimonials.map((testimonial, index) => (
-              <Card key={index} className="border-0 shadow-lg">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-6">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="w-16 h-16 rounded-full object-cover mr-4"
-                    />
-                    <div>
-                      <h4 className="font-bold text-ngo-color6 text-lg">
-                        {testimonial.name}
-                      </h4>
-                      <p className="text-sm text-gray-600">
-                        {testimonial.role}
-                      </p>
-                      <div className="flex items-center mt-1">
-                        <Clock className="w-3 h-3 mr-1 text-ngo-color4" />
-                        <span className="text-xs text-gray-500">
-                          {testimonial.duration}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex text-ngo-color4 mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" />
-                    ))}
-                  </div>
-
-                  <p className="text-gray-700 leading-relaxed italic mb-4">
-                    "{testimonial.story}"
-                  </p>
-
-                  <div className="flex justify-between items-center pt-4 border-t border-gray-200">
-                    <div className="text-sm text-gray-600">
-                      <MapPin className="w-3 h-3 inline mr-1" />
-                      {testimonial.location}
-                    </div>
-                    <Badge className="bg-ngo-color4/10 text-ngo-color4 text-xs">
-                      {testimonial.impact}
-                    </Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section className="py-24 bg-ngo-color6 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl lg:text-5xl font-heading font-bold mb-8">
-            Have Questions?
-          </h2>
-          <p className="text-xl mb-12 max-w-3xl mx-auto leading-relaxed">
-            Our volunteer coordinators are here to help you find the perfect
-            opportunity and answer any questions about volunteering with NEIEA.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Button
-              size="lg"
-              className="bg-ngo-color4 hover:bg-ngo-color4/90 text-white px-12 py-4 text-lg rounded-full font-semibold"
-            >
-              <Mail className="mr-3 w-5 h-5" />
-              Email Us
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-ngo-color6 px-12 py-4 text-lg rounded-full font-semibold"
-            >
-              <Phone className="mr-3 w-5 h-5" />
-              Schedule a Call
-            </Button>
           </div>
         </div>
       </section>
@@ -748,4 +1049,4 @@ const Volunteer = () => {
   );
 };
 
-export default Volunteer;
+export default VolunteerForm;

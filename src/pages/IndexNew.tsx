@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import img1 from "../images/home/banner1.jpg";
 import img2 from "../images/home/banner2.jpg";
 import img3 from "../images/home/banner3.jpg";
+import impactReport from "../assets/pdfs/NEIEA-Impact-report.pdf";
 
 import {
     GraduationCap,
@@ -40,7 +41,7 @@ const IndexNew = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    
+
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -309,7 +310,7 @@ const IndexNew = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <Card className="shadow-md border-0 bg-gradient-to-br from-white to-gray-50">
                             <CardHeader>
-                                <Badge className="bg-ngo-color2 text-white mb-2">Our Vision</Badge>
+                                <Badge className="bg-ngo-color2 text-white mb-2 flex justify-center">Our Vision</Badge>
                                 <CardTitle className="text-ngo-color6">A society transformed by quality education</CardTitle>
                             </CardHeader>
                             <CardContent className="text-gray-700 leading-relaxed">
@@ -320,7 +321,7 @@ const IndexNew = () => {
 
                         <Card className="shadow-md border-0 bg-gradient-to-br from-white to-gray-50">
                             <CardHeader>
-                                <Badge className="bg-ngo-color4 text-white mb-2">Our Mission</Badge>
+                                <Badge className="bg-ngo-color4 text-white mb-2 flex justify-center">Our Mission</Badge>
                                 <CardTitle className="text-ngo-color6">Good quality, innovative education for all</CardTitle>
                             </CardHeader>
                             <CardContent className="text-gray-700 leading-relaxed">
@@ -338,7 +339,7 @@ const IndexNew = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
                         <Card className="border-0 shadow-md lg:col-span-2">
                             <CardHeader className="pb-2">
-                                <Badge className="bg-ngo-color5 text-white mb-2">Impact Report 2022–24</Badge>
+                                <Badge className="bg-ngo-color5 text-white mb-2 flex justify-center">Impact Report 2022–24</Badge>
                                 <CardTitle className="text-ngo-color6">Education for All</CardTitle>
                             </CardHeader>
                             <CardContent className="text-gray-700 leading-relaxed">
@@ -357,12 +358,20 @@ const IndexNew = () => {
                                         <p className="text-sm">Discourse Oriented Pedagogy (DOP) fosters analytical, critical, and collaborative learning.</p>
                                     </div>
                                 </div>
+
+                                <div className="mt-4">
+                                    <a href={impactReport} target="_blank" rel="noopener noreferrer">
+                                        <Button className="w-full bg-ngo-color6 hover:bg-ngo-color6/90 text-white">
+                                            Click Here To Know More
+                                        </Button>
+                                    </a>
+                                </div>
                             </CardContent>
                         </Card>
 
                         <Card className="border-0 shadow-md">
                             <CardHeader className="pb-2">
-                                <Badge className="bg-ngo-color6 text-white mb-2">Key Outcomes</Badge>
+                                <Badge className="bg-ngo-color6 text-white mb-2 flex justify-center">Key Outcomes</Badge>
                                 <CardTitle className="text-ngo-color6">Highlights</CardTitle>
                             </CardHeader>
                             <CardContent>

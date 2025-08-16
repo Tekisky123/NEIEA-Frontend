@@ -16,6 +16,8 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import impactReport from "../assets/pdfs/NEIEA-Impact-report.pdf";
+import neieaLogo from "../images/logoRemovedBg.png";
 
 interface LayoutProps {
   children: ReactNode;
@@ -36,7 +38,7 @@ const Layout = ({ children }: LayoutProps) => {
             <div className="space-y-8">
               <div className="flex items-center space-x-3">
                 <img
-                  src="https://neiea-ngo-frontend.vercel.app/assets/logo2-C7Wc3xHv.png"
+                  src={neieaLogo}
                   alt="NEIEA Logo"
                   className="w-10 h-10 object-contain"
                 />
@@ -56,44 +58,44 @@ const Layout = ({ children }: LayoutProps) => {
               <div>
                 <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
                 <div className="grid grid-cols-2 gap-2">
-                  <a
-                    href="/projects"
+                  <Link
+                    to={"/our-projects/it-skills-training"}
                     className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Our Projects
-                  </a>
-                  <a
-                    href="/stories"
+                  </Link>
+                  <Link
+                    to={"/stories"}
                     className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Success Stories
-                  </a>
-                  <a
-                    href="/mission"
+                  </Link>
+                  <Link
+                    to={"/about/vision-mission"}
                     className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Our Mission
-                  </a>
-                  <a
-                    href="/team"
+                  </Link>
+                  <Link
+                    to={"/about/leadership"}
                     className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Meet Our Team
-                  </a>
-                  <a
-                    href="/volunteer"
+                  </Link>
+                  <Link
+                    to={"/volunteer"}
                     className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Volunteer
-                  </a>
-                  <a
-                    href="/courses"
+                  </Link>
+                  <Link
+                    to={"/courses"}
                     className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Courses
-                  </a>
+                  </Link>
                   <Link
-                    to="/login"
+                    to={"/login"}
                     className="text-gray-300 hover:text-ngo-color4 transition-colors"
                   >
                     Login
@@ -132,16 +134,27 @@ const Layout = ({ children }: LayoutProps) => {
                 <h5 className="font-semibold mb-4">Follow Our Impact</h5>
                 <div className="flex space-x-4">
                   <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
-                    <Facebook className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    <a href="https://www.facebook.com/profile.php?id=100093505457474" target="_blank" >
+
+                      <Facebook className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    </a>
                   </div>
                   <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
-                    <Twitter className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    <a href="https://x.com/neiea_india" target="_blank" >
+
+                      <Twitter className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    </a>
                   </div>
                   <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
-                    <Instagram className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    <a href="https://www.instagram.com/neiea_india/" target="_blank" >
+
+                      <Instagram className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    </a>
                   </div>
                   <div className="p-2 bg-white/10 rounded-lg hover:bg-ngo-color4 hover:scale-110 cursor-pointer transition-all duration-300 group">
-                    <Youtube className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    <a href="https://www.youtube.com/@neiea_india" target="_blank" >
+                      <Youtube className="w-5 h-5 group-hover:text-white transition-colors duration-300" />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -174,7 +187,9 @@ const Layout = ({ children }: LayoutProps) => {
                 <p className="text-sm text-gray-300">
                   98% of donations go directly to programs. View our{" "}
                   <a
-                    href="/transparency"
+                    href={impactReport}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="text-ngo-color4 underline"
                   >
                     financial reports
@@ -194,24 +209,30 @@ const Layout = ({ children }: LayoutProps) => {
               Organization
             </p>
             <div className="flex space-x-8 mt-4 md:mt-0">
-              <a
-                href="/privacy"
+              <Link
+                to="/privacy-policy"
                 className="text-gray-400 hover:text-white text-sm transition-colors"
               >
                 Privacy Policy
-              </a>
-              <a
-                href="/terms"
+              </Link>
+              <Link
+                to="/shipping-delivery"
                 className="text-gray-400 hover:text-white text-sm transition-colors"
               >
-                Terms of Service
-              </a>
-              <a
-                href="/transparency"
+                Shipping & Delivery
+              </Link>
+              <Link
+                to="/pricing-inr"
                 className="text-gray-400 hover:text-white text-sm transition-colors"
               >
-                Financial Transparency
-              </a>
+                Pricing Policy
+              </Link>
+              <Link
+                to="/refund-cancellations"
+                className="text-gray-400 hover:text-white text-sm transition-colors"
+              >
+                Refund Policy
+              </Link>
             </div>
           </div>
         </div>

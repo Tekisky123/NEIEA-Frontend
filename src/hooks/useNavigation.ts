@@ -58,25 +58,26 @@ const useNavigation = () => {
       ],
     },
     { label: 'Courses', items: [{ label: 'All Courses', href: '/courses' }] },
-    {
-      label: 'Partners',
-      items: [
-        { label: 'Domestic Partners', href: '/partners/domestic' },
-        { label: 'Global Partners', href: '/partners/global' },
-      ],
-    },
+    // {
+    //   label: 'Partners',
+    //   items: [
+    //     { label: 'Domestic Partners', href: '/partners/domestic' },
+    //     { label: 'Global Partners', href: '/partners/global' },
+    //   ],
+    // },
     { label: 'Donate', href: '/donate' },
     { label: 'Featured Stories', href: '/stories' },
     {
       label: 'Media and Events',
-      items: [{ label: 'Gallery', href: '/about/introduction' }],
+      items: [{ label: 'Gallery', href: '/gallery' }],
     },
     {
       label: 'Contact Us',
-      items: [
-        { label: 'Partner With Us', href: '/contact/partner' },
-        { label: 'FAQ', href: '/contact/faq' },
-      ],
+      href: '/contact-us',
+      // items: [
+      //   { label: 'Partner With Us', href: '/contact/partner' },
+      //   { label: 'FAQ', href: '/contact/faq' },
+      // ],
     },
     { label: 'Volunteer', href: '/volunteer' },
     { label: 'NEI USA', href: '/nei-usa' },
