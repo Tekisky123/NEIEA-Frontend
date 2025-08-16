@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import IndexNew from "./pages/IndexNew";
 import OurWork from "./pages/OurWork";
 import Stories from "./pages/Stories";
 import Gallery from "./pages/Gallery";
@@ -49,7 +50,8 @@ const App = () => (
       <Sonner richColors position="top-center" />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          {/* <Route path="/" element={<Index />} /> */}
+          <Route path="/" element={<IndexNew />} />
           {/* Our Work Dropdown */}
           <Route path="/our-work" element={<OurWork />} />
           <Route path="/stories" element={<Stories />} />
