@@ -131,7 +131,7 @@ const IndexNew = () => {
         <Layout>
 
             {/* Hero Slider Section */}
-            <section className="relative h-screen min-h-[600px] overflow-hidden">
+            <section className="relative w-full min-h-[220px] sm:min-h-[320px] md:min-h-[420px] aspect-[23/9] overflow-hidden">
                 {heroSlides.map((slide, index) => (
                     <div
                         key={index}
@@ -266,7 +266,7 @@ const IndexNew = () => {
             <section className="relative overflow-hidden bg-gradient-to-br from-ngo-color1 via-ngo-color1 to-ngo-color3 text-white">
 
                 <div className="container mx-auto px-4 sm:px-6 py-16 sm:py-20 lg:py-28">
-                    <Badge className="bg-ngo-color4 text-white mb-4">NEIEA'S INTRODUCTION</Badge>
+                    <Badge className="bg-ngo-color4 p-2 text-lg text-white mb-4">NEIEA'S INTRODUCTION</Badge>
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold leading-tight mb-4">
                         Welcome to NEIEA, The New Equitable and Innovative Educational Association
                     </h1>
@@ -295,7 +295,7 @@ const IndexNew = () => {
             <section className="py-12 sm:py-16 bg-white">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div className="text-center max-w-4xl mx-auto mb-8 sm:mb-12">
-                        <Badge className="bg-ngo-color6 text-white mb-4">ABOUT US</Badge>
+                        <Badge className="bg-ngo-color6 p-2 text-lg text-white mb-4">ABOUT US</Badge>
                         <h2 className="text-3xl sm:text-4xl font-heading font-bold text-ngo-color6 mb-4">
                             Equitable. Innovative. Transparent.
                         </h2>
@@ -310,7 +310,7 @@ const IndexNew = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                         <Card className="shadow-md border-0 bg-gradient-to-br from-white to-gray-50">
                             <CardHeader>
-                                <Badge className="bg-ngo-color2 text-white mb-2 flex justify-center">Our Vision</Badge>
+                                <Badge className="bg-ngo-color2 text-white p-2 text-lg mb-2 flex justify-center">Our Vision</Badge>
                                 <CardTitle className="text-ngo-color6">A society transformed by quality education</CardTitle>
                             </CardHeader>
                             <CardContent className="text-gray-700 leading-relaxed">
@@ -321,7 +321,7 @@ const IndexNew = () => {
 
                         <Card className="shadow-md border-0 bg-gradient-to-br from-white to-gray-50">
                             <CardHeader>
-                                <Badge className="bg-ngo-color4 text-white mb-2 flex justify-center">Our Mission</Badge>
+                                <Badge className="bg-ngo-color4 text-white p-2 text-lg mb-2 flex justify-center">Our Mission</Badge>
                                 <CardTitle className="text-ngo-color6">Good quality, innovative education for all</CardTitle>
                             </CardHeader>
                             <CardContent className="text-gray-700 leading-relaxed">
@@ -339,7 +339,7 @@ const IndexNew = () => {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch">
                         <Card className="border-0 shadow-md lg:col-span-2">
                             <CardHeader className="pb-2">
-                                <Badge className="bg-ngo-color5 text-white mb-2 flex justify-center">Impact Report 2022–24</Badge>
+                                <Badge className="bg-ngo-color5 text-white p-2 text-lg mb-2 flex justify-center">Impact Report 2022–24</Badge>
                                 <CardTitle className="text-ngo-color6">Education for All</CardTitle>
                             </CardHeader>
                             <CardContent className="text-gray-700 leading-relaxed">
@@ -371,7 +371,7 @@ const IndexNew = () => {
 
                         <Card className="border-0 shadow-md">
                             <CardHeader className="pb-2">
-                                <Badge className="bg-ngo-color6 text-white mb-2 flex justify-center">Key Outcomes</Badge>
+                                <Badge className="bg-ngo-color6 text-white p-2 text-lg mb-2 flex justify-center">Key Outcomes</Badge>
                                 <CardTitle className="text-ngo-color6">Highlights</CardTitle>
                             </CardHeader>
                             <CardContent>
@@ -403,7 +403,7 @@ const IndexNew = () => {
             <section className="py-12 sm:py-16 bg-white">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div className="text-center mb-8 sm:mb-12">
-                        <Badge className="bg-ngo-color4 text-white mb-4">We connect children to a bright future</Badge>
+                        <Badge className="bg-ngo-color4 p-2 text-lg text-white mb-4">We connect children to a bright future</Badge>
                         <h3 className="text-2xl sm:text-3xl font-heading font-bold text-ngo-color6">At-a-glance</h3>
                     </div>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 max-w-6xl mx-auto">

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Navigation from "./Navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,16 +14,109 @@ import {
   Youtube,
   ArrowRight,
   MessageCircle,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import impactReport from "../assets/pdfs/NEIEA-Impact-report.pdf";
 import neieaLogo from "../images/logoRemovedBg.png";
+import { toast } from "@/hooks/use-toast";
+import axios from "axios";
+import axiosInstance from "@/lib/axiosInstance";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const [email, setEmail] = useState("");
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  // Email validation function
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  // Handle subscribe function
+  const handleSubscribe = async () => {
+    // Validate email
+    if (!email.trim()) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      toast({
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubscribing(true);
+
+    try {
+      const response = await axiosInstance.post("/subscribe", {
+        email: email.trim()
+      });
+
+      toast({
+        title: "Successfully Subscribed!",
+        description: "Thank you for subscribing to our newsletter.",
+      });
+      setIsSubscribed(true);
+      setEmail("");
+    } catch (error) {
+      console.error("Subscribe error:", error);
+      
+      let errorMessage = "Something went wrong. Please try again.";
+      
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // Server responded with error status
+          errorMessage = error.response.data?.message || `Error: ${error.response.status}`;
+        } else if (error.request) {
+          // Request was made but no response received
+          errorMessage = "No response from server. Please check your connection.";
+        } else {
+          // Something else happened
+          errorMessage = error.message;
+        }
+      } else if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      toast({
+        title: "Subscription Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
+
+  // Handle input change
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+    if (isSubscribed) {
+      setIsSubscribed(false);
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSubscribe();
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -167,18 +260,49 @@ const Layout = ({ children }: LayoutProps) => {
                 Subscribe to our newsletter for impact updates, success stories,
                 and ways to get involved in our mission.
               </p>
-              <div className="space-y-4">
-                <Input
-                  placeholder="Enter your email address"
-                  className="bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus:border-ngo-color4 focus:bg-white/20 transition-all duration-300 backdrop-blur-sm rounded-lg"
-                />
-                <Button className="w-full bg-gradient-to-r from-ngo-color4 to-ngo-color4/90 hover:from-ngo-color4/90 hover:to-ngo-color4 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="relative">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={handleEmailChange}
+                    className={`bg-white/10 border-white/30 text-white placeholder:text-gray-300 focus:border-ngo-color4 focus:bg-white/20 transition-all duration-300 backdrop-blur-sm rounded-lg pr-12 ${
+                      isSubscribed ? "border-green-400" : ""
+                    }`}
+                    disabled={isSubscribing}
+                  />
+                  {isSubscribed && (
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                    </div>
+                  )}
+                </div>
+                <Button 
+                  type="submit"
+                  disabled={isSubscribing || !email.trim()}
+                  className="w-full bg-gradient-to-r from-ngo-color4 to-ngo-color4/90 hover:from-ngo-color4/90 hover:to-ngo-color4 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <span className="flex items-center justify-center">
-                    Subscribe to Updates
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                    {isSubscribing ? (
+                      <>
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                        Subscribing...
+                      </>
+                    ) : isSubscribed ? (
+                      <>
+                        <CheckCircle className="w-4 h-4 mr-2" />
+                        Subscribed!
+                      </>
+                    ) : (
+                      <>
+                        Subscribe to Updates
+                        <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+                      </>
+                    )}
                   </span>
                 </Button>
-              </div>
+              </form>
 
               <div className="mt-8 p-4 bg-ngo-color4/10 rounded-lg border border-ngo-color4/20">
                 <h5 className="font-semibold mb-2 text-ngo-color4">

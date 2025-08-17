@@ -12,6 +12,7 @@ import axios from "axios";
 import axiosInstance from "@/lib/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import { BookOpen, Heart, Users } from "lucide-react";
+import { toast } from "sonner";
 
 type LanguageProficiency = {
   speaking: boolean;
@@ -241,6 +242,66 @@ const VolunteerForm = () => {
 
   const handleBack = () => setStep(step - 1);
 
+  const resetForm = () => {
+    setFormData({
+      firstName: "",
+      lastName: "",
+      dob: "",
+      gender: "",
+      phone: "",
+      emergencyPhone: "",
+      email: "",
+      address: {
+        city: "",
+        state: "",
+        country: "",
+      },
+      languageProficiency: {
+        english: { speaking: false, writing: false, reading: false, none: false },
+        hindi: { speaking: false, writing: false, reading: false, none: false },
+        urdu: { speaking: false, writing: false, reading: false, none: false },
+        bengali: { speaking: false, writing: false, reading: false, none: false },
+        telugu: { speaking: false, writing: false, reading: false, none: false },
+        kannada: { speaking: false, writing: false, reading: false, none: false },
+        marathi: { speaking: false, writing: false, reading: false, none: false },
+        otherLanguage: "",
+      },
+      dailyCommitment: "",
+      availability: [],
+      volunteerField: "",
+      socialMedia: {
+        facebook: "",
+        linkedIn: "",
+        instagram: "",
+        twitter: "",
+        youTube: "",
+      },
+      contentCreation: {
+        hasExperience: false,
+        createdBefore: [],
+        toolsUsed: [],
+      },
+      outreach: {
+        hasOutreachExperience: false,
+        outreachActivities: [],
+      },
+      fundraising: {
+        hasFundraisingExperience: false,
+        fundraisingTypes: [],
+      },
+      teachingExperience: "",
+      onlineTeachingYears: "",
+      ageGroups: [],
+      confidentSubjects: [],
+      relevantExperience: "",
+      motivation: "",
+      commitmentDuration: "",
+      dateOfJoining: "",
+    });
+    setErrors({});
+    setStep(1);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep3()) {
@@ -252,11 +313,12 @@ const VolunteerForm = () => {
         }
         const response = await axiosInstance.post("/volunteer", payload);
         console.log("Form submitted:", response.data);
-        alert("Thanks for contacting us! We will get in touch with you shortly.");
+        toast.success("Thanks for contacting us! We will get in touch with you shortly.")
+        resetForm();
         navigate('/volunteer');
       } catch (error) {
         console.error("Error submitting form:", error);
-        alert("An error occurred. Please try again.");
+        toast.error("An error occurred. Please try again.")
       } finally {
         setIsSubmitting(false);
       }
