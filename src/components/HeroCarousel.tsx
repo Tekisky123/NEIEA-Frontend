@@ -60,7 +60,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ pageKey, className }) => {
       })
       .catch(() => {
         if (isMounted) {
-          setError("Failed to load carousel images.");
+          setError(`This page is comming soon...`);
           setCarousel(null);
         }
       })
@@ -97,13 +97,26 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ pageKey, className }) => {
         style={{ maxWidth: "100vw" }}
       >
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-24 min-h-[350px]">
-            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-ngo-color6 mb-4"></div>
-            <span className="text-gray-500 text-lg font-medium">Loading hero images...</span>
+          <div className="relative w-full h-full min-h-[350px] bg-gray-200 overflow-hidden">
+
+            {/* Background shimmer */}
+            <div className="absolute inset-0 bg-gray-300 animate-pulse"></div>
+            {
+              error && (
+                <div className="flex flex-col items-center justify-center py-24 min-h-[350px]">
+                  <span className="text-red-500 text-lg font-medium"><h1 className="text-center py-12 text-gray-500">{error}</h1></span>
+                </div>
+              )
+            }
+            {/* Prev Button shimmer */}
+            <div className="absolute left-2 sm:left-6 top-1/2 transform -translate-y-1/2 z-20 bg-gray-400/50 rounded-full p-3 sm:p-4 animate-pulse"></div>
+
+            {/* Next Button shimmer */}
+            <div className="absolute right-2 sm:right-6 top-1/2 transform -translate-y-1/2 z-20 bg-gray-400/50 rounded-full p-3 sm:p-4 animate-pulse"></div>
           </div>
         ) : error ? (
           <div className="flex flex-col items-center justify-center py-24 min-h-[350px]">
-            <span className="text-red-500 text-lg font-medium">{error}</span>
+            <span className="text-red-500 text-lg font-medium"><h1 className="text-center py-12 text-gray-500">{error}</h1></span>
           </div>
         ) : !carousel || !carousel.images || carousel.images.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 min-h-[350px]">
@@ -119,15 +132,15 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ pageKey, className }) => {
               return (
                 <div
                   key={img._id}
-                  className={`absolute inset-0 transition-all duration-1000 ease-out ${
-                    idx === currentSlide ? "opacity-100 scale-100 z-10" : "opacity-0 scale-105 z-0 pointer-events-none"
-                  }`}
+                  className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 ease-out ${idx === currentSlide ? "opacity-100 scale-100 z-10" : "opacity-0 scale-105 z-0 pointer-events-none"
+                    }`}
                   style={{
                     backgroundImage: `url('${img.url}')`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     backgroundRepeat: "no-repeat",
                     minHeight: '220px',
+                    transform: idx === currentSlide ? "scale(1)" : "scale(1.1)",
                   }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-ngo-color1/40 via-ngo-color1/30 to-ngo-color3/20 z-10"></div>
@@ -175,11 +188,10 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ pageKey, className }) => {
                 <button
                   key={index}
                   onClick={() => setCurrentSlide(index)}
-                  className={`relative w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-500 ${
-                    index === currentSlide
-                      ? "bg-ngo-color4 scale-125 shadow-lg"
-                      : "bg-white/50 hover:bg-white/75 hover:scale-110"
-                  }`}
+                  className={`relative w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-500 ${index === currentSlide
+                    ? "bg-ngo-color4 scale-125 shadow-lg"
+                    : "bg-white/50 hover:bg-white/75 hover:scale-110"
+                    }`}
                 >
                   {index === currentSlide && (
                     <div className="absolute inset-0 bg-ngo-color4 rounded-full animate-pulse"></div>
@@ -190,7 +202,7 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({ pageKey, className }) => {
           </>
         )}
       </section>
-      
+
     </>
   );
 };

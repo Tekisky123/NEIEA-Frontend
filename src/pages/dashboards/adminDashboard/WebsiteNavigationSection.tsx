@@ -61,7 +61,7 @@ interface SectionContent {
   _id?: string;
   page: string;
   heading: string;
-  subHeading: string;
+  subHeading?: string;
   body: string;
   orientation?: 'left' | 'right';
   imageUrl?: string;
@@ -245,18 +245,10 @@ const WebsiteNavigationSection = () => {
     } else if (sectionContent.heading.trim().length < 3) {
       errors.heading = "Heading must be at least 3 characters";
     }
-    if (!sectionContent.subHeading?.trim()) {
-      errors.subHeading = "Subheading is required";
-    } else if (sectionContent.subHeading.trim().length < 5) {
-      errors.subHeading = "Subheading must be at least 5 characters";
-    }
     if (!sectionContent.body?.trim()) {
       errors.body = "Body content is required";
     } else if (sectionContent.body.trim().length < 10) {
       errors.body = "Body content must be at least 10 characters";
-    }
-    if (!sectionContent.imageUrl) {
-      errors.image = "Section image is required";
     }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
@@ -412,7 +404,7 @@ const WebsiteNavigationSection = () => {
       const formData = new FormData();
       formData.append("page", activeSubmenu);
       formData.append("heading", sectionContent.heading.trim());
-      formData.append("subHeading", sectionContent.subHeading.trim());
+      formData.append("subHeading", (sectionContent.subHeading || "").trim());
       formData.append("body", sectionContent.body.trim());
       formData.append("orientation", sectionContent.orientation || 'left');
       if (sectionImageFile) {
@@ -465,7 +457,7 @@ const WebsiteNavigationSection = () => {
       const formData = new FormData();
       formData.append("page", activeSubmenu);
       formData.append("heading", content.heading.trim());
-      formData.append("subHeading", content.subHeading.trim());
+      formData.append("subHeading", (content.subHeading || "").trim());
       formData.append("body", content.body.trim());
       formData.append("orientation", content.orientation || 'left');
       if (sectionImageFile) {
@@ -815,7 +807,9 @@ const handleVideoCardSubmit = async (e: React.FormEvent) => {
                 <>
                   <div className="text-white max-w-xl">
                     <h1 className="text-4xl font-bold mb-4">{section.content.heading || "Section Heading"}</h1>
-                    <h2 className="text-2xl mb-4">{section.content.subHeading || "Section Subheading"}</h2>
+                    {section.content.subHeading && (
+                      <h2 className="text-2xl mb-4">{section.content.subHeading}</h2>
+                    )}
                     <p className="text-lg">{section.content.body || "Section body text goes here"}</p>
                   </div>
                   {section.content.imageUrl && (
@@ -842,7 +836,9 @@ const handleVideoCardSubmit = async (e: React.FormEvent) => {
                   )}
                   <div className="text-white max-w-xl">
                     <h1 className="text-4xl font-bold mb-4">{section.content.heading || "Section Heading"}</h1>
-                    <h2 className="text-2xl mb-4">{section.content.subHeading || "Section Subheading"}</h2>
+                    {section.content.subHeading && (
+                      <h2 className="text-2xl mb-4">{section.content.subHeading}</h2>
+                    )}
                     <p className="text-lg">{section.content.body || "Section body text goes here"}</p>
                   </div>
                 </>
@@ -1097,7 +1093,7 @@ const handleVideoCardSubmit = async (e: React.FormEvent) => {
                               </div>
                               <div className="space-y-2">
                                 <label htmlFor="subHeading" className="block text-sm font-medium">
-                                  Subheading *
+                                  Subheading (optional)
                                 </label>
                                 <input
                                   id="subHeading"
@@ -1146,7 +1142,7 @@ const handleVideoCardSubmit = async (e: React.FormEvent) => {
                             </div>
                             <div className="space-y-2">
                               <label htmlFor="content-image" className="block text-sm font-medium">
-                                Section Image *
+                                Section Image (optional)
                               </label>
                               <input
                                 id="content-image"
@@ -1157,7 +1153,7 @@ const handleVideoCardSubmit = async (e: React.FormEvent) => {
                                 className={`block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-ngo-color6 file:text-white hover:file:bg-ngo-color5 ${formErrors.image ? 'border-red-500' : ''}`}
                               />
                               <div className="text-xs text-gray-500">
-                                Max {MAX_SIZE_MB}MB. Recommended: 800x600px
+                                Max {MAX_SIZE_MB}MB. Recommended: 660x380px
                               </div>
                               {formErrors.image && (
                                 <p className="text-red-500 text-xs">{formErrors.image}</p>

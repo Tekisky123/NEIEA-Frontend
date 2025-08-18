@@ -5,10 +5,10 @@ interface SectionContent {
   _id: string;
   page: string;
   heading: string;
-  subHeading: string;
+  subHeading?: string;
   body: string;
   orientation: 'left' | 'right';
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 interface ConfigSectionsProps {
@@ -19,6 +19,28 @@ const ConfigSections: React.FC<ConfigSectionsProps> = ({ page }) => {
   const [sections, setSections] = useState<SectionContent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+   // Regex se links identify karke clickable <a> banayenge
+   const renderWithLinks = (inputText) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    return inputText.split(urlRegex).map((part, index) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline font-medium hover:text-blue-800"
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
 
   useEffect(() => {
     const fetchSections = async () => {
@@ -54,6 +76,7 @@ const ConfigSections: React.FC<ConfigSectionsProps> = ({ page }) => {
 
     fetchSections();
   }, [page]);
+  
 
   if (loading) {
     return (
@@ -85,7 +108,7 @@ const ConfigSections: React.FC<ConfigSectionsProps> = ({ page }) => {
   }
 
   if (sections.length === 0) {
-    return null; // Don't render anything if no sections
+    return <h1 className='text-center py-12 text-gray-500'>No sections found for this page.</h1>; // Don't render anything if no sections
   }
 
   return (
@@ -98,87 +121,132 @@ const ConfigSections: React.FC<ConfigSectionsProps> = ({ page }) => {
       </div>
       
       <div className="container mx-auto px-4 relative z-10">
-        {sections.map((section, index) => (
-          <div key={section._id} className="mb-20 last:mb-0">
-            <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
-              section.orientation === 'right' ? 'lg:grid-flow-col-dense' : ''
-            }`}>
-              
-              {/* Image Section - Card Container */}
-              <div className={`${section.orientation === 'right' ? 'lg:col-start-2' : ''}`}>
-                <div className="bg-white rounded-2xl shadow-xl p-6 relative overflow-hidden">
-                  {/* Image Container */}
-                  <div className="relative w-full h-80 lg:h-96 bg-gray-100 rounded-xl flex items-center justify-center">
-                    {section.imageUrl ? (
-                      <img
-                        src={section.imageUrl}
-                        alt={section.heading || 'Section content'}
-                        className="w-full h-full object-cover rounded-xl shadow-lg"
-                        // loading="lazy"
-                        onError={(e) => {
-                          console.error('Image failed to load:', section.imageUrl);
-                          e.currentTarget.style.display = 'none';
-                        }}
-                      />
-                    ) : (
-                      <div className="text-gray-400 text-center">
-                        <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <p className="text-sm">No image available</p>
+        {sections.map((section, index) => {
+          const hasImage = Boolean(section.imageUrl);
+          const hasSubHeading = Boolean(section.subHeading && section.subHeading.trim().length > 0);
+          const isFullWidthTextOnly = !hasImage && !hasSubHeading;
+          const bodyText = section.body || '';
+          const wordCount = bodyText.trim() ? bodyText.trim().split(/\s+/).length : 0;
+          const isLongBody = wordCount > 180;
+
+          return (
+            <div key={section._id} className="mb-10 last:mb-0">
+              <div
+                className={`grid gap-12 ${hasImage ? (isLongBody ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2') : 'grid-cols-1'} ${hasImage && !isLongBody && section.orientation === 'right' ? 'lg:grid-flow-col-dense' : ''} ${isLongBody ? 'items-start' : 'items-center'}`}
+              >
+                {isLongBody ? (
+                  <>
+                    {/* Content first for long text */}
+                    <div>
+                      <div className={`space-y-6 ${isFullWidthTextOnly ? '' : ''}`}>
+                        {section.heading && (
+                          <h2 className={`text-3xl ${!hasImage && 'text-center'}  lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight`}>
+                            {section.heading}
+                          </h2>
+                        )}
+                        {hasSubHeading && (
+                          <h3 className={`text-xl ${!hasImage && 'text-center'} lg:text-2xl font-semibold text-ngo-color6 leading-relaxed`}>
+                            {section.subHeading}
+                          </h3>
+                        )}
+                        {section.body && (
+                          <div className="prose prose-lg max-w-none">
+                            <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap">
+                              {renderWithLinks(section.body)}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {/* Image below if present */}
+                    {hasImage && (
+                      <div>
+                        <div className="bg-white rounded-2xl shadow-xl p-0 relative overflow-hidden">
+                          <div className="relative w-full h-80 lg:h-96 bg-gray-100 rounded-xl flex items-center justify-center">
+                            <img
+                              src={section.imageUrl!}
+                              alt={section.heading || 'Section content'}
+                              className="w-full h-full object-cover rounded-xl shadow-lg"
+                              onError={(e) => {
+                                console.error('Image failed to load:', section.imageUrl);
+                                (e.currentTarget as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                            <div className="absolute top-4 right-4">
+                              <div className="w-3 h-3 bg-ngo-color6 rounded-full opacity-60"></div>
+                            </div>
+                            <div className="absolute bottom-4 left-4">
+                              <div className="w-2 h-2 bg-ngo-color5 rounded-full opacity-60"></div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     )}
-                    
-                    {/* Decorative elements */}
-                    <div className="absolute top-4 right-4">
-                      <div className="w-3 h-3 bg-ngo-color6 rounded-full opacity-60"></div>
+                  </>
+                ) : (
+                  <>
+                    {/* Image Section - render only if image exists */}
+                    {hasImage && (
+                      <div className={`${section.orientation === 'right' ? 'lg:col-start-2' : ''}`}>
+                        <div className="bg-white rounded-2xl shadow-xl p-0 relative overflow-hidden">
+                          <div className="relative w-full h-80 lg:h-96 bg-gray-100 rounded-xl flex items-center justify-center">
+                            <img
+                              src={section.imageUrl!}
+                              alt={section.heading || 'Section content'}
+                              className="w-full h-full object-cover rounded-xl shadow-lg"
+                              onError={(e) => {
+                                console.error('Image failed to load:', section.imageUrl);
+                                (e.currentTarget as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                            {/* Decorative elements */}
+                            <div className="absolute top-4 right-4">
+                              <div className="w-3 h-3 bg-ngo-color6 rounded-full opacity-60"></div>
+                            </div>
+                            <div className="absolute bottom-4 left-4">
+                              <div className="w-2 h-2 bg-ngo-color5 rounded-full opacity-60"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Content Section */}
+                    <div className={`${hasImage && section.orientation === 'right' ? 'lg:col-start-1' : ''}`}>
+                      <div className={`space-y-6 ${isFullWidthTextOnly ? '' : ''}`}>
+                        {section.heading && (
+                          <h2 className={`text-3xl ${!hasImage && 'text-center'}  lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight`}>
+                            {section.heading}
+                          </h2>
+                        )}
+                        {hasSubHeading && (
+                          <h3 className={`text-xl ${!hasImage && 'text-center'} lg:text-2xl font-semibold text-ngo-color6 leading-relaxed`}>
+                            {section.subHeading}
+                          </h3>
+                        )}
+                        {section.body && (
+                          <div className="prose prose-lg max-w-none">
+                            <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-wrap">
+                              {section.body}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="absolute bottom-4 left-4">
-                      <div className="w-2 h-2 bg-ngo-color5 rounded-full opacity-60"></div>
-                    </div>
+                  </>
+                )}
+              </div>
+
+              {index < sections.length - 1 && (
+                <div className="mt-12 pt-6 border-t border-gray-200">
+                  <div className="flex items-center justify-center">
+                    <div className="w-16 h-1 bg-gradient-to-r from-ngo-color6 to-ngo-color5 rounded-full"></div>
                   </div>
                 </div>
-              </div>
-              
-              {/* Content Section */}
-              <div className={`${section.orientation === 'right' ? 'lg:col-start-1' : ''}`}>
-                <div className="space-y-6">
-                  {/* Heading */}
-                  {section.heading && (
-                    <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">
-                      {section.heading}
-                    </h2>
-                  )}
-                  
-                  {/* Subheading */}
-                  {section.subHeading && (
-                    <h3 className="text-xl lg:text-2xl font-semibold text-ngo-color6 leading-relaxed">
-                      {section.subHeading}
-                    </h3>
-                  )}
-                  
-                  {/* Body Content */}
-                  {section.body && (
-                    <div className="prose prose-lg max-w-none">
-                      <p className="text-gray-700 text-lg leading-relaxed">
-                        {section.body}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
+              )}
             </div>
-            
-            {/* Section divider (except for last section) */}
-            {index < sections.length - 1 && (
-              <div className="mt-16 pt-8 border-t border-gray-200">
-                <div className="flex items-center justify-center">
-                  <div className="w-16 h-1 bg-gradient-to-r from-ngo-color6 to-ngo-color5 rounded-full"></div>
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
