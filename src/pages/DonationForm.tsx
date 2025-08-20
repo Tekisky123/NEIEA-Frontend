@@ -102,7 +102,7 @@ const DonationForm = () => {
       }
 
       const options = {
-        key: 'rzp_test_HcrOflmaNTnjgB', // Replace with your test key
+        key: 'rzp_live_R7W4B9PPioBX2X', // Replace with your test key
         amount: orderData.amount * 100, // Razorpay expects amount in paise
         currency: 'INR',
         name: 'NEIEA Donation',
